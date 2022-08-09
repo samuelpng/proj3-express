@@ -1,0 +1,10 @@
+{
+    "dev": {
+      "driver": "mysql",
+      "user": "admin",
+      "password":"adminuser",
+      "database":"football_boots"
+    }
+  }
+
+  
