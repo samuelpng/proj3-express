@@ -34,6 +34,15 @@ app.use(session({
   saveUninitialized: true
 }))
 
+app.use(flash())
+
+// Register Flash middleware
+app.use(function (req, res, next) {
+    res.locals.success_messages = req.flash("success_messages");
+    res.locals.error_messages = req.flash("error_messages");
+    next();
+});
+
 app.get('/', (req,res) => {
     res.send("It's alive!")
   })

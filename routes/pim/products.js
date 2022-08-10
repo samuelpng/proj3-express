@@ -94,7 +94,7 @@ router.post('/create', async function (req,res) {
     const productForm = createProductForm(brands, collections, upperMaterials, surfaces, colours, closures, cuttings, positions);
 
     productForm.handle(req, {
-        'success': async (form) => {
+        'success': async function (form) {
             const product = new Product();
             product.set('name', form.data.name);
             product.set('cost', form.data.cost);
@@ -110,7 +110,13 @@ router.post('/create', async function (req,res) {
             if (form.data.positions) {
                 await product.positions().attach(form.data.positions.split(','))
             }
+            req.flash("success_messages", `New Product ${product.get('name')} has been created`)
             res.redirect('/products')
+        },
+        'error': async function (form) {
+            res.render('products/create', {
+                'form': form.toHTML(bootstrapField)
+            })
         }
     })
 })
