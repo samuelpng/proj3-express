@@ -21,16 +21,16 @@ exports.up = function (db) {
       primaryKey: true,
       autoIncrement: true,
       unsigned: true,
-      notnull: true
+      notNull: true
     },
     name: {
       type: 'string',
       length: 100,
-      notnull: true
+      notNull: true
     },
     cost: {
       type: 'smallint',
-      notnull: true
+      notNull: true
     },
     description: {
       type: 'text'
@@ -38,7 +38,7 @@ exports.up = function (db) {
     image_url: {
       type: 'string',
       length: 2048,
-      notnull: true
+      notNull: true
     },
     thumbnail_url: {
       type: 'string',

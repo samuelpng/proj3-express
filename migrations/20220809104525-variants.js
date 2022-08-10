@@ -21,15 +21,15 @@ exports.up = function(db) {
       primaryKey: true,
       autoIncrement: true,
       unsigned: true,
-      notnull:true
+      notNull:true
     },
     stock: {
       type: 'smallint',
-      notnull: true,
+      notNull: true,
     },
     date_created: {
       type: 'datetime',
-      notnull: true
+      notNull: true
     },
     product_id: {
       type: 'int',

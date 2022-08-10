@@ -15,10 +15,6 @@ exports.setup = function (options, seedLink) {
 };
 
 exports.up = function (db) {
-  return null;
-};
-
-exports.down = function (db) {
   return db.createTable('positions_products', {
     id:
     {
@@ -26,7 +22,7 @@ exports.down = function (db) {
       primaryKey: true,
       autoIncrement: true,
       unsigned: true,
-      notnull: true
+      notNull: true
     },
     product_id: {
       type: 'int',
@@ -57,6 +53,10 @@ exports.down = function (db) {
       }
     }
   });
+};
+
+exports.down = function (db) {
+  return db.dropTable('positions_products');
 };
 
 exports._meta = {

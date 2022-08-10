@@ -21,12 +21,12 @@ exports.up = function(db) {
       primaryKey: true,
       autoIncrement: true,
       unsigned: true,
-      notnull:true
+      notNull:true
     },
     brand_name: {
       type: 'string',
       length: 45,
-      notnull: true
+      notNull: true
     },
     brand_logo: {
       type: 'string',

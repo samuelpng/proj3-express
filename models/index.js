@@ -25,7 +25,7 @@ const Product = bookshelf.model('Product', {
         return this.belongsTo('Brand');
     },
     positions: function () {
-        return this.belongsToMany('Positions');
+        return this.belongsToMany('Position');
     },
     variants: function () {
         return this.hasMany('Variant');
@@ -91,7 +91,7 @@ const Position = bookshelf.model('Position', {
 const Size = bookshelf.model('Size', {
     tableName: 'sizes',
     variants: function () {
-        this.hasMany('variants')
+        this.hasMany('Variant')
     }
 })
 

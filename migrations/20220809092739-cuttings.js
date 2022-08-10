@@ -21,12 +21,12 @@ exports.up = function(db) {
       primaryKey: true,
       autoIncrement: true,
       unsigned: true,
-      notnull:true
+      notNull:true
     },
     cutting: {
       type: 'string',
       length: 10,
-      notnull: true
+      notNull: true
     }
   })
 };

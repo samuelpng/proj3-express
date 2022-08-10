@@ -28,9 +28,9 @@ app.get('/', (req,res) => {
   })
 
 //import in routes
-const bootRoutes = require('./routes/pim/boots')
+const bootRoutes = require('./routes/pim/products')
 
-app.use('/boots', bootRoutes)
+app.use('/products', bootRoutes)
 
 
 async function main() {

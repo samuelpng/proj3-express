@@ -1,0 +1,55 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+<h1>Products</h1>
+{{!-- <a href="/products/create" class="btn btn-primary">New</a> --}}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Cost</th>
+            <th>Brand</th>
+            <th>Collection</th>
+            <th>Material</th>
+            <th>Surface</th>
+            <th>Colour</th>
+            <th>Closure</th>
+            <th>Cutting</th>
+            <th>Position</th>
+            <th>Image</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.cost}}</td>
+            {{!-- <td>{{divide this.cost 100}}</td> --}}
+            <td>{{this.brand.brand_name}}</td>
+            <td>{{this.collection.collection}}</td>
+            <td>{{this.upperMaterial.upper_material}}</td>
+            <td>{{this.surface.surface}}</td>
+            <td>{{this.colour.colour}}</td>
+            <td>{{this.closure.closure}}</td>
+            <td>{{this.cutting.cutting}}</td>
+            <td>
+                {{#each this.positions}}
+                    <span class="badge bg-primary">{{this.position}}</span>
+                {{/each}}
+            </td>
+            <td>
+                <img src="{{this.image_url}}"/>
+            </td>
+            <td>{{this.description}}</td>
+            <td>
+                {{!-- <a href="products/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>
+                <a href="products/{{this.id}}/delete" class="btn btn-danger btn-sm">Delete</a> --}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{/block}}
+
+{{/extends}}
