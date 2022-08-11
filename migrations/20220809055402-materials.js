@@ -15,7 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('upper_materials', {
+  return db.createTable('materials', {
     id: {
       type: 'int',
       primaryKey: true,
@@ -23,7 +23,7 @@ exports.up = function(db) {
       unsigned: true,
       notNull: true
     },
-    upper_material: {
+    material: {
       type: 'string',
       length: 45,
       notNull: true
@@ -32,7 +32,7 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return db.dropTable('upper_materials');
+  return db.dropTable('materials');
 };
 
 exports._meta = {

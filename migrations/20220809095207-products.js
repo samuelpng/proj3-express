@@ -114,13 +114,13 @@ exports.up = function (db) {
         mapping: 'id'
       }
     },
-    upper_material_id: {
+    material_id: {
       type: 'int',
       notNull: true,
       unsigned: true,
       foreignKey: {
-        name: 'product_upper_material_fk',
-        table: 'upper_materials',
+        name: 'product_material_fk',
+        table: 'materials',
         rules: {
           onDelete: 'cascade',
           onUpdate: 'restrict'
@@ -141,6 +141,10 @@ exports.up = function (db) {
         },
         mapping: 'id'
       }
+    },
+    date_created: {
+      type: 'date',
+      notNull: true
     }
   })
 };

@@ -18,8 +18,8 @@ const Product = bookshelf.model('Product', {
     surface: function () {
         return this.belongsTo('Surface');
     },
-    upperMaterial: function () {
-        return this.belongsTo('UpperMaterial');
+    material: function () {
+        return this.belongsTo('Material');
     },
     brand: function () {
         return this.belongsTo('Brand');
@@ -67,8 +67,8 @@ const Surface = bookshelf.model('Surface', {
     }
 });
 
-const UpperMaterial = bookshelf.model('UpperMaterial', {
-    tableName: 'upper_materials',
+const Material = bookshelf.model('Material', {
+    tableName: 'materials',
     products: function () {
         return this.hasMany('Product');
     }
@@ -105,4 +105,8 @@ const Variant = bookshelf.model('Variant', {
     }
 })
 
-module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, UpperMaterial, Brand, Position, Size, Variant };
+const User = bookshelf.model('User',{
+    tableName: 'users'
+})
+
+module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, Material, Brand, Position, Size, Variant, User };

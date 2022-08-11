@@ -1,6 +1,9 @@
 const express = require("express");
 const hbs = require("hbs");
 const wax = require("wax-on");
+var helpers = require('handlebars-helpers')({
+  handlebars: hbs.handlebars
+});
 require("dotenv").config();
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -49,8 +52,10 @@ app.get('/', (req,res) => {
 
 //import in routes
 const bootRoutes = require('./routes/pim/products')
+const userRoutes = require('./routes/pim/users')
 
 app.use('/products', bootRoutes)
+app.use('/users', userRoutes)
 
 
 async function main() {

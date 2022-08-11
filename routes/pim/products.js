@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 //import in models
-const { Product, Brand, Collection, UpperMaterial, Colour, Surface, Cutting, Position, Closure } = require('../../models')
+const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure } = require('../../models')
 // import in the Forms
 const { bootstrapField, createProductForm } = require('../../forms');
 
 router.get('/', async (req,res)=>{
     let products = await Product.collection().fetch({
-        withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'upperMaterial', 'brand', 'positions']
+        withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand', 'positions']
     })
     res.render('products/index',{
         'products': products.toJSON()
@@ -25,8 +25,8 @@ router.get('/create', async function (req, res) {
         return [collection.get('id'), collection.get('collection')];
     })
 
-    const upperMaterials = await UpperMaterial.fetchAll().map((upperMaterial)=>{
-        return [upperMaterial.get('id'), upperMaterial.get('upper_material')];
+    const materials = await Material.fetchAll().map((material)=>{
+        return [material.get('id'), material.get('material')];
     })
 
     const surfaces = await Surface.fetchAll().map((surface)=>{
@@ -49,7 +49,7 @@ router.get('/create', async function (req, res) {
         return [position.get('id'), position.get('position')];
     })
 
-    const productForm = createProductForm(brands, collections, upperMaterials, surfaces, colours, closures, cuttings, positions);
+    const productForm = createProductForm(brands, collections, materials, surfaces, colours, closures, cuttings, positions);
 
     res.render('products/create',{
         'form': productForm.toHTML(bootstrapField)
@@ -65,8 +65,8 @@ router.post('/create', async function (req,res) {
         return [collection.get('id'), collection.get('collection')];
     })
 
-    const upperMaterials = await UpperMaterial.fetchAll().map((upperMaterial)=>{
-        return [upperMaterial.get('id'), upperMaterial.get('upper_material')];
+    const materials = await Material.fetchAll().map((material)=>{
+        return [material.get('id'), material.get('material')];
     })
 
     const surfaces = await Surface.fetchAll().map((surface)=>{
@@ -91,7 +91,7 @@ router.post('/create', async function (req,res) {
 
 
 
-    const productForm = createProductForm(brands, collections, upperMaterials, surfaces, colours, closures, cuttings, positions);
+    const productForm = createProductForm(brands, collections, materials, surfaces, colours, closures, cuttings, positions);
 
     productForm.handle(req, {
         'success': async function (form) {
@@ -100,12 +100,13 @@ router.post('/create', async function (req,res) {
             product.set('cost', form.data.cost);
             product.set('brand_id', form.data.brand_id);
             product.set('collection_id', form.data.collection_id);
-            product.set('upper_material_id', form.data.upper_material_id);
+            product.set('material_id', form.data.material_id);
             product.set('surface_id', form.data.surface_id);
             product.set('colour_id', form.data.colour_id);
             product.set('closure_id', form.data.closure_id);
             product.set('cutting_id', form.data.cutting_id);
-            product.set('description', form.data.description)
+            product.set('description', form.data.description);
+            product.set("date_created", new Date());
             await product.save();
             if (form.data.positions) {
                 await product.positions().attach(form.data.positions.split(','))
@@ -130,8 +131,8 @@ router.get('/:product_id/update', async function (req,res) {
         return [collection.get('id'), collection.get('collection')];
     })
 
-    const upperMaterials = await UpperMaterial.fetchAll().map((upperMaterial)=>{
-        return [upperMaterial.get('id'), upperMaterial.get('upper_material')];
+    const materials = await Material.fetchAll().map((material)=>{
+        return [material.get('id'), material.get('material')];
     })
 
     const surfaces = await Surface.fetchAll().map((surface)=>{
@@ -161,14 +162,14 @@ router.get('/:product_id/update', async function (req,res) {
         withRelated:['positions']
     });
 
-    const productForm = createProductForm(brands, collections, upperMaterials, surfaces, colours, closures, cuttings, positions);
+    const productForm = createProductForm(brands, collections, materials, surfaces, colours, closures, cuttings, positions);
 
     //fill in firn with previous values of product
     productForm.fields.name.value = product.get('name');
     productForm.fields.cost.value = product.get('cost');
     productForm.fields.brand_id.value = product.get('brand_id')
     productForm.fields.collection_id.value = product.get('collection_id');
-    productForm.fields.upper_material_id.value = product.get('upper_material_id');
+    productForm.fields.material_id.value = product.get('material_id');
     productForm.fields.surface_id.value = product.get('surface_id');
     productForm.fields.colour_id.value = product.get('colour_id');
     productForm.fields.closure_id.value = product.get('closure_id');
@@ -193,8 +194,8 @@ router.post('/:product_id/update', async function (req,res) {
         return [collection.get('id'), collection.get('collection')];
     })
 
-    const upperMaterials = await UpperMaterial.fetchAll().map((upperMaterial)=>{
-        return [upperMaterial.get('id'), upperMaterial.get('upper_material')];
+    const materials = await material.fetchAll().map((material)=>{
+        return [material.get('id'), material.get('material')];
     })
 
     const surfaces = await Surface.fetchAll().map((surface)=>{
@@ -217,7 +218,7 @@ router.post('/:product_id/update', async function (req,res) {
         return [position.get('id'), position.get('position')];
     })
 
-    const productForm = createProductForm(brands, collections, upperMaterials, surfaces, colours, closures, cuttings, positions);
+    const productForm = createProductForm(brands, collections, materials, surfaces, colours, closures, cuttings, positions);
 
     const product = await Product.where({
         'id': req.params.product_id

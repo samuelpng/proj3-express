@@ -1,4 +1,5 @@
 // require in caolan-forms
+// const form = require('form');
 const forms = require('forms');
 // create some shortcuts
 const fields = forms.fields;
@@ -26,7 +27,7 @@ const bootstrapField = function (name, object) {
 };
 
 //create product form
-const createProductForm = (brands, collections, upperMaterials, surfaces, colours, closures, cuttings, positions) => {
+const createProductForm = (brands, collections, materials, surfaces, colours, closures, cuttings, positions) => {
     return forms.create({
         'name': fields.string({
             required: true,
@@ -51,11 +52,11 @@ const createProductForm = (brands, collections, upperMaterials, surfaces, colour
             choices: collections,
             widget: widgets.select()
         }),
-        'upper_material_id': fields.string({
+        'material_id': fields.string({
             label: 'Material',
             required: true,
             errorAfterField: true,
-            choices: upperMaterials,
+            choices: materials,
             widget: widgets.select()
         }),
         'surface_id': fields.string({
@@ -105,4 +106,39 @@ const createProductForm = (brands, collections, upperMaterials, surfaces, colour
     })
 }
 
-module.exports = { createProductForm, bootstrapField };
+const createRegistrationForm = () => {
+    return forms.create({
+        'username': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'email': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'password': fields.password({
+            required: true,
+            errorAfterField: true,
+        }),
+        'confirm_password': fields.password({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.matchField('password')]
+        })
+    })
+}
+
+const createLoginForm = () => {
+    return forms.create({
+        'email': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'password': fields.password({
+            required: true,
+            errorAfterField: true
+        }),
+    })
+}
+
+module.exports = { createProductForm, createRegistrationForm, createLoginForm, bootstrapField };
