@@ -97,7 +97,7 @@ const Size = bookshelf.model('Size', {
 
 const Variant = bookshelf.model('Variant', {
     tableName: 'variants',
-    products: function () {
+    product: function () {
         this.belongsTo('Product')
     },
     size: function () {

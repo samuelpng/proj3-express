@@ -1,0 +1,37 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+
+<div class="row">
+    <div><h1>{{product.name}}</h1></div>
+    <div class="col-6" style="background: #0c0b14; height:500px; width:600px; vertical-align: center">
+        <img src="{{product.image_url}}" style="height:100%; width:100%; padding: 10px"></img>
+    </div>
+    <div class="col-6" style="background: #0c0b14; align-items: center; display: flex; align-items:center; height:500px; width:600px">
+        <div class="mx-auto" style="height: 90%; width: 90%; margin: auto; padding-left: 15px; padding-top: 15px;
+        background: rgba( 255, 255, 255, 0.25 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 4px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );">
+        <div style="color: white; font-size: 20px">
+            Product Specifications
+            <ul>
+                <li>Brand: {{product.brand.brand_name}}</li>
+                <li>Collection: {{product.collection.collection}}</li>
+                <li>Material: {{product.material.material}}</li>
+                <li>Surface: {{product.surface.surface}}</li>
+                <li>Color: {{product.color.color}}</li>
+                <li>Closure: {{product.closure.closure}}</li>
+                <li>Cutting: {{product.cutting.cutting}}</li>
+            </ul>
+        </div> 
+    </div>
+    </div>
+    <div class="col-12" style="background: green; width: 1200px">bye</div>
+</div>
+
+{{/block}}
+
+{{/extends}}
