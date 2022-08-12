@@ -3,6 +3,7 @@
 {{#block 'content'}}
 <h1>Update product: {{product.name}}</h1>
 <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}
     {{!-- <div>
         {{#if product.image_url}}
