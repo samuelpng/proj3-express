@@ -81,9 +81,11 @@ app.get('/', (req,res) => {
 //import in routes
 const bootRoutes = require('./routes/pim/products')
 const userRoutes = require('./routes/pim/users')
+const cloudinaryRoutes = require('./routes/pim/cloudinary')
 
 app.use('/products', checkIfAuthenticated, bootRoutes)
 app.use('/users', userRoutes)
+app.use('/cloudinary', cloudinaryRoutes)
 
 
 async function main() {

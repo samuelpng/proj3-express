@@ -52,7 +52,10 @@ router.get('/create', async function (req, res) {
     const productForm = createProductForm(brands, collections, materials, surfaces, colours, closures, cuttings, positions);
 
     res.render('products/create',{
-        'form': productForm.toHTML(bootstrapField)
+        'form': productForm.toHTML(bootstrapField),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
@@ -106,6 +109,8 @@ router.post('/create', async function (req,res) {
             product.set('closure_id', form.data.closure_id);
             product.set('cutting_id', form.data.cutting_id);
             product.set('description', form.data.description);
+            product.set('image_url', form.data.image_url);
+            product.set('thumbnail_url', form.data.thumbnail_url)
             product.set("date_created", new Date());
             await product.save();
             if (form.data.positions) {
@@ -174,14 +179,19 @@ router.get('/:product_id/update', async function (req,res) {
     productForm.fields.colour_id.value = product.get('colour_id');
     productForm.fields.closure_id.value = product.get('closure_id');
     productForm.fields.cutting_id.value = product.get('cutting_id');
-    productForm.fields.description.value = product.get('description')
+    productForm.fields.description.value = product.get('description');
+    productForm.fields.image_url.value = product.get('image_url')
+    productForm.fields.thumbnail_url.value = product.get('thumbnail_url')
 
     let selectedPositions = await product.related('positions').pluck('id');
     productForm.fields.positions.value = selectedPositions;
 
     res.render('products/update', {
         'form': productForm.toHTML(bootstrapField),
-        'product': product.toJSON()
+        'product': product.toJSON(),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 

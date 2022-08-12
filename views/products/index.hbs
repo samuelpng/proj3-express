@@ -6,6 +6,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Thumbnail</th>
             <th>Name</th>
             <th>Cost</th>
             <th>Brand</th>
@@ -23,6 +24,9 @@
     <tbody>
         {{#each products}}
         <tr>
+            <td>
+                <img src="{{this.thumbnail_url}}"/>
+            </td>
             <td>{{this.name}}</td>
             <td>{{this.cost}}</td>
             {{!-- <td>{{divide this.cost 100}}</td> --}}

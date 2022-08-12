@@ -96,13 +96,13 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
         'description': fields.string({
             required: true,
             errorAfterField: true
+        }),
+        'image_url': fields.string({
+            widget: widgets.hidden()
+        }),
+        'thumbnail_url': fields.string({
+            widget: widgets.hidden()
         })
-        // 'image_url': fields.string({
-        //     widget: widgets.hidden()
-        // }),
-        // 'thumbnail_url': fields.string({
-        //     widget: widgets.hidden()
-        // })
     })
 }
 
