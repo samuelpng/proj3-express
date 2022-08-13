@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 //import in models
-const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure } = require('../../models')
+const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../../models')
 // import in the Forms
-const { bootstrapField, createProductForm } = require('../../forms');
+const { bootstrapField, createProductForm, createVariationStockForm } = require('../../forms');
 // import in the DAL
 const {
     getAllBrands, 
@@ -188,12 +188,23 @@ router.post('/:product_id/delete', async(req,res)=>{
 router.get('/:product_id/variants', async (req,res) => {
     const product = await getProductById(req.params.product_id)
     const variants = await getVariantsByProductId(req.params.product_id)
-
     res.render('products/variants', {
         product: product.toJSON(),
         variants: variants.toJSON()
     })
 })
 
+router.get('/:product_id/variants/:variant_id/update', async (req,res) => {
+    const variant = await getVariantById(req.params.variant_id)
+
+    const variationForm = createVariationStockForm()
+    variationForm.fields.stock.value = variation.get('stock')
+
+    res.render('products/variants-update', {
+        'form': variationForm.toHTML(bootstrapField),
+        'variant': variant.toJSON()
+    })
+})
 
 module.exports = router;
+

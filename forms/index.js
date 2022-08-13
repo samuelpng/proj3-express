@@ -141,4 +141,14 @@ const createLoginForm = () => {
     })
 }
 
-module.exports = { createProductForm, createRegistrationForm, createLoginForm, bootstrapField };
+const createVariationStockForm = () => {
+    return forms.create({
+        'stock': fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.integer(), validators.min(0)]
+        })
+    })
+}
+
+module.exports = { createProductForm, createRegistrationForm, createLoginForm, createVariationStockForm, bootstrapField };

@@ -1,22 +1,24 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Update product: {{product.name}}</h1>
-<form method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
-    {{{form}}}
-    <div>     
-        {{#if product.image_url}}
-        <img src="{{product.image_url}}" id="uploaded_image" />
-        {{else}}
-        <img src="" style="display:none" id="uploaded_image" />
-        {{/if}}
-    </div>
-    <div>
-        <a href="#" class="btn btn-primary" id="upload_widget">Upload</a>
-    </div>
-    <input type="submit" class="btn btn-primary my-3"/>
-</form>
+<div style="padding-left: 150px; padding-right: 150px">
+    <h1>Update product: {{product.name}}</h1>
+    <form method="POST">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        {{{form}}}
+        <div>
+            {{#if product.image_url}}
+            <img src="{{product.image_url}}" id="uploaded_image" />
+            {{else}}
+            <img src="" style="display:none" id="uploaded_image" />
+            {{/if}}
+        </div>
+        <div>
+            <a href="#" class="btn btn-primary" id="upload_widget">Upload</a>
+        </div>
+        <input type="submit" class="btn btn-primary my-3" />
+    </form>
+</div>
 {{/block}}
 
 {{#block 'js'}}
