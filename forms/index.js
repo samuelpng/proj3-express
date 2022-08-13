@@ -143,7 +143,8 @@ const createLoginForm = () => {
 
 const createVariantForm = (sizes) => {
     return forms.create({
-        'size':fields.string({
+        'size_id':fields.string({
+            label: 'Size',
             required: true,
             errorAfterField: true,
             widget: widgets.select(),

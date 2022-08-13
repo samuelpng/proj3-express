@@ -197,12 +197,36 @@ router.get('/:product_id/variants', async (req,res) => {
 
 router.get('/:product_id/variants/create', async (req,res) => {
     const product = await getProductById(req.params.product_id)
-
     const variationForm = createVariantForm( await getAllSizes() )
 
     res.render('products/variant-create', {
         'form': variationForm.toHTML(bootstrapField),
         'product': product.toJSON()
+    })
+})
+
+router.post('/:product_id/variants/create', async (req,res) =>{
+    const product = await getProductById(req.params.product_id)
+    const variationForm = createVariantForm( await getAllSizes() )
+
+    variationForm.handle(req, {
+        'success': async (form) => {
+            const variant = new Variant({
+                product_id: req.params.product_id,
+                size_id: form.data.size_id,
+                stock: form.data.stock,
+                date_created: new Date()
+            })
+            await variant.save()
+            req.flash('success_messages', `New size has been added`)
+            res.redirect(`/products/${req.params.product_id}/variants`)
+        },
+        'error': async (form) => {
+            res.render('products/variants-create', {
+                form: form.toHTML(bootstrapField),
+                product: product.toJSON()
+            })
+        }
     })
 })
 

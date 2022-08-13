@@ -54,6 +54,7 @@
     background: #0c0b14;
     height: 45%;
     width: 45%;
+    min-width: 250px;
     vertical-align: center
 }
 
@@ -62,7 +63,8 @@
     align-items: center;
     display: flex;
     align-items: center;
-    width: 45%
+    width: 45%;
+    min-width: 250px;
 }
 
 .specifications-section {

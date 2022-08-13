@@ -73,7 +73,7 @@
     <div class="col-12" style="background: #0c0b14; color: white; width: 90%">
         {{!-- <a href="/products/{{product.id}}/variants/...." class="btn btn-hover">Add Size</a> --}}
         <div class="mt-4 ms-4" style="height:90%; width:90%">
-            <h4>Sizes Availability</h4>
+            <h4>Size Availability</h4>
             <a href="/products/{{product.id}}/variants/create" class="my-3 btn btn-light">
                 {{!-- <i class='bx bx-plus-circle' style="font-size: 17px"></i> --}}
                 <i class="fa-solid fa-circle-plus"></i>
@@ -89,6 +89,7 @@
                 </thead>
                 <tbody>
                     {{#each variants}}
+
                     <tr>
                         <td>{{this.size.size}}</td>
                         <td>{{this.stock}}</td>
@@ -97,7 +98,7 @@
                                 <i class="fa-solid fa-pen-to-square"></i> Update
                             </a>
                         </td>
-                    </tr>
+                    </tr>         
                     {{/each}}
                 </tbody>
             </table>
