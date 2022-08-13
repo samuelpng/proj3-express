@@ -63,7 +63,9 @@
                 </ul>
 
 
-                <a href="/products/{{product.id}}/update" class="btn btn-hover">Update Product</a>
+                <a href="/products/{{product.id}}/update" class="btn btn-hover">
+                    <i class="me-2 fa-solid fa-pen-to-square"></i> Update Product
+                </a>
             </div>
         </div>
     </div>
@@ -72,7 +74,11 @@
         {{!-- <a href="/products/{{product.id}}/variants/...." class="btn btn-hover">Add Size</a> --}}
         <div class="mt-4 ms-4" style="height:90%; width:90%">
             <h4>Sizes Availability</h4>
-            <a href="/products/{{product.id}}/variants/create" class="my-3 btn btn-light">New Size</a>
+            <a href="/products/{{product.id}}/variants/create" class="my-3 btn btn-light">
+                {{!-- <i class='bx bx-plus-circle' style="font-size: 17px"></i> --}}
+                <i class="fa-solid fa-circle-plus"></i>
+                Add Size
+            </a>
             <table class="table" style="color: white">
                 <thead>
                     <tr>
@@ -83,10 +89,14 @@
                 </thead>
                 <tbody>
                     {{#each variants}}
-                        <tr>
+                    <tr>
                         <td>{{this.size.size}}</td>
                         <td>{{this.stock}}</td>
-                        <td><a href="/products/{{this.product_id}}/variants/{{this.id}}/update" class="btn btn-light">Update</a></td>
+                        <td>
+                            <a href="/products/{{this.product_id}}/variants/{{this.id}}/update" class="btn btn-dark">
+                                <i class="fa-solid fa-pen-to-square"></i> Update
+                            </a>
+                        </td>
                     </tr>
                     {{/each}}
                 </tbody>

@@ -162,7 +162,7 @@ router.post('/:product_id/update', async function (req,res) {
             let toRemove = existingPositionIds.filter(id => positionIds.includes(id) === false);
             await product.positions().detach(toRemove);
             await product.positions().attach(positionIds);
-            res.redirect('/products')
+            res.redirect(`/products/${req.params.product_id}/variants`)
         }
     })
 })
