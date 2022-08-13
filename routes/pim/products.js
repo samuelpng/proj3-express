@@ -4,7 +4,7 @@ const router = express.Router();
 //import in models
 const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../../models')
 // import in the Forms
-const { bootstrapField, createProductForm, createVariationStockForm } = require('../../forms');
+const { bootstrapField, createProductForm, createVariantForm, createVariationStockForm } = require('../../forms');
 // import in the DAL
 const {
     getAllBrands, 
@@ -17,6 +17,7 @@ const {
     getAllPositions,
     getProductById,
     getVariantsByProductId,
+    getAllSizes,
     getVariantById
 } = require('../../dal/products')
 
@@ -194,15 +195,47 @@ router.get('/:product_id/variants', async (req,res) => {
     })
 })
 
+router.get('/:product_id/variants/create', async (req,res) => {
+    const product = await getProductById(req.params.product_id)
+
+    const variationForm = createVariantForm( await getAllSizes() )
+
+    res.render('products/variant-create', {
+        'form': variationForm.toHTML(bootstrapField),
+        'product': product.toJSON()
+    })
+})
+
 router.get('/:product_id/variants/:variant_id/update', async (req,res) => {
     const variant = await getVariantById(req.params.variant_id)
 
     const variationForm = createVariationStockForm()
-    variationForm.fields.stock.value = variation.get('stock')
+    variationForm.fields.stock.value = variant.get('stock')
 
-    res.render('products/variants-update', {
+    res.render('products/variant-update', {
         'form': variationForm.toHTML(bootstrapField),
         'variant': variant.toJSON()
+    })
+})
+
+router.post('/:product_id/variants/:variant_id/update', async (req,res) => {
+    const variant = await getVariantById(req.params.variant_id)
+    const variationForm = createVariationStockForm()
+
+    variationForm.handle(req, {
+        'success': async (form) => {
+            variant.set(form.data)
+            variant.save()
+        
+            req.flash('success_messages', 'Stock has been successfully updated to ' + variant.get('stock'))
+            res.redirect(`/products/${req.params.product_id}/variants`)
+        },
+        'error': async (form) => {
+            res.render('products/variant-update', {
+                'form': form.toHTML(bootstrapField),
+                'variant': variant.toJSON()
+            })
+        }
     })
 })
 

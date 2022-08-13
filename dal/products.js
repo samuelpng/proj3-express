@@ -1,5 +1,5 @@
 //inport in product model
-const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../models')
+const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Size, Variant } = require('../models')
 
 const getAllBrands = async () => {
     const brands = await Brand.fetchAll().map((brand) => {
@@ -81,12 +81,20 @@ const getVariantsByProductId = async (productId) => {
     })
 }
 
+const getAllSizes = async () => {
+    const sizes = await Size.fetchAll().map((size) => {
+        return [size.get('id'), size.get('size')];
+    })
+    sizes.unshift([0, '---- Select One ----'])
+    return sizes
+}
+
 const getVariantById = async (variantId) => {
     return await Variant.where({
         'id': parseInt(variantId)
     }).fetch({
         require: false,
-        withRelated: ['size']
+        withRelated: ['product','size']
     })
 }
 
@@ -101,5 +109,6 @@ module.exports = {
     getAllPositions,
     getProductById,
     getVariantsByProductId,
+    getAllSizes,
     getVariantById
 }

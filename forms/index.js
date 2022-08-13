@@ -141,6 +141,22 @@ const createLoginForm = () => {
     })
 }
 
+const createVariantForm = (sizes) => {
+    return forms.create({
+        'size':fields.string({
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: sizes
+        }),
+        'stock': fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.integer(), validators.min(0)]
+        })
+    })
+}
+
 const createVariationStockForm = () => {
     return forms.create({
         'stock': fields.string({
@@ -151,4 +167,4 @@ const createVariationStockForm = () => {
     })
 }
 
-module.exports = { createProductForm, createRegistrationForm, createLoginForm, createVariationStockForm, bootstrapField };
+module.exports = { createProductForm, createRegistrationForm, createLoginForm, createVariantForm, createVariationStockForm, bootstrapField };
