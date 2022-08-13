@@ -36,7 +36,7 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
         'cost': fields.string({
             required: true,
             errorAfterField: true,
-            validators: [validators.integer(), validators.min(0)]
+            validators: [validators.integer(), validators.min(1)]
         }),
         'brand_id': fields.string({
             label: 'Brand',

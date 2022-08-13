@@ -1,13 +1,54 @@
 {{#extends 'base'}}
 
+{{#block 'css'}}
+ <link rel="stylesheet" href="/style/products.css">
+{{/block}}
+ 
 {{#block 'content'}}
 
 <div class="row">
-    <div><h1>{{product.name}}</h1></div>
-    <div class="col-6" style="background: #0c0b14; height:500px; width:600px; vertical-align: center">
-        <img src="{{product.image_url}}" style="height:100%; width:100%; padding: 10px"></img>
+    <div>
+        <h1>{{product.name}}</h1>
     </div>
-    <div class="col-6" style="background: #0c0b14; align-items: center; display: flex; align-items:center; height:500px; width:600px">
+    <div class="col-6" style="background: #0c0b14; height:45%; width:45%; vertical-align: center">
+        {{!-- <img src="{{product.image_url}}" style="height:100%; width:100%; padding: 10px"></img> --}}
+        <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="true">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{product.image_url}}" class="d-block w-100" alt="..."
+                        style="height:100%; width:100%; padding: 10px">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{product.image_url}}" class="d-block w-100" alt="..."
+                        style="height:100%; width:100%; padding: 10px">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{product.image_url}}" class="d-block w-100" alt="..."
+                        style="height:100%; width:100%; padding: 10px">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-6"
+        style="background: #0c0b14; align-items: center; display: flex; align-items:center; width:45%">
         <div class="mx-auto" style="height: 90%; width: 90%; margin: auto; padding-left: 15px; padding-top: 15px;
         background: rgba( 255, 255, 255, 0.25 );
         box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
@@ -15,21 +56,23 @@
         -webkit-backdrop-filter: blur( 4px );
         border-radius: 10px;
         border: 1px solid rgba( 255, 255, 255, 0.18 );">
-        <div style="color: white; font-size: 20px">
-            Product Specifications
-            <ul>
-                <li>Brand: {{product.brand.brand_name}}</li>
-                <li>Collection: {{product.collection.collection}}</li>
-                <li>Material: {{product.material.material}}</li>
-                <li>Surface: {{product.surface.surface}}</li>
-                <li>Color: {{product.color.color}}</li>
-                <li>Closure: {{product.closure.closure}}</li>
-                <li>Cutting: {{product.cutting.cutting}}</li>
-            </ul>
-        </div> 
+            <div style="color: white; font-size: 20px">
+                Product Specifications
+                <ul>
+                    <li>Brand: {{product.brand.brand_name}}</li>
+                    <li>Collection: {{product.collection.collection}}</li>
+                    <li>Material: {{product.material.material}}</li>
+                    <li>Surface: {{product.surface.surface}}</li>
+                    <li>Color: {{product.color.color}}</li>
+                    <li>Closure: {{product.closure.closure}}</li>
+                    <li>Cutting: {{product.cutting.cutting}}</li>
+                </ul>
+                <a href="/products/{{product.id}}/update" class="btn btn-hover">Update Product</a>
+            </div>
+        </div>
     </div>
-    </div>
-    <div class="col-12" style="background: green; width: 1200px">bye</div>
+    <div class="col-12" style="background: green; width: 90%; height: 100px">bye</div>
+    <div class="col-12" style="background: #0c0b14; width: 90%; height: 100px">bye</div>
 </div>
 
 {{/block}}

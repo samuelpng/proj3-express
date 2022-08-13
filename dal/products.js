@@ -2,45 +2,59 @@
 const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../models')
 
 const getAllBrands = async () => {
-    return await Brand.fetchAll().map((brand) => {
+    const brands = await Brand.fetchAll().map((brand) => {
         return [brand.get('id'), brand.get('brand_name')];
     })
+    brands.unshift([0, '---- Select One ----'])
+    return brands
 }
 
 const getAllCollections = async () => {
-    return await Collection.fetchAll().map((collection) => {
+    const collections = await Collection.fetchAll().map((collection) => {
         return [collection.get('id'), collection.get('collection')];
     })
+    collections.unshift([0, '---- Select One ----'])
+    return collections
 }
 
 const getAllMaterials = async () => {
-    return await Material.fetchAll().map((material) => {
+    const materials = await Material.fetchAll().map((material) => {
         return [material.get('id'), material.get('material')];
     })
+    materials.unshift([0, '---- Select One ----'])
+    return materials
 }
 
 const getAllSurfaces = async () => {
-    return await Surface.fetchAll().map((surface) => {
+    const surfaces = await Surface.fetchAll().map((surface) => {
         return [surface.get('id'), surface.get('surface')];
     })
+    surfaces.unshift([0, '---- Select One ----'])
+    return surfaces
 }
 
 const getAllColours = async () => {
-    return await Colour.fetchAll().map((colour) => {
+    const colours = await Colour.fetchAll().map((colour) => {
         return [colour.get('id'), colour.get('colour')];
     })
+    colours.unshift([0, '---- Select One ----'])
+    return colours
 }
 
 const getAllClosures = async () => {
-    return await Closure.fetchAll().map((closure) => {
+    const closures = await Closure.fetchAll().map((closure) => {
         return [closure.get('id'), closure.get('closure')];
     })
+    closures.unshift([0, '---- Select One ----'])
+    return closures
 }
 
 const getAllCuttings = async () => {
-    return await Cutting.fetchAll().map((cutting) => {
+    const cuttings = await Cutting.fetchAll().map((cutting) => {
         return [cutting.get('id'), cutting.get('cutting')];
     })
+    cuttings.unshift([0, '---- Select One ----'])
+    return cuttings
 }
 
 const getAllPositions = async () => {
