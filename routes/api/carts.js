@@ -12,17 +12,17 @@ router.get('/', async function(req,res) {
     })
 })
 
-router.get('/:product_id/add', async function(req,res) {
+router.get('/:variant_id/add', async function(req,res) {
     const userId = req.session.user.id;
-    const posterId = req.params.product_id
+    const posterId = req.params.variant_id
     await cartServices.addToCart(userId, posterId, 1)
     req.flash('success_messages', 'Product added to cart successfully')
     res.redirect('/cart/')
 })
 
-router.post('/:product_id/update', async function(req,res){
+router.post('/:variant_id/update', async function(req,res){
     const userId = req.session.user.id;
-    const posterId = req.params.product_id
+    const posterId = req.params.variant_id
     if (req.body.newQuantity > 0){
         await cartServices.updateQuantity(userId, posterId, req.body.newQuantity);
         req.flash('success_messages', 'Quantity has been updated')
@@ -33,9 +33,9 @@ router.post('/:product_id/update', async function(req,res){
     }
 })
 
-router.get('/:product_id/delete', async function (req,res) {
-    await cartServices.remove(req.session.user.id, req.params.product_id)
-    req.flash('success_messages', 'product has been removed fro the shopping cart')
+router.get('/:variant_id/delete', async function (req,res) {
+    await cartServices.remove(req.session.user.id, req.params.variant_id)
+    req.flash('success_messages', 'product has been removed from the shopping cart')
     res.redirect('/cart')
 })
 

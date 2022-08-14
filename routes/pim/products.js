@@ -22,9 +22,9 @@ const {
 } = require('../../dal/products')
 
 router.get('/', async (req, res) => {
-    let products = await Product.collection().fetch({
-        withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand', 'positions']
-    })
+    // let products = await Product.collection().fetch({
+    //     withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand', 'positions']
+    // })
 
     let searchForm = createSearchForm(
         await getAllBrands(),
