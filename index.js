@@ -83,11 +83,13 @@ const bootRoutes = require('./routes/pim/products')
 const userRoutes = require('./routes/pim/users')
 const cloudinaryRoutes = require('./routes/pim/cloudinary')
 const cartRoutes = require('./routes/api/carts')
+const checkoutRoutes = require('./routes/api/checkout')
 
 app.use('/products', checkIfAuthenticated, bootRoutes)
 app.use('/users', userRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/cart', checkIfAuthenticated, cartRoutes)
+app.use('/checkout', checkIfAuthenticated, checkoutRoutes)
 
 
 async function main() {
