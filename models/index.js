@@ -28,7 +28,7 @@ const Product = bookshelf.model('Product', {
         return this.belongsToMany('Position');
     },
     variants: function () {
-        return this.hasMany('Variant', 'product_id');
+        return this.hasMany('Variant');
     }
 })
 
@@ -102,6 +102,9 @@ const Variant = bookshelf.model('Variant', {
     },
     size: function () {
         return this.belongsTo('Size')
+    },
+    cartItems: function() {
+        return this.hasMany('CartItem')
     }
 })
 
@@ -109,4 +112,22 @@ const User = bookshelf.model('User',{
     tableName: 'users'
 })
 
-module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, Material, Brand, Position, Size, Variant, User };
+const Customer = bookshelf.model({
+    tableName: 'customers',
+    cartItems: function () {
+        return this.hasMany('cartItem');
+      },
+})
+
+const CartItem = bookshelf.model('CartItem', {
+    tableName: 'cart_items',
+    variant() {
+        return this.belongsTo('Variant')
+    },
+    customer: function () {
+        return this.belongsTo('Customer');
+      },
+})
+
+
+module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, Material, Brand, Position, Size, Variant, User, CartItem };

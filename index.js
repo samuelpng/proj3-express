@@ -36,7 +36,7 @@ app.use(
 // set up sessions
 app.use(session({
   store: new FileStore(),
-  secret: 'keyboard cat',
+  secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true
 }))
@@ -82,10 +82,12 @@ app.get('/', (req,res) => {
 const bootRoutes = require('./routes/pim/products')
 const userRoutes = require('./routes/pim/users')
 const cloudinaryRoutes = require('./routes/pim/cloudinary')
+const cartRoutes = require('./routes/api/carts')
 
 app.use('/products', checkIfAuthenticated, bootRoutes)
 app.use('/users', userRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
+app.use('/cart', checkIfAuthenticated, cartRoutes)
 
 
 async function main() {

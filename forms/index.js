@@ -1,5 +1,4 @@
 // require in caolan-forms
-// const form = require('form');
 const forms = require('forms');
 // create some shortcuts
 const fields = forms.fields;
@@ -168,4 +167,37 @@ const createVariationStockForm = () => {
     })
 }
 
-module.exports = { createProductForm, createRegistrationForm, createLoginForm, createVariantForm, createVariationStockForm, bootstrapField };
+const createSearchForm = (brands, collections) => {
+    return forms.create({
+        'name': fields.string({
+            required: false,
+            errorAfterField: true
+        }),
+        'min_cost': fields.string({
+            required: false,
+            errorAfterField: true,
+            'validators': [validators.integer(), validators.min(0)]
+        }),
+        'max_cost': fields.string({
+            required: false,
+            errorAfterField: true,
+            'validators': [validators.integer(), validators.min(0)]
+        }),
+        'brand_id': fields.string({
+            label: 'Brand',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: brands
+        }),
+        'collection_id': fields.string({
+            label: 'Collection',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: collections
+        })
+    })
+}
+
+module.exports = { createProductForm, createRegistrationForm, createLoginForm, createVariantForm, createVariationStockForm, createSearchForm, bootstrapField };

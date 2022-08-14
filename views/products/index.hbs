@@ -1,69 +1,104 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Products</h1>
-{{!-- <a href="/products/create" class="btn btn-primary">New</a> --}}
-<table class="table">
-    <thead>
-        <tr>
-            <th>Thumbnail</th>
-            <th>Name</th>
-            <th>Cost</th>
-            <th>Brand</th>
-            <th>Collection</th>
-            {{!-- <th>Material</th>
-            <th>Surface</th>
-            <th>Colour</th>
-            <th>Closure</th>
-            <th>Cutting</th>
-            <th>Position</th>
-            <th>Image</th>
-            <th>Description</th> --}}
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each products}}
-        <tr>
-            <td>
-                <img src="{{this.thumbnail_url}}"/>
-            </td>
-            <td>{{this.name}}</td>
-            <td>{{this.cost}}</td>
-            {{!-- <td>{{divide this.cost 100}}</td> --}}
-            <td>{{this.brand.brand_name}}</td>
-            <td>{{this.collection.collection}}</td>
-            {{!-- <td>{{this.material.material}}</td>
-            <td>{{this.surface.surface}}</td>
-            <td>{{this.colour.colour}}</td>
-            <td>{{this.closure.closure}}</td>
-            <td>{{this.cutting.cutting}}</td>
-            <td>
-                {{#each this.positions}}
+{{#if searchResultsCount}}
+<div class="alert alert-dark mt-3">
+    <span>{{searchResultsCount}} Product(s) found</span>
+</div>
+{{/if}}
+{{#unless searchResultsCount}}
+<div class="alert alert-danger mt-3">
+    <span>No product found</span>
+</div>
+{{/unless}}
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                <strong><i class="fa-solid fa-magnifying-glass me-2"></i>Search</strong>
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <form method="GET">
+                    {{{form}}}
+                    <input type="submit" class="mb-3 mt-3 btn btn-primary" value="Search" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="mt-3">Products</h1>
+    {{!-- <a href="/products/create" class="btn btn-primary">New</a> --}}
+    <table class="table">
+        <thead>
+            <tr>
+                <th># ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Brand</th>
+                <th>Collection</th>
+                {{!-- <th>Material</th>
+                <th>Surface</th>
+                <th>Colour</th>
+                <th>Closure</th>
+                <th>Cutting</th>
+                <th>Position</th>
+                <th>Image</th>
+                <th>Description</th> --}}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td>
+                    <img src="{{this.thumbnail_url}}" />
+                </td>
+                <td>{{this.name}}</td>
+                <td>{{this.cost}}</td>
+                {{!-- <td>{{divide this.cost 100}}</td> --}}
+                <td>{{this.brand.brand_name}}</td>
+                <td>{{this.collection.collection}}</td>
+                {{!-- <td>{{this.material.material}}</td>
+                <td>{{this.surface.surface}}</td>
+                <td>{{this.colour.colour}}</td>
+                <td>{{this.closure.closure}}</td>
+                <td>{{this.cutting.cutting}}</td>
+                <td>
+                    {{#each this.positions}}
                     <span class="badge bg-primary">{{this.position}}</span>
-                {{/each}}
-            </td>
-            <td>
-                <img src="{{this.image_url}}"/>
-            </td>
-            <td>{{this.description}}</td> --}}
-            <td>
-                <a href="products/{{this.id}}/variants" class="btn btn-dark p-1">
-                {{!-- <i class='bx bx-edit' style="color:white; font-size: 22px"></i> --}}
-                {{!-- <i class='bx bx-link-external' style="color:white; font-size: 22px"></i> --}}
-                <i class="fa-solid fa-arrow-up-right-from-square p-1" style="color:white; font-size: 18px"></i>
-                </a>
-                <a href="products/{{this.id}}/delete" class="btn btn-dark p-1">
-                {{!-- <i class='bx bx-trash' style="color:white; font-size: 22px"></i> --}}
-                <i class="fa-solid fa-trash-can p-1" style="color:white; font-size: 18px"></i>
-                </a>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+                    {{/each}}
+                </td>
+                <td>
+                    <img src="{{this.image_url}}" />
+                </td>
+                <td>{{this.description}}</td> --}}
+                <td>
+                    <a href="products/{{this.id}}/variants" class="btn btn-dark p-1" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="View">
+                        {{!-- <i class='bx bx-edit' style="color:white; font-size: 22px"></i> --}}
+                        {{!-- <i class='bx bx-link-external' style="color:white; font-size: 22px"></i> --}}
+                        <i class="fa-solid fa-arrow-up-right-from-square p-1" style="color:white; font-size: 18px"></i>
+                    </a>
+                    <a href="products/{{this.id}}/delete" class="btn btn-dark p-1" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Delete">
+                        {{!-- <i class='bx bx-trash' style="color:white; font-size: 22px"></i> --}}
+                        <i class="fa-solid fa-trash-can p-1" style="color:white; font-size: 18px"></i>
+                    </a>
+                    <a href="/cart/{{this.id}}/add" class="btn btn-success">Add to Cart</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 
 </div>
+<div style="height: 50px"></div>
 {{/block}}
 
 {{/extends}}

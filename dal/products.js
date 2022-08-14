@@ -76,7 +76,7 @@ const getVariantsByProductId = async (productId) => {
     return await Variant.where({
         'product_id': parseInt(productId)
     }).fetchAll({
-        require: true,
+        require: false,
         withRelated: ['product', 'size']
     })
 }

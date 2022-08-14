@@ -4,10 +4,10 @@ const router = express.Router();
 //import in models
 const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../../models')
 // import in the Forms
-const { bootstrapField, createProductForm, createVariantForm, createVariationStockForm } = require('../../forms');
+const { bootstrapField, createProductForm, createVariantForm, createVariationStockForm, createSearchForm } = require('../../forms');
 // import in the DAL
 const {
-    getAllBrands, 
+    getAllBrands,
     getAllCollections,
     getAllMaterials,
     getAllSurfaces,
@@ -21,19 +21,81 @@ const {
     getVariantById
 } = require('../../dal/products')
 
-router.get('/', async (req,res)=>{
+router.get('/', async (req, res) => {
     let products = await Product.collection().fetch({
         withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand', 'positions']
     })
-    res.render('products/index',{
-        'products': products.toJSON()
+
+    let searchForm = createSearchForm(
+        await getAllBrands(),
+        await getAllCollections()
+    )
+
+    let searchQuery = Product.collection()
+
+    searchForm.handle(req, {
+        'empty': async (form) => {
+            let products = await searchQuery.fetch({
+                withRelated: ['brand', 'collection']
+            })
+            const searchResultsCount = products.toJSON().length
+            res.render('products/index', {
+                'products': products.toJSON(),
+                searchResultsCount,
+                'form': form.toHTML(bootstrapField)
+            })
+        },
+        'error': async (form) => {
+            let products = await searchQuery.fetch({
+                withRelated: ['brand', 'collection']
+            })
+            const searchResultsCount = products.toJSON().length
+            res.render('products/index', {
+                'products': products.toJSON(),
+                searchResultsCount,
+                'form': form.toHTML(bootstrapField)
+            })
+        },
+        'success': async (form) => {
+            if (form.data.name) {
+                searchQuery.where('name', 'like', '%' + form.data.name + '%')
+            }
+            if (form.data.brand_id && form.data.brand_id != "0") {
+                searchQuery.where('brand_id', '=', form.data.brand_id)
+            }
+            if (form.data.collection_id && form.data.collection_id != "0") {
+                searchQuery.where('collection_id', '=', form.data.collection_id)
+            }
+            if (form.data.min_cost) {
+                searchQuery.where('cost', '>=', form.data.min_cost)
+            }
+            if (form.data.max_cost) {
+                searchQuery.where('cost', '<=', form.data.max_cost);
+            }
+
+            let products = await searchQuery.fetch({
+                withRelated: ['brand', 'collection']
+            })
+
+            const searchResultsCount = products.toJSON().length
+
+            res.render('products/index', {
+                'products': products.toJSON(),
+                searchResultsCount,
+                'form': form.toHTML(bootstrapField)
+            })
+        }
     })
+
+    // res.render('products/index', {
+    //     'products': products.toJSON()
+    // })
 })
 
 router.get('/create', async function (req, res) {
 
     const productForm = createProductForm(
-        await getAllBrands(), 
+        await getAllBrands(),
         await getAllCollections(),
         await getAllMaterials(),
         await getAllSurfaces(),
@@ -43,7 +105,7 @@ router.get('/create', async function (req, res) {
         await getAllPositions()
     );
 
-    res.render('products/create',{
+    res.render('products/create', {
         'form': productForm.toHTML(bootstrapField),
         cloudinaryName: process.env.CLOUDINARY_NAME,
         cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
@@ -51,10 +113,10 @@ router.get('/create', async function (req, res) {
     })
 })
 
-router.post('/create', async function (req,res) {
-    
+router.post('/create', async function (req, res) {
+
     const productForm = createProductForm(
-        await getAllBrands(), 
+        await getAllBrands(),
         await getAllCollections(),
         await getAllMaterials(),
         await getAllSurfaces(),
@@ -84,6 +146,7 @@ router.post('/create', async function (req,res) {
             if (form.data.positions) {
                 await product.positions().attach(form.data.positions.split(','))
             }
+
             req.flash("success_messages", `New Product ${product.get('name')} has been created`)
             res.redirect('/products')
         },
@@ -95,12 +158,12 @@ router.post('/create', async function (req,res) {
     })
 })
 
-router.get('/:product_id/update', async function (req,res) {
+router.get('/:product_id/update', async function (req, res) {
 
     const product = await getProductById(req.params.product_id)
 
     const productForm = createProductForm(
-        await getAllBrands(), 
+        await getAllBrands(),
         await getAllCollections(),
         await getAllMaterials(),
         await getAllSurfaces(),
@@ -136,12 +199,12 @@ router.get('/:product_id/update', async function (req,res) {
     })
 })
 
-router.post('/:product_id/update', async function (req,res) {
+router.post('/:product_id/update', async function (req, res) {
 
     const product = await getProductById(req.params.product_id)
 
     const productForm = createProductForm(
-        await getAllBrands(), 
+        await getAllBrands(),
         await getAllCollections(),
         await getAllMaterials(),
         await getAllSurfaces(),
@@ -151,9 +214,9 @@ router.post('/:product_id/update', async function (req,res) {
         await getAllPositions()
     );
 
-    productForm.handle( req, {
+    productForm.handle(req, {
         'success': async function (form) {
-            let { positions, ...productData} = form.data;
+            let { positions, ...productData } = form.data;
             product.set(productData)
             await product.save();
 
@@ -168,7 +231,7 @@ router.post('/:product_id/update', async function (req,res) {
 })
 
 //Delete Product Routes
-router.get('/:product_id/delete', async(req,res)=>{
+router.get('/:product_id/delete', async (req, res) => {
 
     const product = await await getProductById(req.params.product_id)
 
@@ -177,7 +240,7 @@ router.get('/:product_id/delete', async(req,res)=>{
     })
 });
 
-router.post('/:product_id/delete', async(req,res)=>{
+router.post('/:product_id/delete', async (req, res) => {
 
     const product = await getProductById(req.params.product_id)
 
@@ -186,18 +249,19 @@ router.post('/:product_id/delete', async(req,res)=>{
 })
 
 //Product Variant Routes
-router.get('/:product_id/variants', async (req,res) => {
+router.get('/:product_id/variants', async (req, res) => {
     const product = await getProductById(req.params.product_id)
     const variants = await getVariantsByProductId(req.params.product_id)
+
     res.render('products/variants', {
         product: product.toJSON(),
         variants: variants.toJSON()
     })
 })
 
-router.get('/:product_id/variants/create', async (req,res) => {
+router.get('/:product_id/variants/create', async (req, res) => {
     const product = await getProductById(req.params.product_id)
-    const variationForm = createVariantForm( await getAllSizes() )
+    const variationForm = createVariantForm(await getAllSizes())
 
     res.render('products/variant-create', {
         'form': variationForm.toHTML(bootstrapField),
@@ -205,9 +269,9 @@ router.get('/:product_id/variants/create', async (req,res) => {
     })
 })
 
-router.post('/:product_id/variants/create', async (req,res) =>{
+router.post('/:product_id/variants/create', async (req, res) => {
     const product = await getProductById(req.params.product_id)
-    const variationForm = createVariantForm( await getAllSizes() )
+    const variationForm = createVariantForm(await getAllSizes())
 
     variationForm.handle(req, {
         'success': async (form) => {
@@ -230,7 +294,7 @@ router.post('/:product_id/variants/create', async (req,res) =>{
     })
 })
 
-router.get('/:product_id/variants/:variant_id/update', async (req,res) => {
+router.get('/:product_id/variants/:variant_id/update', async (req, res) => {
     const variant = await getVariantById(req.params.variant_id)
 
     const variationForm = createVariationStockForm()
@@ -242,7 +306,7 @@ router.get('/:product_id/variants/:variant_id/update', async (req,res) => {
     })
 })
 
-router.post('/:product_id/variants/:variant_id/update', async (req,res) => {
+router.post('/:product_id/variants/:variant_id/update', async (req, res) => {
     const variant = await getVariantById(req.params.variant_id)
     const variationForm = createVariationStockForm()
 
@@ -250,7 +314,7 @@ router.post('/:product_id/variants/:variant_id/update', async (req,res) => {
         'success': async (form) => {
             variant.set(form.data)
             variant.save()
-        
+
             req.flash('success_messages', 'Stock has been successfully updated to ' + variant.get('stock'))
             res.redirect(`/products/${req.params.product_id}/variants`)
         },
