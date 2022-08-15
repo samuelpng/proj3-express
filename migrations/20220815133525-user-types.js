@@ -15,38 +15,24 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('users', {
+  return db.createTable('user_types', {
     id: {
       type: 'int',
       primaryKey: true,
-      unsigned: true,
       autoIncrement: true,
-      notNull: true
+      unsigned: true,
+      notNull:true
     },
-    username: {
+    user_type: {
       type: 'string',
-      length: 45,
+      length: 15,
       notNull: true
-    },
-    email: {
-      type: 'string',
-      length: 320,
-      notNull: true
-    },
-    password : {
-      type: 'string',
-      length: 150,
-      notNull: true
-    },
-    date_created: {
-      type: 'date',
-      notNull: true,
     }
   })
 };
 
 exports.down = function(db) {
-  return db.dropTable('users')
+  return null;
 };
 
 exports._meta = {

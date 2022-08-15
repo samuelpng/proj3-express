@@ -85,12 +85,12 @@
                         {{!-- <i class='bx bx-link-external' style="color:white; font-size: 22px"></i> --}}
                         <i class="fa-solid fa-arrow-up-right-from-square p-1" style="color:white; font-size: 18px"></i>
                     </a>
-                    <a href="products/{{this.id}}/delete" class="btn btn-dark p-1" data-bs-toggle="tooltip"
-                        data-bs-placement="top" title="Delete">
+                    <a href="products/{{this.id}}/delete" class="btn btn-dark p-1 deleteAlert"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                         {{!-- <i class='bx bx-trash' style="color:white; font-size: 22px"></i> --}}
-                        <i class="fa-solid fa-trash-can p-1" style="color:white; font-size: 18px"></i>
+                        <i class="fa-solid fa-trash-can p-1 delete-btn" style="color:white; font-size: 18px"></i>
                     </a>
-                   
+
                 </td>
             </tr>
             {{/each}}
@@ -99,6 +99,40 @@
 
 </div>
 <div style="height: 50px"></div>
+{{/block}}
+
+{{#block 'js'}}
+
+
+<script>
+
+    let deleteBtns = document.querySelectorAll('.deleteAlert')
+
+    for (let btn of deleteBtns) {
+        btn.addEventListener('click', function () {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                }
+            })
+        });
+    }
+
+
+</script>
+
 {{/block}}
 
 {{/extends}}

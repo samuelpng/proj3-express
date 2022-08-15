@@ -1,0 +1,40 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+ <h1 class="mt-3">Products</h1>
+    {{!-- <a href="/users/register" class="btn btn-primary">Register New User</a> --}}
+    <table class="table">
+        <thead>
+            <tr>
+                <th># ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td style="color:black">{{this.id}}</td>
+                <td>{{this.username}}</td>
+                <td>{{this.email}}</td>
+                <td>
+                    <a href="products/{{this.id}}/variants" class="btn btn-dark p-1" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="View">
+                        <i class="fa-solid fa-arrow-up-right-from-square p-1" style="color:white; font-size: 18px"></i>
+                    </a>
+                    <a href="products/{{this.id}}/delete" class="btn btn-dark p-1 deleteAlert"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                        <i class="fa-solid fa-trash-can p-1 delete-btn" style="color:white; font-size: 18px"></i>
+                    </a>
+
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>
+{{/block}}
+
+{{/extends}}

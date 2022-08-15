@@ -109,7 +109,17 @@ const Variant = bookshelf.model('Variant', {
 })
 
 const User = bookshelf.model('User',{
-    tableName: 'users'
+    tableName: 'users',
+    userType: function() {
+        return this.belongsTo('User')
+    }
+})
+
+const UserType = bookshelf.model('UserType', {
+    tableName: 'user_types',
+    users: function() {
+        return this.hasMany('User')
+    }
 })
 
 const Customer = bookshelf.model({
@@ -121,7 +131,7 @@ const Customer = bookshelf.model({
 
 const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
-    variant() {
+    variant: function () {
         return this.belongsTo('Variant')
     },
     customer: function () {
@@ -130,4 +140,4 @@ const CartItem = bookshelf.model('CartItem', {
 })
 
 
-module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, Material, Brand, Position, Size, Variant, User, CartItem };
+module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, Material, Brand, Position, Size, Variant, User, Customer, CartItem };

@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
     )
 
     let searchQuery = Product.collection()
-
+    
     searchForm.handle(req, {
         'empty': async (form) => {
             let products = await searchQuery.fetch({
@@ -85,6 +85,7 @@ router.get('/', async (req, res) => {
                 'form': form.toHTML(bootstrapField)
             })
         }
+        
     })
 
     // res.render('products/index', {
@@ -233,7 +234,7 @@ router.post('/:product_id/update', async function (req, res) {
 //Delete Product Routes
 router.get('/:product_id/delete', async (req, res) => {
 
-    const product = await await getProductById(req.params.product_id)
+    const product = await getProductById(req.params.product_id)
 
     res.render('products/delete', {
         'product': product.toJSON()

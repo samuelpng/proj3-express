@@ -14,6 +14,16 @@ const { User } = require('../../models');
 
 const { createRegistrationForm, bootstrapField, createLoginForm } = require('../../forms');
 
+router.get('/', (req,res) => {
+    const users = User.collection().fetch({
+        withRelated: "userType"
+    })
+
+    res.render('users/index', {
+            'users': users.toJSON()
+        })
+})
+
 router.get('/register', (req,res) => {
     // display the registration form
     const registrationForm = createRegistrationForm();
