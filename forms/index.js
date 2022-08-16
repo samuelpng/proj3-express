@@ -105,7 +105,7 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
     })
 }
 
-const createRegistrationForm = () => {
+const createRegistrationForm = (userTypes) => {
     return forms.create({
         'username': fields.string({
             required: true,
@@ -123,6 +123,13 @@ const createRegistrationForm = () => {
             required: true,
             errorAfterField: true,
             validators: [validators.matchField('password')]
+        }),
+        'user_type_id': fields.string({
+            label: 'User Type',
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: userTypes
         })
     })
 }

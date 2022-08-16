@@ -111,7 +111,7 @@ const Variant = bookshelf.model('Variant', {
 const User = bookshelf.model('User',{
     tableName: 'users',
     userType: function() {
-        return this.belongsTo('User')
+        return this.belongsTo('UserType')
     }
 })
 
@@ -140,4 +140,4 @@ const CartItem = bookshelf.model('CartItem', {
 })
 
 
-module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, Material, Brand, Position, Size, Variant, User, Customer, CartItem };
+module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, Material, Brand, Position, Size, Variant, User, UserType, Customer, CartItem };
