@@ -1,0 +1,89 @@
+<div class="sideNavBar close">
+    <div class="logo-container">
+      <i class="bx bx-football logo-pic"></i>
+      <span class="logo-name">KicksCity</span>
+      <span class="home-content"><i class="bx bx-menu"></i></span>
+    </div>
+    <ul class="nav-links">
+      {{!-- first link --}}
+      <li>
+        <a href="/products">
+          <i class="bx bx-grid-alt"></i>
+          <span class="link-name">Products</span>
+        </a>
+        <ul class="sub-menu empty">Products</ul>
+      </li>
+      {{!-- second link --}}
+      <li>
+        <div class="icon-link">
+          <a href="/products">
+            <i class="bx bx-grid-alt"></i>
+            <span class="link-name">Products</span>
+          </a>
+          <i class="bx bxs-chevron-down arrow"></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link-name" href="#">Products</a></li>
+          <li><a href="/products">Home</a></li>
+          <li><a href="/products/create">Create New</a></li>
+        </ul>
+      </li>
+      {{!-- third link --}}
+      <li>
+        <div class="icon-link">
+          <a href="/users">
+            <i class='bx bxs-user-detail'></i>
+            <span class="link-name">Accounts</span>
+          </a>
+          <i class="bx bxs-chevron-down arrow"></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link-name" href="#">Accounts</a></li>
+          <li><a href="/users">Staff</a></li>
+          <li><a href="/customers">Customers</a></li>
+        </ul>
+      </li>
+      {{!-- fourth link --}}
+      <li>
+        <div class="icon-link">
+          <a href="/users/profile">
+            <i class="bx bx-user"></i>
+            <span class="link-name">Profile</span>
+          </a>
+          <i class="bx bxs-chevron-down arrow"></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link-name" href="#">Create</a></li>
+          <li><a href="#">Hello</a></li>
+          <li><a href="#">Bye</a></li>
+        </ul>
+      </li>
+    </ul>
+    </ul>
+    <li>
+    <li>
+      <div class="icon-link">
+        <a href="/users/profile">
+          <i class="bx bx-user"></i>
+          <span class="link-name">Profile</span>
+        </a>
+        <i class="bx bxs-chevron-down arrow"></i>
+      </div>
+      <ul class="sub-menu">
+        <li><a class="link-name" href="#">Create</a></li>
+        <li><a href="#">Hello</a></li>
+        <li><a href="#">Bye</a></li>
+      </ul>
+    </li>
+    </ul>
+    <li>
+      <div class="user-details close">
+        <div class="user-content">
+          <i class="bx bx-user"></i>
+          <span class="username">{{user.username}}</span>
+          <a href="/users/logout"><i class="bx bx-log-out"></i></a>
+
+        </div>
+      </div>
+    </li>
+  </div>

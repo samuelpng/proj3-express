@@ -12,6 +12,10 @@
     background-color: aliceblue;
 }
 
+.btn-dark {
+    background-color: #0c0b14;
+}
+
 .sideNavBar {
     position: fixed;
     top: 0;

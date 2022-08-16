@@ -134,6 +134,26 @@ const createRegistrationForm = (userTypes) => {
     })
 }
 
+const updateUserForm = (userTypes) => {
+    return forms.create({
+        'username': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'email': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'user_type_id': fields.string({
+            label: 'User Type',
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: userTypes
+        })
+    })
+}
+
 const createLoginForm = () => {
     return forms.create({
         'email': fields.string({
@@ -207,4 +227,12 @@ const createSearchForm = (brands, collections) => {
     })
 }
 
-module.exports = { createProductForm, createRegistrationForm, createLoginForm, createVariantForm, createVariationStockForm, createSearchForm, bootstrapField };
+module.exports = { 
+    createProductForm, 
+    createRegistrationForm, 
+    updateUserForm,
+    createLoginForm, 
+    createVariantForm, 
+    createVariationStockForm, 
+    createSearchForm, 
+    bootstrapField };

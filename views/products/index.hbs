@@ -1,5 +1,9 @@
 {{#extends 'base'}}
 
+{{#block 'css'}}
+<link rel="stylesheet" href="/style/products.css">
+{{/block}}
+
 {{#block 'content'}}
 {{#if searchResultsCount}}
 <div class="alert alert-dark mt-3">
@@ -24,7 +28,7 @@
             <div class="accordion-body">
                 <form method="GET">
                     {{{form}}}
-                    <input type="submit" class="mb-3 mt-3 btn btn-primary" value="Search" />
+                    <input type="submit" class="mb-3 mt-3 btn btn-dark" style="background-color: lightslategrey !important" value="Search" />
                 </form>
             </div>
         </div>
@@ -81,13 +85,11 @@
                 <td>
                     <a href="products/{{this.id}}/variants" class="btn btn-dark p-1" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="View">
-                        {{!-- <i class='bx bx-edit' style="color:white; font-size: 22px"></i> --}}
-                        {{!-- <i class='bx bx-link-external' style="color:white; font-size: 22px"></i> --}}
                         <i class="fa-solid fa-arrow-up-right-from-square p-1" style="color:white; font-size: 18px"></i>
                     </a>
-                    <a href="products/{{this.id}}/delete" class="btn btn-dark p-1 deleteAlert"
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                        {{!-- <i class='bx bx-trash' style="color:white; font-size: 22px"></i> --}}
+                    <a href="#" data-id="{{this.id}}" data-name="{{this.name}}" class="btn btn-dark p-1 delete-alert"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"
+                        >
                         <i class="fa-solid fa-trash-can p-1 delete-btn" style="color:white; font-size: 18px"></i>
                     </a>
 
@@ -103,15 +105,18 @@
 
 {{#block 'js'}}
 
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
-    let deleteBtns = document.querySelectorAll('.deleteAlert')
+    let deleteBtns = document.querySelectorAll('.delete-alert')
 
     for (let btn of deleteBtns) {
-        btn.addEventListener('click', function () {
+        btn.addEventListener('click', async function (event) {
+
+            event.preventDefault();
+            console.log(event.target.dataset);
             Swal.fire({
-                title: 'Are you sure?',
+                title: `Are you sure? ${event.target.dataset.name}`,
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -121,10 +126,17 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire(
-                        'Deleted!',
+                         'Deleted!',
                         'Your file has been deleted.',
                         'success'
                     )
+                    const form = document.createElement('form')
+                         form.method = 'POST';
+                         form.action = `/products/${event.target.dataset.id}/delete`
+
+                        form.innerHTML = `{{> csrfToken}}`
+                        document.querySelector('body').appendChild(form); 
+                        form.submit(); 
                 }
             })
         });

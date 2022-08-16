@@ -5,6 +5,7 @@ var helpers = require('handlebars-helpers')({
   handlebars: hbs.handlebars
 });
 require("dotenv").config();
+const cors = require('cors')
 const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
@@ -15,17 +16,17 @@ const { checkIfAuthenticated } = require('./middlewares');
 
 // create an instance of express app
 let app = express();
-
 // set the view engine
 app.set("view engine", "hbs");
-
 // static folder
 app.use(express.static("public"));
-
+// setup partials
+hbs.registerPartials('./views/partials')
 // setup wax-on
 wax.on(hbs.handlebars);
 wax.setLayoutPath("./views/layouts");
-
+// use cors
+app.use(cors())
 // enable forms
 app.use(
     express.urlencoded({

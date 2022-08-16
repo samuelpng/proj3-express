@@ -17,7 +17,11 @@ const hashedPassword = (password) => {
 // import in the User model
 const { User } = require('../../models');
 
-const { createRegistrationForm, bootstrapField, createLoginForm } = require('../../forms');
+const { createRegistrationForm, 
+    createLoginForm, 
+    updateUserForm, 
+    bootstrapField 
+} = require('../../forms');
 
 router.get('/', async (req, res) => {
     const users = await User.collection().fetch({
@@ -25,7 +29,7 @@ router.get('/', async (req, res) => {
     })
 
     res.render('users/index', {
-        'users': users.toJSON()
+        users: users.toJSON()
     })
 })
 
@@ -35,7 +39,7 @@ router.get('/register', async (req, res) => {
     const registrationForm = createRegistrationForm( await getAllUserTypes() );
     
     res.render('users/register', {
-        'form': registrationForm.toHTML(bootstrapField)
+        form: registrationForm.toHTML(bootstrapField)
     })
 })
 
@@ -51,48 +55,73 @@ router.post('/register', async (req, res) => {
                 'date_created': new Date()
             });
             await user.save();
-            req.flash("success_messages", "User signed up successfully!");
-            res.redirect('/users/login')
+            req.flash("success_messages", "User registered successfully!");
+            res.redirect('/users')
         },
-        'error': (form) => {
+        error: (form) => {
             res.render('users/register', {
-                'form': form.toHTML(bootstrapField)
+                user: user.toJSON(),
+                form: form.toHTML(bootstrapField)
             })
         }
     })
 })
 
-
+//User update routes
 router.get('/:user_id/update', async (req,res) => {
     const user = await getUserById(req.params.user_id)
 
-    const userForm = createRegistrationForm( await getAllUserTypes() )
+    const userForm = updateUserForm( await getAllUserTypes() )
 
     userForm.fields.username.value = user.get('username')
     userForm.fields.email.value = user.get('email')
     userForm.fields.user_type_id.value = user.get('user_type_id')
 
     res.render('users/update', {
-        'form': userForm.toHTML(bootstrapField),
-        'user': user.toJSON(),
+        form: userForm.toHTML(bootstrapField),
+        user: user.toJSON(),
+    })
+})
+
+router.post('/:user_id/update', async (req, res) => {
+
+    const user = await getUserById(req.params.user_id)
+
+    const userForm = updateUserForm(
+        await getAllUserTypes()
+    );
+
+    userForm.handle(req, {
+        success: async (form) => {
+            user.set(form.data)
+            await user.save();
+            req.flash('success_messages', ` User details for "${user.get('email')}" updated succesffully.`)
+            res.redirect('/users')
+        },
+        error: async (form) => {
+            res.render('users/update', {
+                user: user.toJSON(),
+                userForm: form.toHTML(bootstrapField)
+            })
+        }
     })
 })
 
 router.get('/login', (req, res) => {
     const loginForm = createLoginForm();
     res.render('users/login', {
-        'form': loginForm.toHTML(bootstrapField)
+        form: loginForm.toHTML(bootstrapField)
     })
 })
 
 router.post('/login', (req, res) => {
     const loginForm = createLoginForm()
     loginForm.handle(req, {
-        'success': async (form) => {
+        success: async (form) => {
             //process the login
             //...find the user by email and password
             let user = await User.where({
-                'email': form.data.email
+                email: form.data.email
             }).fetch({
                 require: false
             })
@@ -118,10 +147,10 @@ router.post('/login', (req, res) => {
                 }
             }
         },
-        'error': (form) => {
+        error: (form) => {
             req.flash('error_messages', "There are some problems logging you in. Please fill in the form again")
             res.render('users/login', {
-                'form': form.toHTML(bootstrapField)
+                form: form.toHTML(bootstrapField)
             })
         }
     })
@@ -134,7 +163,7 @@ router.get('/profile', (req, res) => {
         res.redirect('users/login')
     } else {
         res.render('users/profile', {
-            'user': user
+            user
         })
     }
 })

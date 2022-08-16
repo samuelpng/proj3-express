@@ -174,7 +174,7 @@ router.get('/:product_id/update', async function (req, res) {
         await getAllPositions()
     );
 
-    //fill in firn with previous values of product
+    //fill in form with previous values of product
     productForm.fields.name.value = product.get('name');
     productForm.fields.cost.value = product.get('cost');
     productForm.fields.brand_id.value = product.get('brand_id')

@@ -3,7 +3,7 @@
 {{#block 'content'}}
 <h5 class="ms-3 my-3">Add Size for {{product.name}}</h5>
 <form method="POST" class="ms-3" style="width: 170px">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+    {{> csrfToken}}
     {{{form}}}
     <input type="submit" value="Add" class="btn btn-dark mt-3"/>
 </form>
