@@ -7,7 +7,7 @@
 {{#block 'content'}}
 
 <div class="row ms-2">
-    
+
     <div>
         <h1>{{product.name}}</h1>
     </div>
@@ -51,17 +51,26 @@
     </div>
     <div class="col-6 specifications-container">
         <div class="mx-auto specifications-section">
-            <div class="ms-2" style="color: aliceblue; font-size: 20px">
+            <div class="ms-2" style="color: #fff; font-size: 20px">
                 {{!-- <h4>Product Specifications</h4> --}}
                 <ul class="list-group">
-                    <li class="list-group-item" style="background: aliceblue !important"><h4>Product Specifications</h4></li>
-                    <li class="list-group-item list-group-item-action list-group-item-dark">Brand: <span style="position: absolute; left:45%">{{product.brand.brand_name}}</span></li>
-                    <li class="list-group-item list-group-item-action list-group-item-dark">Collection: <span style="position: absolute; left:45%">{{product.collection.collection}}</span></li>
-                    <li class="list-group-item list-group-item-action list-group-item-dark">Material: <span style="position: absolute; left:45%">{{product.material.material}}</span></li>
-                    <li class="list-group-item list-group-item-action list-group-item-dark">Surface: <span style="position: absolute; left:45%">{{product.surface.surface}}</span></li>
-                    <li class="list-group-item list-group-item-action list-group-item-dark">Color: <span style="position: absolute; left:45%">{{product.colour.colour}}</span></li>
-                    <li class="list-group-item list-group-item-action list-group-item-dark">Closure: <span style="position: absolute; left:45%">{{product.closure.closure}}</span></li>
-                    <li class="list-group-item list-group-item-action list-group-item-dark">Cutting: <span style="position: absolute; left:45%">{{product.cutting.cutting}}</span></li>
+                    <li class="list-group-item" style="background: #fff !important">
+                        <h4>Product Specifications</h4>
+                    </li>
+                    <li class="list-group-item list-group-item-action list-group-item-dark">Brand: <span
+                            style="position: absolute; left:45%">{{product.brand.brand_name}}</span></li>
+                    <li class="list-group-item list-group-item-action list-group-item-dark">Collection: <span
+                            style="position: absolute; left:45%">{{product.collection.collection}}</span></li>
+                    <li class="list-group-item list-group-item-action list-group-item-dark">Material: <span
+                            style="position: absolute; left:45%">{{product.material.material}}</span></li>
+                    <li class="list-group-item list-group-item-action list-group-item-dark">Surface: <span
+                            style="position: absolute; left:45%">{{product.surface.surface}}</span></li>
+                    <li class="list-group-item list-group-item-action list-group-item-dark">Color: <span
+                            style="position: absolute; left:45%">{{product.colour.colour}}</span></li>
+                    <li class="list-group-item list-group-item-action list-group-item-dark">Closure: <span
+                            style="position: absolute; left:45%">{{product.closure.closure}}</span></li>
+                    <li class="list-group-item list-group-item-action list-group-item-dark">Cutting: <span
+                            style="position: absolute; left:45%">{{product.cutting.cutting}}</span></li>
                 </ul>
                 <a href="/products/{{product.id}}/update" class="ms-0  mt-4 btn btn-hover">
                     <i class="me-2 fa-solid fa-pen-to-square"></i> Update Product
@@ -69,7 +78,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12" style="background: aliceblue; width: 90%; height: 100px"></div>
+    <div class="col-12" style="background: #fff; width: 90%; height: 100px"></div>
     <div class="variants-sectioncol-12" style="background: #0c0b14; color: white; width: 90%">
         {{!-- <a href="/products/{{product.id}}/variants/...." class="btn btn-hover">Add Size</a> --}}
         <div class="mt-4 ms-4" style="height:90%; width:90%">
@@ -97,9 +106,16 @@
                             <a href="/products/{{this.product_id}}/variants/{{this.id}}/update" class="btn btn-dark">
                                 <i class="fa-solid fa-pen-to-square"></i> Update
                             </a>
-                             <a href="/cart/{{this.id}}/add" class="btn btn-success">Add to Cart</a>
+                            <a href="#" data-id="{{this.id}}" data-product-id="{{this.product_id}}" data-name="{{this.size.size}}"
+                                class="btn btn-dark p-1 delete-alert" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Delete">
+                                <i data-id="{{this.id}}" data-product-id="{{this.product_id}}" data-name="{{this.size.size}}"
+                                    class="fa-solid fa-trash-can p-1 delete-btn"
+                                    style="color:white; font-size: 18px"></i>
+                            </a>
+                            <a href="/cart/{{this.id}}/add" class="btn btn-success">Add to Cart</a>
                         </td>
-                    </tr>         
+                    </tr>
                     {{/each}}
                     {{/if}}
                 </tbody>
@@ -108,6 +124,13 @@
     </div>
     <div style="height: 100px"></div>
 </div>
+
+{{/block}}
+
+
+{{#block 'js'}}
+
+{{> sweetAlertJS deleteType="variant"}}
 
 {{/block}}
 

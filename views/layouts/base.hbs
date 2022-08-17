@@ -25,8 +25,10 @@
 </head>
 
 <body>
-
+  {{#if user}}
   {{> sideNavBar}}
+
+
   <div class="home-section">
     <div class="home-content container">
       {{#if success_messages }}
@@ -48,40 +50,45 @@
       {{#block 'content'}}{{/block}}
     </div>
   </div>
-
-  {{!-- Bootstrap JS --}}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
-
-
-
-  <script>
-
-    let arrow = document.querySelectorAll('.arrow');
-    for (let i = 0; i < arrow.length; i++) {
-      arrow[i].addEventListener('click', (e) => {
-        let arrowParent = e.target.parentElement.parentElement
-        arrowParent.classList.toggle("showMenu")
-      })
-    }
-
-    let sidebar = document.querySelector(".sideNavBar")
-    let sidebarBtn = document.querySelector(".bx-menu")
-    let userDetails = document.querySelector(".user-details")
-    sidebarBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('close')
-      userDetails.classList.toggle('close')
-    })
-
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-
-  </script>
-
-  {{#block 'js'}}{{/block}}
+  {{/if}}
+  {{#unless user}}
+    <div class="home-container container" style="background: aliceblue">
+          {{#block 'content'}}{{/block}}
+    </div>
+  {{/unless}}
 </body>
+
+{{!-- Bootstrap JS --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+{{#block 'js'}}{{/block}}
+
+<script>
+
+  let arrow = document.querySelectorAll('.arrow');
+  for (let i = 0; i < arrow.length; i++) {
+    arrow[i].addEventListener('click', (e) => {
+      let arrowParent = e.target.parentElement.parentElement
+      arrowParent.classList.toggle("showMenu")
+    })
+  }
+
+  let sidebar = document.querySelector(".sideNavBar")
+  let sidebarBtn = document.querySelector(".bx-menu")
+  let userDetails = document.querySelector(".user-details")
+  sidebarBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('close')
+    userDetails.classList.toggle('close')
+  })
+
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
+
+</script>
+
+
 
 </html>

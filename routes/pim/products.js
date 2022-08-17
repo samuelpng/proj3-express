@@ -21,10 +21,9 @@ const {
     getVariantById
 } = require('../../dal/products')
 
+
+//Product home page with search function
 router.get('/', async (req, res) => {
-    // let products = await Product.collection().fetch({
-    //     withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand', 'positions']
-    // })
 
     let searchForm = createSearchForm(
         await getAllBrands(),
@@ -34,7 +33,7 @@ router.get('/', async (req, res) => {
     let searchQuery = Product.collection()
     
     searchForm.handle(req, {
-        'empty': async (form) => {
+        empty: async (form) => {
             let products = await searchQuery.fetch({
                 withRelated: ['brand', 'collection']
             })
@@ -45,7 +44,7 @@ router.get('/', async (req, res) => {
                 'form': form.toHTML(bootstrapField)
             })
         },
-        'error': async (form) => {
+        error: async (form) => {
             let products = await searchQuery.fetch({
                 withRelated: ['brand', 'collection']
             })
@@ -56,7 +55,7 @@ router.get('/', async (req, res) => {
                 'form': form.toHTML(bootstrapField)
             })
         },
-        'success': async (form) => {
+        success: async (form) => {
             if (form.data.name) {
                 searchQuery.where('name', 'like', '%' + form.data.name + '%')
             }
@@ -80,19 +79,17 @@ router.get('/', async (req, res) => {
             const searchResultsCount = products.toJSON().length
 
             res.render('products/index', {
-                'products': products.toJSON(),
+                products: products.toJSON(),
                 searchResultsCount,
-                'form': form.toHTML(bootstrapField)
+                form: form.toHTML(bootstrapField)
             })
         }
         
     })
 
-    // res.render('products/index', {
-    //     'products': products.toJSON()
-    // })
 })
 
+//Create Product Routes
 router.get('/create', async function (req, res) {
 
     const productForm = createProductForm(
@@ -128,7 +125,7 @@ router.post('/create', async function (req, res) {
     );
 
     productForm.handle(req, {
-        'success': async function (form) {
+        success: async function (form) {
             const product = new Product();
             product.set('name', form.data.name);
             product.set('cost', form.data.cost);
@@ -151,7 +148,7 @@ router.post('/create', async function (req, res) {
             req.flash("success_messages", `New Product ${product.get('name')} has been created`)
             res.redirect('/products')
         },
-        'error': async function (form) {
+        error: async function (form) {
             res.render('products/create', {
                 'form': form.toHTML(bootstrapField)
             })
@@ -159,6 +156,7 @@ router.post('/create', async function (req, res) {
     })
 })
 
+//Update Product Routes
 router.get('/:product_id/update', async function (req, res) {
 
     const product = await getProductById(req.params.product_id)
@@ -192,8 +190,8 @@ router.get('/:product_id/update', async function (req, res) {
     productForm.fields.positions.value = selectedPositions;
 
     res.render('products/update', {
-        'form': productForm.toHTML(bootstrapField),
-        'product': product.toJSON(),
+        form: productForm.toHTML(bootstrapField),
+        product: product.toJSON(),
         cloudinaryName: process.env.CLOUDINARY_NAME,
         cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
         cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
@@ -216,7 +214,7 @@ router.post('/:product_id/update', async function (req, res) {
     );
 
     productForm.handle(req, {
-        'success': async function (form) {
+        success: async function (form) {
             let { positions, ...productData } = form.data;
             product.set(productData)
             await product.save();
@@ -232,14 +230,14 @@ router.post('/:product_id/update', async function (req, res) {
 })
 
 //Delete Product Routes
-router.get('/:product_id/delete', async (req, res) => {
+// router.get('/:product_id/delete', async (req, res) => {
 
-    const product = await getProductById(req.params.product_id)
+//     const product = await getProductById(req.params.product_id)
 
-    res.render('products/delete', {
-        'product': product.toJSON()
-    })
-});
+//     res.render('products/delete', {
+//         product: product.toJSON()
+//     })
+// });
 
 router.post('/:product_id/delete', async (req, res) => {
 
@@ -265,17 +263,16 @@ router.get('/:product_id/variants/create', async (req, res) => {
     const variationForm = createVariantForm(await getAllSizes())
 
     res.render('products/variant-create', {
-        'form': variationForm.toHTML(bootstrapField),
-        'product': product.toJSON()
+        form: variationForm.toHTML(bootstrapField),
+        product: product.toJSON()
     })
 })
-
 router.post('/:product_id/variants/create', async (req, res) => {
     const product = await getProductById(req.params.product_id)
     const variationForm = createVariantForm(await getAllSizes())
 
     variationForm.handle(req, {
-        'success': async (form) => {
+        success: async (form) => {
             const variant = new Variant({
                 product_id: req.params.product_id,
                 size_id: form.data.size_id,
@@ -286,7 +283,7 @@ router.post('/:product_id/variants/create', async (req, res) => {
             req.flash('success_messages', `New size has been added`)
             res.redirect(`/products/${req.params.product_id}/variants`)
         },
-        'error': async (form) => {
+        error: async (form) => {
             res.render('products/variants-create', {
                 form: form.toHTML(bootstrapField),
                 product: product.toJSON()
@@ -302,8 +299,8 @@ router.get('/:product_id/variants/:variant_id/update', async (req, res) => {
     variationForm.fields.stock.value = variant.get('stock')
 
     res.render('products/variant-update', {
-        'form': variationForm.toHTML(bootstrapField),
-        'variant': variant.toJSON()
+        form: variationForm.toHTML(bootstrapField),
+        variant: variant.toJSON()
     })
 })
 
@@ -312,20 +309,27 @@ router.post('/:product_id/variants/:variant_id/update', async (req, res) => {
     const variationForm = createVariationStockForm()
 
     variationForm.handle(req, {
-        'success': async (form) => {
+        success: async (form) => {
             variant.set(form.data)
             variant.save()
 
             req.flash('success_messages', 'Stock has been successfully updated to ' + variant.get('stock'))
             res.redirect(`/products/${req.params.product_id}/variants`)
         },
-        'error': async (form) => {
+        error: async (form) => {
             res.render('products/variant-update', {
-                'form': form.toHTML(bootstrapField),
-                'variant': variant.toJSON()
+                form: form.toHTML(bootstrapField),
+                variant: variant.toJSON()
             })
         }
     })
+})
+
+router.post('/:product_id/variants/:variant_id/delete', async (req,res) => {
+    const variant = await getVariantById(req.params.variant_id)
+    await variant.destroy()
+    req.flash('success_messages', `Size has been deleted`)
+    res.redirect(`/products/${req.params.product_id}/variants`)
 })
 
 module.exports = router;

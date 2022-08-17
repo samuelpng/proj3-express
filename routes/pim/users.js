@@ -3,8 +3,9 @@ const router = express.Router();
 const crypto = require('crypto');
 
 const {
-   getAllUserTypes,
-   getUserById
+    getUsers,
+    getAllUserTypes,
+    getUserById
 } = require('../../dal/users')
 
 //hashed password
@@ -17,16 +18,14 @@ const hashedPassword = (password) => {
 // import in the User model
 const { User } = require('../../models');
 
-const { createRegistrationForm, 
-    createLoginForm, 
-    updateUserForm, 
-    bootstrapField 
+const { createRegistrationForm,
+    createLoginForm,
+    updateUserForm,
+    bootstrapField
 } = require('../../forms');
 
 router.get('/', async (req, res) => {
-    const users = await User.collection().fetch({
-        withRelated: ['userType']
-    })
+    const users = await getUsers()
 
     res.render('users/index', {
         users: users.toJSON()
@@ -34,17 +33,15 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/register', async (req, res) => {
-    // display the registration form
+    const registrationForm = createRegistrationForm(await getAllUserTypes());
 
-    const registrationForm = createRegistrationForm( await getAllUserTypes() );
-    
     res.render('users/register', {
         form: registrationForm.toHTML(bootstrapField)
     })
 })
 
 router.post('/register', async (req, res) => {
-    const registrationForm = createRegistrationForm( await getAllUserTypes() );
+    const registrationForm = createRegistrationForm(await getAllUserTypes());
     registrationForm.handle(req, {
         success: async (form) => {
             const user = new User({
@@ -68,10 +65,10 @@ router.post('/register', async (req, res) => {
 })
 
 //User update routes
-router.get('/:user_id/update', async (req,res) => {
+router.get('/:user_id/update', async (req, res) => {
     const user = await getUserById(req.params.user_id)
 
-    const userForm = updateUserForm( await getAllUserTypes() )
+    const userForm = updateUserForm(await getAllUserTypes())
 
     userForm.fields.username.value = user.get('username')
     userForm.fields.email.value = user.get('email')
@@ -105,6 +102,14 @@ router.post('/:user_id/update', async (req, res) => {
             })
         }
     })
+})
+
+router.post('/:user_id/delete', async (req, res) => {
+
+    const user = await getUserById(req.params.user_id)
+
+    await user.destroy();
+    res.redirect('/users')
 })
 
 router.get('/login', (req, res) => {
@@ -171,7 +176,7 @@ router.get('/profile', (req, res) => {
 router.get('/logout', (req, res) => {
     req.session.user = null;
     req.flash('success_messages', 'Goodbye')
-    res.redirect('users/login')
+    res.redirect('/users/login')
 })
 
 module.exports = router;

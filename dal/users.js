@@ -1,5 +1,10 @@
 const { User, UserType } = require('../models')
 
+const getUsers = async () => {
+    return await User.collection().fetch({
+        withRelated: ['userType']
+    })
+}
 
 const getAllUserTypes = async () => {
     const userTypes = await UserType.fetchAll().map((userType) => {
@@ -19,6 +24,7 @@ const getUserById = async (userId) => {
 }
 
 module.exports = {
+    getUsers,
     getAllUserTypes,
     getUserById
 }

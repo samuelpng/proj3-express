@@ -42,49 +42,56 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
             required: true,
             errorAfterField: true,
             choices: brands,
-            widget: widgets.select()
+            widget: widgets.select(),
+            validators: [validators.integer(), validators.min(1)]
         }),
         'collection_id': fields.string({
             label: 'Collection',
             required: true,
             errorAfterField: true,
             choices: collections,
-            widget: widgets.select()
+            widget: widgets.select(),
+            validators: [validators.integer(), validators.min(1)]
         }),
         'material_id': fields.string({
             label: 'Material',
             required: true,
             errorAfterField: true,
             choices: materials,
-            widget: widgets.select()
+            widget: widgets.select(),
+            validators: [validators.integer(), validators.min(1)]
         }),
         'surface_id': fields.string({
             label: 'Surface',
             required: true,
             errorAfterField: true,
             choices: surfaces,
-            widget: widgets.select()
+            widget: widgets.select(),
+            validators: [validators.integer(), validators.min(1)]
         }),
         'colour_id': fields.string({
             label: 'Colour',
             required: true,
             errorAfterField: true,
             choices: colours,
-            widget: widgets.select()
+            widget: widgets.select(),
+            validators: [validators.integer(), validators.min(1)]
         }),
         'closure_id': fields.string({
             label: 'Closure',
             required: true,
             errorAfterField: true,
             choices: closures,
-            widget: widgets.select()
+            widget: widgets.select(),
+            validators: [validators.integer(), validators.min(1)]
         }),
         'cutting_id': fields.string({
             label: 'Cutting',
             required: true,
             errorAfterField: true,
             choices: cuttings,
-            widget: widgets.select()
+            widget: widgets.select(),
+            validators: [validators.integer(), validators.min(1)]
         }),
         'positions': fields.string({
             required: true,

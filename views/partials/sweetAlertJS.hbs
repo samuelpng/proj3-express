@@ -1,0 +1,44 @@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    let deleteBtns = document.querySelectorAll('.delete-alert')
+
+    for (let b of deleteBtns) {
+        b.addEventListener('click', async function (event) {
+
+            console.log(event.target.dataset.type);  
+            const toDelete = "{{deleteType}}"
+
+            const result = await Swal.fire({
+                title: `Are you sure you want to delete ${event.target.dataset.name}`,
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            })
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+                const form = document.createElement('form');
+                form.method = "POST";
+                if (toDelete == 'product') {
+                    form.action = `/products/${event.target.dataset.id}/delete`
+                } else if (toDelete == 'user') {
+                    form.action = `/users/${event.target.dataset.id}/delete`
+                } else if (toDelete == 'variant') {
+                    form.action = `/products/${event.target.dataset.productId}/variants/${event.target.dataset.id}/delete`
+                }
+                form.innerHTML = `{{> csrfToken}}`
+                document.querySelector('body').appendChild(form);
+                form.submit();
+            }
+
+        })
+    }
+
+</script>

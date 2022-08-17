@@ -1,15 +1,19 @@
 .accordion-button {
     background-color: lightslategray !important;
-    color: aliceblue !important
+    color: #fff !important
+}
+
+.accordion-button:focus {
+    box-shadow: none
 }
 
 .accordion-button:not(.collapsed) {
     background-color: lightslategray !important;
-    color: aliceblue !important
+    color: #fff !important
 }
 
 .accordion-body {
-    background-color: aliceblue !important;
+    background-color: #fff !important;
 }
 
 .btn-hover {
@@ -58,18 +62,13 @@
     transition: 0.6s
 }
 
-.btn-dark:hover {
-    color: black;
-    background: white;
-    transition: 0.6s
-}
-
 
 .product-container {
     background: #0c0b14;
     height: 45%;
     width: 45%;
     min-width: 500px;
+    min-height: 550px;
     vertical-align: center
 }
 
