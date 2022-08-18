@@ -59,30 +59,7 @@
 
 {{#block 'js'}}{{/block}}
 
-<script>
-
-  let arrow = document.querySelectorAll('.arrow');
-  for (let i = 0; i < arrow.length; i++) {
-    arrow[i].addEventListener('click', (e) => {
-      let arrowParent = e.target.parentElement.parentElement
-      arrowParent.classList.toggle("showMenu")
-    })
-  }
-
-  let sidebar = document.querySelector(".sideNavBar")
-  let sidebarBtn = document.querySelector(".bx-menu")
-  let userDetails = document.querySelector(".user-details")
-  sidebarBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('close')
-    userDetails.classList.toggle('close')
-  })
-
-  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-  })
-
-</script>
+{{> tooltipJS}}
 
 
 

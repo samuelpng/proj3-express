@@ -69,6 +69,7 @@
     width: 45%;
     min-width: 500px;
     min-height: 550px;
+    max-height: 580px;
     vertical-align: center
 }
 

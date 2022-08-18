@@ -2,121 +2,42 @@
 
 {{#block 'content'}}
 
-<div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12 col-md-12 col-sm-12" 
-style="width: 70%; min-width: 600px; margin-left:10%"> 
+<div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12 col-md-12 col-sm-12"
+    style="width: 70%; min-width: 600px; margin-left:10%">
     <h2>New Product</h2>
-<form method="POST">
-    {{> csrfToken}}
-    {{{form}}}
-    <div>
-        <img src="" style="display:none; width: 300px" id="uploaded_image" />
-        <a href="#" class="btn btn-dark mt-3" id="upload_widget"><i class="fa-solid fa-arrow-up-from-bracket me-3"></i>Upload Image</a>
-    </div>
-    <div>
-        <img src="" style="display:none; width: 300px" id="uploaded_image2" />
-        <a href="#" class="btn btn-dark mt-3" id="upload_widget2"><i class="fa-solid fa-arrow-up-from-bracket me-3"></i>Upload 2nd Image</a>
-    </div>
-    <div>
-        <img src="" style="display:none; width: 300px" id="uploaded_image3" />
-        <a href="#" class="btn btn-dark mt-3" id="upload_widget3"><i class="fa-solid fa-arrow-up-from-bracket me-3"></i>Upload 3rd Image</a>
-    </div>
-    <input type="submit" value="Add Product" class="btn btn-dark mt-3"/>
-</form>
+    <form method="POST">
+        {{> csrfToken}}
+        {{{form}}}
+
+        <div class="row mt-3 p-3">
+
+            <div class="col-lg-4" style="border: 2px solid lightgray">
+                <img src="" style="display:none; width: 100%" id="uploaded_image" />
+                <a href="#" class="btn btn-dark ms-3 mt-3 mb-3" id="upload_widget"><i
+                        class="fa-solid fa-arrow-up-from-bracket me-3"></i>Upload Image</a>
+            </div>
+            <div class="col-lg-4" style="border: 2px solid lightgray">
+                <img src="" style="display:none; width: 100%" id="uploaded_image2" />
+                <a href="#" class="btn btn-dark ms-3 mt-3 mb-3" id="upload_widget2"><i
+                        class="fa-solid fa-arrow-up-from-bracket me-3"></i>Upload 2nd Image</a>
+            </div>
+            <div class="col-lg-4" style="border: 2px solid lightgray">
+                <img src="" style="display:none; width: 100%" id="uploaded_image3" />
+                <a href="#" class="btn btn-dark ms-3 mt-3 mb-3" id="upload_widget3"><i
+                        class="fa-solid fa-arrow-up-from-bracket me-3"></i>Upload 3rd Image</a>
+            </div>
+
+        </div>
+
+        <input type="submit" value="Add Product" class="btn btn-dark mt-3" />
+    </form>
 </div>
 <div style="height: 50px"></div>
 {{/block}}
 
 {{#block 'js'}}
-<!-- axios -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<!-- cloudinary widget -->
-<script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
-
-<script>
-    function generateSignature(callback, params_to_sign) {
-        // pass the parameter to sign to the cloudinary route
-        // in the query string
-        axios.get('/cloudinary/sign',{
-            'params':{
-                'params_to_sign': params_to_sign
-            }
-        }).then(function(response){
-            // callback is given by cloudinary
-            callback(response.data);
-        })
-    }
-</script>
-
-<!-- display the widget -->
-<script>
-const myWidget = cloudinary.createUploadWidget({
-    cloudName:"{{cloudinaryName}}",
-    apiKey: "{{cloudinaryApiKey}}",
-    uploadPreset: "{{cloudinaryPreset}}",
-    uploadSignature: generateSignature
-}, (error, result)=>{
-    if (!error && result.event == "success") {
-        console.log(result);
-        document.querySelector('#id_image_url').value = result.info.url;
-        document.querySelector("#uploaded_image").src = result.info.url;
-        document.querySelector('#uploaded_image').style.display='block';
-        document.querySelector('#id_thumbnail_url').value = result.info.thumbnail_url
-    }
-    clear()
-})
-
-const myWidget2 = cloudinary.createUploadWidget({
-    cloudName:"{{cloudinaryName}}",
-    apiKey: "{{cloudinaryApiKey}}",
-    uploadPreset: "{{cloudinaryPreset}}",
-    uploadSignature: generateSignature
-}, (error, result)=>{
-    if (!error && result.event == "success") {
-        console.log(result);
-        document.querySelector('#id_image_url2').value = result.info.url;
-        document.querySelector("#uploaded_image2").src = result.info.url;
-        document.querySelector('#uploaded_image2').style.display='block';
-        document.querySelector('#id_thumbnail_url2').value = result.info.thumbnail_url
-    }
-})
-
-const myWidget3 = cloudinary.createUploadWidget({
-    cloudName:"{{cloudinaryName}}",
-    apiKey: "{{cloudinaryApiKey}}",
-    uploadPreset: "{{cloudinaryPreset}}",
-    uploadSignature: generateSignature
-}, (error, result)=>{
-    if (!error && result.event == "success") {
-        console.log(result);
-        document.querySelector('#id_image_url3').value = result.info.url;
-        document.querySelector("#uploaded_image3").src = result.info.url;
-        document.querySelector('#uploaded_image3').style.display='block';
-        document.querySelector('#id_thumbnail_url3').value = result.info.thumbnail_url
-    }
-})
-
-<!-- add event listener to the upload button -->
-document.querySelector("#upload_widget")
-    .addEventListener('click', function(e){
-        e.preventDefault();
-        myWidget.open();
-    })
-
-document.querySelector("#upload_widget2")
-    .addEventListener('click', function(e){
-        e.preventDefault();
-        myWidget2.open();
-    })
-
-document.querySelector("#upload_widget3")
-    .addEventListener('click', function(e){
-        e.preventDefault();
-        myWidget3.open();
-    })
-    
-</script>
-
+{{> cloudinaryJS}}
 
 {{/block}}
 
