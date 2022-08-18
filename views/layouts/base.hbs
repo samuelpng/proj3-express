@@ -14,7 +14,11 @@
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
-
+  {{!-- Google Font --}}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Shadows+Into+Light&display=swap" rel="stylesheet">
 
   <!--My CSS -->
   <link rel="stylesheet" href="/style/base.css">
@@ -31,30 +35,21 @@
 
   <div class="home-section">
     <div class="home-content container">
-      {{#if success_messages }}
-      {{#each success_messages}}
-      <div class="alert alert-success">
-        {{this}}
-      </div>
-      {{/each}}
-      {{/if}}
-
-      {{#if error_messages}}
-      {{#each error_messages}}
-      <div class="alert alert-danger">
-        {{this}}
-      </div>
-      {{/each}}
-
-      {{/if}}
+      {{> flash}}
       {{#block 'content'}}{{/block}}
     </div>
   </div>
   {{/if}}
+  
   {{#unless user}}
-    <div class="home-container container" style="background: aliceblue">
-          {{#block 'content'}}{{/block}}
+  <div class="home-container container">
+    <div style="display: flex; justify-content:center">
+    <div style="width:500px">
+    {{> loginFlash}}
     </div>
+    </div>
+    {{#block 'content'}}{{/block}}
+  </div>
   {{/unless}}
 </body>
 

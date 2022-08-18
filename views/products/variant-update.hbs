@@ -1,6 +1,7 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
+<div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12 col-md-12 col-sm-12" style="width: 350px; margin-left:30%"> 
 <h5 class="ms-3 mt-3">{{variant.product.name}}</h5>
 <h5 class="ms-3 my-3">Updating stock for size {{variant.size.size}}</h5>
 <form method="POST" class="ms-3" style="width: 120px">
@@ -8,6 +9,7 @@
     {{{form}}}
     <input type="submit" value="Update" class="btn btn-dark mt-3"/>
 </form>
+</div>
 {{/block}}
 
 {{/extends}}

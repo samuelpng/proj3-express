@@ -9,7 +9,7 @@ const bootstrapField = function (name, object) {
     if (!Array.isArray(object.widget.classes)) { object.widget.classes = []; }
 
     if (object.widget.classes.indexOf('form-control') === -1) {
-        object.widget.classes.push('form-control');
+        object.widget.classes.push('form-control mb-3');
     }
 
     var validationclass = object.value && !object.error ? 'is-valid' : '';
@@ -101,12 +101,25 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
         }),
         'description': fields.string({
             required: true,
-            errorAfterField: true
+            errorAfterField: true,
+            widget: widgets.textarea()
         }),
         'image_url': fields.string({
             widget: widgets.hidden()
         }),
         'thumbnail_url': fields.string({
+            widget: widgets.hidden()
+        }),
+        'image_url2': fields.string({
+            widget: widgets.hidden()
+        }),
+        'thumbnail_url2': fields.string({
+            widget: widgets.hidden()
+        }),
+        'image_url3': fields.string({
+            widget: widgets.hidden()
+        }),
+        'thumbnail_url3': fields.string({
             widget: widgets.hidden()
         })
     })

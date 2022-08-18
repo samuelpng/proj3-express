@@ -2,6 +2,30 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Righteous', cursive;
+}
+
+#landing-img {
+    background-image: url('/images/login-img.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#login-container {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 50px;
+    width: 500px;
 }
 
 :root {
@@ -55,11 +79,11 @@
 
 .sideNavBar .logo-name {
     font-size: 20px;
-    color:#fff;
+    color: #fff;
     font-weight: 600;
 }
 
-.sideNavBar.close .logo-name{
+.sideNavBar.close .logo-name {
     opacity: 0;
     pointer-events: none;
     transition: 0.3s ease;
@@ -123,7 +147,7 @@
     transform: rotate(-180deg)
 }
 
-.sideNavBar.close .nav-links i.arrow{
+.sideNavBar.close .nav-links i.arrow {
     display: none
 }
 
@@ -174,7 +198,7 @@
     pointer-events: auto;
 }
 
-.sideNavBar .nav-links li .sub-menu a{
+.sideNavBar .nav-links li .sub-menu a {
     color: #fff;
     font-size: 15px;
     padding: 5px 0;
@@ -183,7 +207,7 @@
     transition: all 0.3s ease
 }
 
-.sideNavBar .nav-links li .sub-menu a:hover{
+.sideNavBar .nav-links li .sub-menu a:hover {
     opacity: 1
 }
 
@@ -226,7 +250,7 @@
     transform: translateY(-50%)
 }
 
-.sideNavBar .user-details{
+.sideNavBar .user-details {
     position: fixed;
     bottom: 0;
     color: #fff;
@@ -261,8 +285,8 @@
 }
 
 .sideNavBar .user-details .bx-log-out {
-   position: absolute;
-   right:10px
+    position: absolute;
+    right: 10px
 }
 
 
@@ -289,7 +313,7 @@
     transition: all 0.5s ease
 }
 
-.sideNavBar.close ~ .home-section {
+.sideNavBar.close~.home-section {
     left: 78px;
     width: calc(100% - 78px)
 }
@@ -309,3 +333,29 @@
     font-weight: 600;
 }
 
+
+
+
+/* flash */
+.alert-simple.alert-warning
+{
+      border: 1px solid rgba(241, 142, 6, 0.81);
+    background-color: rgba(220, 128, 1, 0.16);
+    box-shadow: 0px 0px 2px #ffb103;
+    color: #ffb103;
+    text-shadow: 2px 1px #00040a;
+  transition:0.5s;
+  cursor:pointer;
+}
+
+.alert-warning:hover{
+  background-color: rgba(220, 128, 1, 0.33);
+  transition:0.5s;
+}
+
+.warning
+{
+      font-size: 18px;
+    color: #ffb40b;
+    text-shadow: none;
+}

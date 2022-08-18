@@ -90,7 +90,7 @@ router.get('/', async (req, res) => {
 })
 
 //Create Product Routes
-router.get('/create', async function (req, res) {
+router.get('/create', async (req, res) => {
 
     const productForm = createProductForm(
         await getAllBrands(),
@@ -104,14 +104,14 @@ router.get('/create', async function (req, res) {
     );
 
     res.render('products/create', {
-        'form': productForm.toHTML(bootstrapField),
+        form: productForm.toHTML(bootstrapField),
         cloudinaryName: process.env.CLOUDINARY_NAME,
         cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
         cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
-router.post('/create', async function (req, res) {
+router.post('/create', async (req, res) => {
 
     const productForm = createProductForm(
         await getAllBrands(),
@@ -138,7 +138,11 @@ router.post('/create', async function (req, res) {
             product.set('cutting_id', form.data.cutting_id);
             product.set('description', form.data.description);
             product.set('image_url', form.data.image_url);
-            product.set('thumbnail_url', form.data.thumbnail_url)
+            product.set('thumbnail_url', form.data.thumbnail_url);
+            product.set('image_url2', form.data.image_url2);
+            product.set('thumbnail_url2', form.data.thumbnail_url2);
+            product.set('image_url3', form.data.image_url3);
+            product.set('thumbnail_url3', form.data.thumbnail_url3)
             product.set("date_created", new Date());
             await product.save();
             if (form.data.positions) {

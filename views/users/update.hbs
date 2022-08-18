@@ -1,14 +1,15 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-
-<h1>Update user</h1>
+<div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12 col-md-12 col-sm-12" 
+style="width: 70%; min-width: 600px; margin-left:10%"> 
+<h3>Update User: {{user.username}}</h3>
 <form method="POST">
     {{> csrfToken}}
     {{{form}}}
-    <input type="submit" value="Register" class="btn btn-primary"/>
+    <input type="submit" value="Update" class="btn btn-dark mt-3"/>
 </form>
-
+</div>
 {{/block}}
 
 {{/extends}}

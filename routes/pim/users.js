@@ -114,9 +114,16 @@ router.post('/:user_id/delete', async (req, res) => {
 
 router.get('/login', (req, res) => {
     const loginForm = createLoginForm();
-    res.render('users/login', {
-        form: loginForm.toHTML(bootstrapField)
-    })
+
+    if (req.session.user) {
+        req.flash('You are already logged in')
+        res.redirect('/users/profile')
+    } else {
+        res.render('users/login', {
+            form: loginForm.toHTML(bootstrapField)
+        })
+    }
+
 })
 
 router.post('/login', (req, res) => {
@@ -165,7 +172,7 @@ router.get('/profile', (req, res) => {
     const user = req.session.user;
     if (!user) {
         req.flash('error_messages', 'You do not have permission to access this page');
-        res.redirect('users/login')
+        res.redirect('/users/login')
     } else {
         res.render('users/profile', {
             user
@@ -175,7 +182,7 @@ router.get('/profile', (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.session.user = null;
-    req.flash('success_messages', 'Goodbye')
+    // req.flash('success_messages', 'Goodbye')
     res.redirect('/users/login')
 })
 

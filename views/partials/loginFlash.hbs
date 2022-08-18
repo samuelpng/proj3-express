@@ -1,0 +1,16 @@
+{{#if success_messages }}
+    {{#each success_messages}}
+        <div class="alert alert-success">
+            {{this}}
+        </div>
+    {{/each}}
+{{/if}}
+
+{{#if error_messages}}
+    {{#each error_messages}}
+        <div class="alert alert-danger">
+            <i class="fa fa-times danger me-3"></i>
+          {{this}}
+        </div>
+    {{/each}}
+{{/if}}

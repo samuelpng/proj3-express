@@ -44,6 +44,22 @@ exports.up = function (db) {
       type: 'string',
       length: 2048
     },
+    image_url2: {
+      type: 'string',
+      length: 2048
+    },
+    thumbnail_url2: {
+      type: 'string',
+      length: 2048
+    },
+    image_url3: {
+      type: 'string',
+      length: 2048
+    },
+    thumbnail_url3: {
+      type: 'string',
+      length: 2048
+    },
     colour_id: {
       type: 'int',
       notNull: true,

@@ -1,7 +1,8 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<div style="padding-left: 150px; padding-right: 150px">
+<div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12 col-md-12 col-sm-12" 
+style="width: 70%; min-width: 600px; margin-left:10%">
     <h1>Update product: {{product.name}}</h1>
     <form method="POST">
         {{> csrfToken}}
@@ -19,6 +20,7 @@
         <input type="submit" class="btn btn-primary my-3" />
     </form>
 </div>
+<div style="height: 100px"></div>
 {{/block}}
 
 {{#block 'js'}}
