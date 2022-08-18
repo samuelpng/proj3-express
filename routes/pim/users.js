@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
     })
 })
 
-router.get('/register', checkIfOwner, async (req, res) => {
+router.get('/register',  async (req, res) => {
     const registrationForm = createRegistrationForm(await getAllUserTypes());
 
     res.render('users/register', {
@@ -47,11 +47,12 @@ router.post('/register', async (req, res) => {
     registrationForm.handle(req, {
         success: async (form) => {
             const user = new User({
-                'username': form.data.username,
-                'password': hashedPassword(form.data.password),
-                'email': form.data.email,
-                'user_type_id': form.data.user_type_id,
-                'date_created': new Date()
+                first_name: form.data.first_name,
+                last_name: form.data.last_name,
+                password: hashedPassword(form.data.password),
+                email: form.data.email,
+                user_type_id: form.data.user_type_id,
+                date_created: new Date()
             });
             await user.save();
             req.flash("success_messages", "User registered successfully!");

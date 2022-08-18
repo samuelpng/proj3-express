@@ -127,7 +127,11 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
 
 const createRegistrationForm = (userTypes) => {
     return forms.create({
-        'username': fields.string({
+        'first_name': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'last_name': fields.string({
             required: true,
             errorAfterField: true
         }),
