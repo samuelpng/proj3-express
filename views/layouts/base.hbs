@@ -31,8 +31,7 @@
 <body>
   {{#if user}}
   {{> sideNavBar}}
-
-
+  
   <div class="home-section">
     <div class="home-content container">
       {{> flash}}
@@ -43,7 +42,7 @@
   
   {{#unless user}}
   <div class="home-container container">
-    <div style="display: flex; justify-content:center">
+    <div style="display:flex; justify-content: center">
     <div style="width:500px">
     {{> loginFlash}}
     </div>

@@ -1,12 +1,15 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h5 class="ms-3 my-3">Add Size for {{product.name}}</h5>
-<form method="POST" class="ms-3" style="width: 170px">
-    {{> csrfToken}}
-    {{{form}}}
-    <input type="submit" value="Add" class="btn btn-dark mt-3"/>
-</form>
+<div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12"
+    style="width: 350px; margin-left:30%">
+    <h5 class="ms-3 my-3">Add Size for {{product.name}}</h5>
+    <form method="POST" class="ms-3" style="width: 250px">
+        {{> csrfToken}}
+        {{{form}}}
+        <input type="submit" value="Add" class="btn btn-dark mt-3" />
+    </form>
+</div>
 {{/block}}
 
 {{/extends}}

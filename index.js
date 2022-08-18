@@ -76,7 +76,8 @@ app.use(function(req,res,next){
 })
 
 app.get('/', (req,res) => {
-    res.redirect("/users/login")
+  res.send('hi')
+    // res.redirect("/users/login")
   })
 
 //import in routes

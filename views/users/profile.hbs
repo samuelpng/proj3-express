@@ -1,12 +1,16 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>User Profile</h1>
-<ul>
-    <li>Username: {{user.username}}</li>
-    <li>Email:{{user.email}}</li>
-</ul>
-
+<div class="d-flex justify-content-center">
+    <div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12" style="width: 500px">
+        <h1>User Profile</h1>
+        <ul>
+            <li>Username: {{user.username}}</li>
+            <li>Email: {{user.email}}</li>
+            <a href="/users/change-password" class="btn btn-dark mt-3">Change Password</a>
+        </ul>
+    </div>
+</div>
 {{/block}}
 
 {{/extends}}

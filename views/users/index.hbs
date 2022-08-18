@@ -2,10 +2,12 @@
 
 {{#block 'content'}}
 <div style="display:flex; width: 90%; justify-content: space-between">
-    <span style="font-size" class="mt-3">Staffs</span>
-    <a href="/users/register" class="btn btn-primary">Register New User</a>
+    <h3 class="mt-3">Staffs</h3>
+    <a href="/users/register" class="btn btn-dark mt-3">Register New User</a>
 </div>
-<table class="table">
+<div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12">
+<table class="table p-3">
+   
     <thead>
         <tr>
             <th># ID</th>
@@ -36,8 +38,9 @@
         </tr>
         {{/each}}
     </tbody>
-</table>
 
+</table>
+</div>
 </div>
 {{/block}}
 

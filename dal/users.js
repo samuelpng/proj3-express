@@ -14,6 +14,15 @@ const getAllUserTypes = async () => {
     return userTypes
 }
 
+const getUserByEmail = async (email) => {
+    return await User.where({
+        email
+    }).fetch({
+        require: false,
+        withRelated: ['userType']
+    });
+}
+
 const getUserById = async (userId) => {
     return await User.where({
         'id': parseInt(userId)
@@ -26,5 +35,6 @@ const getUserById = async (userId) => {
 module.exports = {
     getUsers,
     getAllUserTypes,
+    getUserByEmail,
     getUserById
 }

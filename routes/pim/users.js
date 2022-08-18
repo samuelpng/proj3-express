@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const crypto = require('crypto');
+const { checkIfOwner } = require('../../middlewares');
 
 const {
     getUsers,
     getAllUserTypes,
-    getUserById
+    getUserById,
+    getUserByEmail
 } = require('../../dal/users')
 
 //hashed password
@@ -32,7 +34,7 @@ router.get('/', async (req, res) => {
     })
 })
 
-router.get('/register', async (req, res) => {
+router.get('/register', checkIfOwner, async (req, res) => {
     const registrationForm = createRegistrationForm(await getAllUserTypes());
 
     res.render('users/register', {
@@ -132,11 +134,7 @@ router.post('/login', (req, res) => {
         success: async (form) => {
             //process the login
             //...find the user by email and password
-            let user = await User.where({
-                email: form.data.email
-            }).fetch({
-                require: false
-            })
+            let user = await getUserByEmail(form.data.email)
             if (!user) {
                 //if user email does not exit in database
                 req.flash('error_messages', 'Invalid username of password. Please try again')
@@ -146,11 +144,7 @@ router.post('/login', (req, res) => {
                 if (user.get('password') === hashedPassword(form.data.password)) {
                     //add to the session that login succeed
                     //store the suer details
-                    req.session.user = {
-                        id: user.get('id'),
-                        username: user.get('username'),
-                        email: user.get('email')
-                    }
+                    req.session.user = user
                     req.flash("success_messages", "Welcome back, " + user.get('username'))
                     res.redirect('/users/profile')
                 } else {

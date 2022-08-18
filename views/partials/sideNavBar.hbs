@@ -6,13 +6,13 @@
     </div>
     <ul class="nav-links">
       {{!-- first link --}}
-      <li>
+      {{!-- <li>
         <a href="/products">
           <i class="bx bx-grid-alt"></i>
           <span class="link-name">Products</span>
         </a>
         <ul class="sub-menu empty">Products</ul>
-      </li>
+      </li> --}}
       {{!-- second link --}}
       <li>
         <div class="icon-link">
@@ -29,6 +29,7 @@
         </ul>
       </li>
       {{!-- third link --}}
+      {{#eq user.user_type_id 1}}
       <li>
         <div class="icon-link">
           <a href="/users">
@@ -43,6 +44,7 @@
           <li><a href="/customers">Customers</a></li>
         </ul>
       </li>
+      {{/eq}}
       {{!-- fourth link --}}
       <li>
         <div class="icon-link">
@@ -53,9 +55,9 @@
           <i class="bx bxs-chevron-down arrow"></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link-name" href="#">Create</a></li>
-          <li><a href="#">Hello</a></li>
-          <li><a href="#">Bye</a></li>
+          <li><a class="link-name" href="#">Profile</a></li>
+          <li><a href="/users/profile">Settings</a></li>
+          <li><a href="/users/logout">Logout</a></li>
         </ul>
       </li>
     </ul>
