@@ -122,7 +122,9 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
         'thumbnail_url3': fields.string({
             widget: widgets.hidden()
         })
-    })
+    },
+        { validatePastFirstError: true }
+    )
 }
 
 const createRegistrationForm = (userTypes) => {
@@ -153,14 +155,21 @@ const createRegistrationForm = (userTypes) => {
             required: true,
             errorAfterField: true,
             widget: widgets.select(),
-            choices: userTypes
+            choices: userTypes,
+            validators: [validators.integer(), validators.min(1)]
         })
-    })
+    },
+        { validatePastFirstError: true }
+    )
 }
 
 const updateUserForm = (userTypes) => {
     return forms.create({
-        'username': fields.string({
+        'first_name': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'last_name': fields.string({
             required: true,
             errorAfterField: true
         }),
@@ -173,9 +182,12 @@ const updateUserForm = (userTypes) => {
             required: true,
             errorAfterField: true,
             widget: widgets.select(),
-            choices: userTypes
+            choices: userTypes,
+            validators: [validators.integer(), validators.min(1)]
         })
-    })
+    },
+        { validatePastFirstError: true }
+    )
 }
 
 const createLoginForm = () => {
@@ -188,12 +200,30 @@ const createLoginForm = () => {
             required: true,
             errorAfterField: true
         }),
-    })
+    },
+        { validatePastFirstError: true }
+    )
+}
+
+const changePasswordForm = () => {
+    return forms.create({
+        password: fields.password({
+            required: true,
+            errorAfterField: true
+        }),
+        confirm_password: fields.password({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.matchField("password")],
+        }),
+    },
+        { validatePastFirstError: true }
+    )
 }
 
 const createVariantForm = (sizes) => {
     return forms.create({
-        'size_id':fields.string({
+        'size_id': fields.string({
             label: 'Size',
             required: true,
             errorAfterField: true,
@@ -205,7 +235,9 @@ const createVariantForm = (sizes) => {
             errorAfterField: true,
             validators: [validators.integer(), validators.min(0)]
         })
-    })
+    },
+        { validatePastFirstError: true }
+    )
 }
 
 const createVariationStockForm = () => {
@@ -215,7 +247,9 @@ const createVariationStockForm = () => {
             errorAfterField: true,
             validators: [validators.integer(), validators.min(0)]
         })
-    })
+    },
+        { validatePastFirstError: true }
+    )
 }
 
 const createSearchForm = (brands, collections) => {
@@ -251,12 +285,14 @@ const createSearchForm = (brands, collections) => {
     })
 }
 
-module.exports = { 
-    createProductForm, 
-    createRegistrationForm, 
+module.exports = {
+    createProductForm,
+    createRegistrationForm,
     updateUserForm,
-    createLoginForm, 
-    createVariantForm, 
-    createVariationStockForm, 
-    createSearchForm, 
-    bootstrapField };
+    changePasswordForm,
+    createLoginForm,
+    createVariantForm,
+    createVariationStockForm,
+    createSearchForm,
+    bootstrapField
+};

@@ -5,9 +5,11 @@
     <div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12" style="width: 500px">
         <h1>User Profile</h1>
         <ul>
-            <li>Username: {{user.username}}</li>
+            <li>First Name: {{user.first_name}}</li>
+            <li>Last Name: {{user.last_name}}</li>
             <li>Email: {{user.email}}</li>
-            <a href="/users/change-password" class="btn btn-dark mt-3">Change Password</a>
+            <li>User Role: {{user.user_type.user_type}}</li>
+            <a href="/users/profile/change-password" class="btn btn-dark mt-3">Change Password</a>
         </ul>
     </div>
 </div>

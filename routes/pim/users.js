@@ -23,7 +23,8 @@ const { User } = require('../../models');
 const { createRegistrationForm,
     createLoginForm,
     updateUserForm,
-    bootstrapField
+    bootstrapField,
+    changePasswordForm
 } = require('../../forms');
 
 router.get('/', async (req, res) => {
@@ -45,6 +46,7 @@ router.get('/register',  async (req, res) => {
 router.post('/register', async (req, res) => {
     const registrationForm = createRegistrationForm(await getAllUserTypes());
     registrationForm.handle(req, {
+        
         success: async (form) => {
             const user = new User({
                 first_name: form.data.first_name,
@@ -60,7 +62,6 @@ router.post('/register', async (req, res) => {
         },
         error: (form) => {
             res.render('users/register', {
-                user: user.toJSON(),
                 form: form.toHTML(bootstrapField)
             })
         }
@@ -73,7 +74,8 @@ router.get('/:user_id/update', async (req, res) => {
 
     const userForm = updateUserForm(await getAllUserTypes())
 
-    userForm.fields.username.value = user.get('username')
+    userForm.fields.first_name.value = user.get('first_name')
+    userForm.fields.last_name.value = user.get('last_name')
     userForm.fields.email.value = user.get('email')
     userForm.fields.user_type_id.value = user.get('user_type_id')
 
@@ -173,6 +175,17 @@ router.get('/profile', (req, res) => {
             user
         })
     }
+})
+
+router.get('/profile/change-password', async (req, res) => {
+    const user = await getUserById(req.session.user.id)
+    const passwordForm = await changePasswordForm()
+    
+    res.render('users/change-password', {
+        form: passwordForm.toHTML(bootstrapField),
+        user: user.toJSON(),
+    })
+
 })
 
 router.get('/logout', (req, res) => {

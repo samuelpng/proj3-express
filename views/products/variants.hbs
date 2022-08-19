@@ -17,26 +17,35 @@
         <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="true">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
+                    aria-current="true" aria-label="Slide 1"></button>  
+                {{#if product.image_url2}}        
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
                     aria-label="Slide 2"></button>
+                {{/if}}
+                {{#if product.image_url3}}  
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
                     aria-label="Slide 3"></button>
+                {{/if}}
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="{{product.image_url}}" class="d-block w-100" alt="..."  
                         style="height:100%; width:100%; padding: 10px; height:550px; object-fit:contain">
                 </div>
+                {{#if product.image_url2}}
                 <div class="carousel-item">
                     <img src="{{product.image_url2}}" class="d-block w-100" alt="..."
                         style="height:100%; width:100%; padding: 10px; height:550px; object-fit:contain">
                 </div>
+                {{/if}}
+                {{#if product.image_url3}}
                 <div class="carousel-item">
                     <img src="{{product.image_url3}}" class="d-block w-100" alt="..."
                         style="height:100%; width:100%; padding: 10px; height:550px; object-fit:contain">
                 </div>
+                {{/if}}
             </div>
+            {{#if product.image_url2}}
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -47,6 +56,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+            {{/if}}
         </div>
     </div>
     <div class="col-6 specifications-container">
