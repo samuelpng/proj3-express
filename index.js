@@ -76,18 +76,18 @@ app.use(function(req,res,next){
 })
 
 app.get('/', (req,res) => {
-  res.send('hi')
-    // res.redirect("/users/login")
+    res.redirect("/users/login")
   })
 
 //import in routes
-const bootRoutes = require('./routes/pim/products')
+const productRoutes = require('./routes/pim/products')
+//const specificationsRoute
 const userRoutes = require('./routes/pim/users')
 const cloudinaryRoutes = require('./routes/pim/cloudinary')
 const cartRoutes = require('./routes/api/carts')
 const checkoutRoutes = require('./routes/api/checkout')
 
-app.use('/products', checkIfAuthenticated, bootRoutes)
+app.use('/products', checkIfAuthenticated, productRoutes)
 app.use('/users', userRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/cart', checkIfAuthenticated, cartRoutes)
