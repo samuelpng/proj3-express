@@ -148,7 +148,7 @@ router.post('/login', (req, res) => {
                     //add to the session that login succeed
                     //store the suer details
                     req.session.user = user
-                    req.flash("success_messages", "Welcome back, " + user.get('username'))
+                    req.flash("success_messages", "Welcome back, " + user.get('first_name') + ' ' + user.get('last_name'))
                     res.redirect('/users/profile')
                 } else {
                     req.flash('error_messages', 'Invalid username of password. Please try again.')

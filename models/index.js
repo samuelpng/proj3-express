@@ -122,7 +122,7 @@ const UserType = bookshelf.model('UserType', {
     }
 })
 
-const Customer = bookshelf.model({
+const Customer = bookshelf.model('Customer', {
     tableName: 'customers',
     cartItems: function () {
         return this.hasMany('cartItem');
@@ -139,5 +139,14 @@ const CartItem = bookshelf.model('CartItem', {
       },
 })
 
+const BlacklistedToken = bookshelf.model('BlacklistedToken',{
+    tableName: 'blacklisted_tokens'
+})
 
-module.exports = { Product, Colour, Closure, Cutting, Collection, Surface, Material, Brand, Position, Size, Variant, User, UserType, Customer, CartItem };
+
+module.exports = { 
+    Product, Colour, Closure, Cutting, 
+    Collection, Surface, Material, Brand, 
+    Position, Size, Variant, User, 
+    UserType, Customer, CartItem, BlacklistedToken 
+};

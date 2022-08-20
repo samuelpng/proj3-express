@@ -1,6 +1,12 @@
 //inport in product model
 const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Size, Variant } = require('../models')
 
+const getAllProducts = async () => {
+    return await Product.fetchAll({
+        withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand']
+    })
+}
+
 const getAllBrands = async () => {
     const brands = await Brand.fetchAll().map((brand) => {
         return [brand.get('id'), brand.get('brand_name')];
@@ -98,7 +104,10 @@ const getVariantById = async (variantId) => {
     })
 }
 
+
+
 module.exports = {
+    getAllProducts,
     getAllBrands, 
     getAllCollections,
     getAllMaterials,

@@ -58,7 +58,16 @@ app.use(function (req, res, next) {
 });
 
 // enable CSRF
-app.use(csrf());
+// app.use(csrf());
+
+const csrfInstance = csrf();
+app.use(function (req, res, next) {
+  // exclude /checkout/process_payment for CSRF
+  if (req.url === '/checkout/process_payment' || req.url.slice(0,5)=="/api/") {
+      return next()
+  }
+  csrfInstance(req, res, next)
+})
 
 app.use(function (err, req, res, next) {
   if (err && err.code == "EBADCSRFTOKEN") {
@@ -69,11 +78,16 @@ app.use(function (err, req, res, next) {
   }
 });
 
+
+
 // Share CSRF with hbs files
-app.use(function(req,res,next){
-  res.locals.csrfToken = req.csrfToken();
+app.use(function (req, res, next) {
+  // Check if req.csrfToken is available
+  if (req.csrfToken) {
+    res.locals.csrfToken = req.csrfToken();
+  }
   next();
-})
+});
 
 app.get('/', (req,res) => {
     res.redirect("/users/login")
@@ -86,12 +100,21 @@ const userRoutes = require('./routes/pim/users')
 const cloudinaryRoutes = require('./routes/pim/cloudinary')
 const cartRoutes = require('./routes/api/carts')
 const checkoutRoutes = require('./routes/api/checkout')
+const api = {
+  products: require('./routes/api/products'),
+  customers: require('./routes/api/customers')
+}
 
+//=== PIM Routes ===
 app.use('/products', checkIfAuthenticated, productRoutes)
 app.use('/users', userRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/cart', checkIfAuthenticated, cartRoutes)
 app.use('/checkout', checkIfAuthenticated, checkoutRoutes)
+
+//=== API Routes ===
+app.use('/api/products', express.json(), api.products)
+app.use('/api/customers', express.json(), api.customers)
 
 
 async function main() {
