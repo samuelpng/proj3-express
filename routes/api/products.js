@@ -23,9 +23,19 @@ const {
 
 
 router.get('/', async(req,res)=>{
-    res.send( await getAllProducts() )
-})
+    // res.send( await getAllProducts() )
 
+    const searchQuery = Product.collection()
+
+    if (Object.keys(req.body).length === 0) {
+        res.send( await getAllProducts() )
+    } else {
+        if (req.body.name) {
+            searchQuery.where(`${name} like % ${req.body.name} %`)
+        }
+    }
+
+})
 
 
 module.exports = router;
