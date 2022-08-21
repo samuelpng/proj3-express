@@ -76,15 +76,15 @@ router.post('/register', async (req, res) => {
         return;
     }
 
-    const customerData = {
-        username,
-        first_name,
-        last_name,
-        email,
-        password: getHashedPassword(password),
-        contact_number,
-        created_date: new Date()
-    }
+    // const customerData = {
+    //     username,
+    //     first_name,
+    //     last_name,
+    //     email,
+    //     password: getHashedPassword(password),
+    //     contact_number,
+    //     created_date: new Date()
+    // }
 
     // const customer = new Customer(customerData);
     // await customer.save();
@@ -92,7 +92,15 @@ router.post('/register', async (req, res) => {
     // const customer = new Customer();
     // customer.set(customerData)
     // await customer.save();
-    const customer = await createCustomer(customerData)
+    const customer = await createCustomer({
+        username,
+        first_name,
+        last_name,
+        email,
+        password: getHashedPassword(password),
+        contact_number,
+        created_date: new Date()
+    })
     res.status(201);
     res.json(customer)
 

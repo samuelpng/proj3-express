@@ -189,6 +189,10 @@ router.get('/:product_id/update', async function (req, res) {
     productForm.fields.description.value = product.get('description');
     productForm.fields.image_url.value = product.get('image_url')
     productForm.fields.thumbnail_url.value = product.get('thumbnail_url')
+    productForm.fields.image_url2.value = product.get('image_url2')
+    productForm.fields.thumbnail_url2.value = product.get('thumbnail_url2')
+    productForm.fields.image_url3.value = product.get('image_url3')
+    productForm.fields.thumbnail_url3.value = product.get('thumbnail_url3')
 
     let selectedPositions = await product.related('positions').pluck('id');
     productForm.fields.positions.value = selectedPositions;

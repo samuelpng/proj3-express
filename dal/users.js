@@ -6,6 +6,13 @@ const getUsers = async () => {
     })
 }
 
+const createUser = async (userData) => {
+	const user = new User(userData);
+	await user.save();
+
+	return user;
+};  
+
 const getAllUserTypes = async () => {
     const userTypes = await UserType.fetchAll().map((userType) => {
         return [userType.get('id'), userType.get('user_type')];
@@ -25,7 +32,7 @@ const getUserByEmail = async (email) => {
 
 const getUserById = async (userId) => {
     return await User.where({
-        'id': parseInt(userId)
+        id: parseInt(userId)
     }).fetch({
         require: true,
         withRelated: ['userType']
@@ -34,6 +41,7 @@ const getUserById = async (userId) => {
 
 module.exports = {
     getUsers,
+    createUser,
     getAllUserTypes,
     getUserByEmail,
     getUserById

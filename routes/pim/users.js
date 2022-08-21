@@ -5,6 +5,7 @@ const { checkIfOwner } = require('../../middlewares');
 
 const {
     getUsers,
+    createUser,
     getAllUserTypes,
     getUserById,
     getUserByEmail
@@ -48,7 +49,7 @@ router.post('/register', async (req, res) => {
     registrationForm.handle(req, {
         
         success: async (form) => {
-            const user = new User({
+            const user = await createUser({
                 first_name: form.data.first_name,
                 last_name: form.data.last_name,
                 password: hashedPassword(form.data.password),
@@ -56,7 +57,7 @@ router.post('/register', async (req, res) => {
                 user_type_id: form.data.user_type_id,
                 date_created: new Date()
             });
-            await user.save();
+            // await user.save();
             req.flash("success_messages", "User registered successfully!");
             res.redirect('/users')
         },

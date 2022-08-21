@@ -105,7 +105,8 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
             widget: widgets.textarea()
         }),
         'image_url': fields.string({
-            widget: widgets.hidden()
+            widget: widgets.hidden(),
+            required: true
         }),
         'thumbnail_url': fields.string({
             widget: widgets.hidden()
@@ -121,6 +122,49 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
         }),
         'thumbnail_url3': fields.string({
             widget: widgets.hidden()
+        })
+    },
+        { validatePastFirstError: true }
+    )
+}
+
+//=== Form for all specifications except brand and surface
+const createSpecificationForm = (specificationName) => {
+    return forms.create({
+        'name': fields.string({
+            label: specificationName,
+            required: true,
+            errorAfterField: true
+        })
+    })
+}
+
+const createBrandForm = (brand) => {
+    return forms.create({
+        'brand_name': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'brand_logo': fields.string({
+            widget: widgets.hidden()
+        }),
+        'brand_thumbnail': fields.string({
+            widget: widgets.hidden()
+        })
+    },
+        { validatePastFirstError: true }
+    )
+}
+
+const createSurfaceForm = (brand) => {
+    return forms.create({
+        'name': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'surface_abbreviation': fields.string({
+            required: true,
+            errorAfterField: true
         })
     },
         { validatePastFirstError: true }
@@ -287,6 +331,9 @@ const createSearchForm = (brands, collections) => {
 
 module.exports = {
     createProductForm,
+    createSpecificationForm,
+    createBrandForm,
+    createSurfaceForm,
     createRegistrationForm,
     updateUserForm,
     changePasswordForm,

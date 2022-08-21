@@ -95,7 +95,7 @@ app.get('/', (req,res) => {
 
 //import in routes
 const productRoutes = require('./routes/pim/products')
-//const specificationsRoute
+const specificationsRoute = require('./routes/pim/specifications')
 const userRoutes = require('./routes/pim/users')
 const cloudinaryRoutes = require('./routes/pim/cloudinary')
 const cartRoutes = require('./routes/api/carts')
@@ -107,6 +107,7 @@ const api = {
 
 //=== PIM Routes ===
 app.use('/products', checkIfAuthenticated, productRoutes)
+app.use('/specifications', checkIfAuthenticated, specificationsRoute)
 app.use('/users', userRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/cart', checkIfAuthenticated, cartRoutes)
