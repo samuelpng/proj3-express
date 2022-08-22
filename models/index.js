@@ -105,6 +105,9 @@ const Variant = bookshelf.model('Variant', {
     },
     cartItems: function() {
         return this.hasMany('CartItem')
+    },
+    orderItems: function() {
+        return this.hasMany('OrderItem')
     }
 })
 
@@ -127,6 +130,9 @@ const Customer = bookshelf.model('Customer', {
     cartItems: function () {
         return this.hasMany('cartItem');
       },
+    orders: function() {
+        return this.hasMany('Order')
+    }
 })
 
 const CartItem = bookshelf.model('CartItem', {
@@ -143,10 +149,40 @@ const BlacklistedToken = bookshelf.model('BlacklistedToken',{
     tableName: 'blacklisted_tokens'
 })
 
+const OrderStatus = bookshelf.model('OrderStatus', {
+    tablename: 'order_statuses',
+    orders: function () {
+        return this.hasMany('Order');
+      }
+})
+
+const Order = bookshelf.model('Order', {
+    tablename: 'orders',
+    customer: function () {
+        return this.belongsTo('Customer');
+      },
+    orderStatus: function () {
+        return this.belongsTo('OrderStatus');
+    },
+    orderItems: function () {
+        this.hasMany('orderItem')
+    }
+})
+
+const OrderItem = bookshelf.model('OrderItem', {
+    tableName: 'order_items',
+    order: function() {
+        return this.belongsTo('Order')
+    },
+    variant: function () {
+        return this.belongsTo('Variant')
+    }
+})
 
 module.exports = { 
     Product, Colour, Closure, Cutting, 
     Collection, Surface, Material, Brand, 
     Position, Size, Variant, User, 
-    UserType, Customer, CartItem, BlacklistedToken 
+    UserType, Customer, CartItem, BlacklistedToken,
+    OrderStatus, Order, OrderItem 
 };

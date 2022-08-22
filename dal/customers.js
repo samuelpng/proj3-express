@@ -1,4 +1,4 @@
-const { Customer } = require('../models')
+const { Customer, User } = require('../models')
 // const crypto = require('crypto');
 
 // const getHashedPassword = (password) => {
@@ -14,7 +14,16 @@ const createCustomer = async (customerData) => {
 	return customer;
 };  
 
+const getCustomerByEmail = async (email) => {
+	return await User.where({
+		email
+	}.fetch({
+		require: false
+	}))
+}
+
 
 module.exports = {
-    createCustomer
+    createCustomer,
+	getCustomerByEmail
 }

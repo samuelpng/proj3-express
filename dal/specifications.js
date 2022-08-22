@@ -1,4 +1,4 @@
-const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../models')
+// const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../models')
 
 const getSpecifications = async (specificationTable) => {
     return await specificationTable.collection().fetch()

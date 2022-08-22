@@ -37,6 +37,7 @@ router.get('/', async function (req, res) {
         line_items: lineItems,
         success_url: process.env.STRIPE_SUCCESS_URL,
         cancel_url: process.env.STRIPE_CANCEL_URL,
+        billing_address_collection: 'required',
         shipping_address_collection: {
             allowed_countries: ["SG"]
         },

@@ -100,6 +100,7 @@ const userRoutes = require('./routes/pim/users')
 const cloudinaryRoutes = require('./routes/pim/cloudinary')
 const cartRoutes = require('./routes/api/carts')
 const checkoutRoutes = require('./routes/api/checkout')
+const orderRoutes = require('./routes/pim/orders')
 const api = {
   products: require('./routes/api/products'),
   customers: require('./routes/api/customers')
@@ -110,6 +111,7 @@ app.use('/products', checkIfAuthenticated, productRoutes)
 app.use('/specifications', checkIfAuthenticated, specificationsRoute)
 app.use('/users', userRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
+app.use('/orders', checkIfAuthenticated, orderRoutes)
 app.use('/cart', checkIfAuthenticated, cartRoutes)
 app.use('/checkout', checkIfAuthenticated, checkoutRoutes)
 
