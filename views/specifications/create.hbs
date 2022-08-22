@@ -2,15 +2,32 @@
 
 {{#block 'content'}}
 <div class="d-flex justify-content-center">
-<div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12" 
-style="width: 600px"> 
-<h1>Add New</h1>
-<form method="POST">
-    {{> csrfToken}}
-    {{{form}}}
-    <input type="submit" value="Register" class="btn btn-dark mt-3"/>
-    {{/block}}
-</form>
+    <div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12" style="width: 600px">
+        <h1>Add {{specification}}</h1>
+        <form method="POST">
+            {{> csrfToken}}
+            {{{form}}}
+
+            {{#eq specification "brand"}}
+            <div style="border: 2px solid lightgray">
+                <img src="" style="display:none; width: 100%" id="uploaded_image" />
+                <a href="#" class="btn btn-dark ms-3 mt-3 mb-3" id="upload_widget"><i
+                        class="fa-solid fa-arrow-up-from-bracket me-3"></i>Upload Brand Logo</a>
+            </div>
+            {{/eq}}
+
+            <input type="submit" value="Add {{specification}}" class="btn btn-dark mt-3" />
+        </form>
+    </div>
 </div>
-</div>
+{{/block}}
+
+{{#eq specification "brand"}}
+{{#block 'js'}}
+
+{{> cloudinaryJS}}
+
+{{/block}}
+{{/eq}}
+
 {{/extends}}

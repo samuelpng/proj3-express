@@ -145,10 +145,10 @@ const createBrandForm = (brand) => {
             required: true,
             errorAfterField: true
         }),
-        'brand_logo': fields.string({
+        'image_url': fields.string({
             widget: widgets.hidden()
         }),
-        'brand_thumbnail': fields.string({
+        'thumbnail_url': fields.string({
             widget: widgets.hidden()
         })
     },

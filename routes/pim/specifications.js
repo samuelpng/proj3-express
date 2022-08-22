@@ -8,8 +8,73 @@ const { bootstrapField, createSpecificationForm, createBrandForm, createSurfaceF
 // import in the DAL
 
 const {
-    createSpecification
+    createSpecification,
+    getSpecifications,
+    getSpecificationById
 } = require('../../dal/specifications')
+
+router.get('/:specification_name', async (req,res) => {
+    const specification = req.params.specification_name;
+    // const specifications = await getSpecifications(specificationName);
+    if (specification === "brand") {
+        const brands = await getSpecifications(Brand)
+        res.render('specifications/index', {
+            specificationName: "Brand",
+            specification,
+            specifications: brands.toJSON()
+        })
+    } else if (specification === "collection") {
+        const collections = await getSpecifications(Collection)
+        res.render('specifications/index', {
+            specificationName: "Collection",
+            specification,
+            specifications: collections.toJSON()
+        })
+    } else if (specification === "material") {
+        const materials = await getSpecifications(Material)
+        res.render('specifications/index', {
+            specificationName: "Material",
+            specification,
+            specifications: materials.toJSON()
+        })
+    } else if (specification === "colour") {
+        const colours = await getSpecifications(Colour)
+        res.render('specifications/index', {
+            specificationName: "Colour",
+            specification,
+            specifications: colours.toJSON()
+        })
+    } else if (specification === "surface") {
+        const surfaces = await getSpecifications(Surface)
+        res.render('specifications/index', {
+            specificationName: "Surface Type",
+            specification,
+            specifications: surfaces.toJSON()
+        })
+    } else if (specification === "cutting") {
+        const cuttings = await getSpecifications(Cutting)
+        res.render('specifications/index', {
+            specificationName: "Cutting",
+            specification,
+            specifications: cuttings.toJSON()
+        })
+    } else if (specification === "position") {
+        const positions = await getSpecifications(Position)
+        res.render('specifications/index', {
+            specificationName: "Position",
+            specification,
+            specifications: positions.toJSON()
+        })
+    } else if (specification === "closure") {
+        const closures = await getSpecifications(Closure)
+        res.render('specifications/index', {
+            specificationName: "Closure",
+            specification,
+            specifications: closures.toJSON()
+        })
+    } 
+   
+})
 
 router.get('/:specification_name/create', async (req, res) => {
     const specification = req.params.specification_name;
@@ -19,25 +84,30 @@ router.get('/:specification_name/create', async (req, res) => {
 
     if (specification === "brand") {
         res.render('specifications/create', {
-            form: brandForm.toHTML(bootstrapField)
+            form: brandForm.toHTML(bootstrapField),
+            specification,
+            cloudinaryName: process.env.CLOUDINARY_NAME,
+            cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+            cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
         })
     } else if (specification === "surface") {
         res.render('specifications/create', {
-            form: surfaceForm.toHTML(bootstrapField)
+            form: surfaceForm.toHTML(bootstrapField),
+            specification: "surface type"
         })
     } else {
         res.render('specifications/create', {
-            form: specificationForm.toHTML(bootstrapField)
+            form: specificationForm.toHTML(bootstrapField),
+            specification
         })
     }
-
-
-
 })
 
 
 router.post('/:specification_name/create', async (req, res) => {
     const specificationForm = createSpecificationForm();
+    const brandForm = createBrandForm();
+    const surfaceForm = createSurfaceForm()
     const specification = req.params.specification_name;
 
     if (specification === 'material') {
@@ -131,12 +201,12 @@ router.post('/:specification_name/create', async (req, res) => {
             }
         })
     } else if (specification === 'brand') {
-        specificationForm.handle(req, {
+        brandForm.handle(req, {
             success: async (form) => {
                 await createSpecification(Brand, {
                     brand_name: form.data.brand_name,
-                    brand_logo: form.data.logo_url,
-                    brand_thumbnail: form.data.thumbnail
+                    brand_logo: form.data.image_url,
+                    brand_thumbnail: form.data.thumbnail_url
                 });
                 req.flash("success_messages", "Brand added successfully");
                 res.redirect('/specifications')
@@ -148,7 +218,7 @@ router.post('/:specification_name/create', async (req, res) => {
             }
         })
     } else if (specification === 'surface') {
-        specificationForm.handle(req, {
+        surfaceForm.handle(req, {
             success: async (form) => {
                 await createSpecification(Surface, {
                     surface: form.data.name,
@@ -166,6 +236,226 @@ router.post('/:specification_name/create', async (req, res) => {
     }
 })
 
+router.get('/:specification_name/:specification_id/update', async (req, res) => {
+    const specification = req.params.specification_name;
+    // const specificationName = await getSpecificationById(req.params.specification_id)
+    const specificationForm = createSpecificationForm();
+    const brandForm = createBrandForm();
+    const surfaceForm = createSurfaceForm();
+
+    if (specification === "brand") {
+        const brand = await getSpecificationById(Brand, req.params.specification_id)
+        brandForm.fields.brand_name.value = brand.get("brand_name")
+        brandForm.fields.image_url.value = brand.get('brand_logo')
+        brandForm.fields.thumbnail_url.value = brand.get('thumbnail_url')
+
+        res.render('specifications/update', {
+            form: brandForm.toHTML(bootstrapField),
+            specification: brand.toJSON(),
+            cloudinaryName: process.env.CLOUDINARY_NAME,
+            cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+            cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+        })
+
+    } else if (specification === "collection") {
+        const collection = await getSpecificationById(Collection, req.params.specification_id)
+        specificationForm.fields.name.value = collection.get("surface")
+        res.render('specifications/update', {
+            form: specificationForm.toHTML(bootstrapField),
+            specification: collection.toJSON()
+        })
+    } else if (specification === "material") {
+        const specification = await getSpecificationById(Material, req.params.specification_id)
+        specificationForm.fields.name.value = specification.get("material")
+        res.render('specifications/update', {
+            form: specificationForm.toHTML(bootstrapField),
+            specification
+        })
+    } else if (specification === "colour") {
+        const colour = await getSpecificationById(Colour, req.params.specification_id)
+        specificationForm.fields.name.value = colour.get("colour")
+        res.render('specifications/update', {
+            form: specificationForm.toHTML(bootstrapField),
+            specification: colour.toJSON()
+        })
+    } else if (specification === "surface") {
+        const surface = await getSpecificationById(Surface, req.params.specification_id)
+        surfaceForm.fields.name.value = surface.get("surface")
+        surfaceForm.fields.surface_abbreviation.value = surface.get("surface_abbreviation")
+        res.render('specifications/update', {
+            form: surfaceForm.toHTML(bootstrapField),
+            specification: surface.toJSON()
+        })
+    } else if (specification === "cutting") {
+        const cutting = await getSpecificationById(Cutting, req.params.specification_id)
+        specificationForm.fields.name.value = cutting.get("cutting")
+        res.render('specifications/update', {
+            form: specificationForm.toHTML(bootstrapField),
+            specification: cutting.toJSON()
+        })
+    } else if (specification === "position") {
+        const position = await getSpecificationById(Position, req.params.specification_id)
+        specificationForm.fields.name.value = position.get("position")
+        res.render('specifications/update', {
+            form: specificationForm.toHTML(bootstrapField),
+            specification: position.toJSON()
+        })
+    } else if (specification === "closure") {
+        const closure = await getSpecificationById(Closure, req.params.specification_id)
+        specificationForm.fields.name.value = closure.get("closure")
+        res.render('specifications/update', {
+            form: specificationForm.toHTML(bootstrapField),
+            specification: closure.toJSON()
+        })
+    }
+})
+
+router.post('/:specification_name/:specification_id/update', async (req, res) => {
+
+    const specification = req.params.specification_name;
+    // const specificationName = await getSpecificationById(req.params.specification_id)
+    const specificationForm = createSpecificationForm();
+    const brandForm = createBrandForm();
+    const surfaceForm = createSurfaceForm();
+
+    if (specification === "brand") {
+        const brand = await getSpecificationById(Brand, req.params.specification_id)
+        brandForm.handle(req, {
+            success: async (form) => {
+                brand.set({
+                    brand_name: form.data.brand_name,
+                    brand_logo: form.data.image_url,
+                    brand_thumbnail: form.data.thumbnail_url
+                })
+                await brand.save();
+                req.flash('success_messages', `${brand.get('brand_name')}" updated successfully.`)
+                res.redirect('/specifications/brand')
+            },
+            error: async (form) => {
+                res.render('specifications/update', {
+                    specification: brand.toJSON(),
+                    form: form.toHTML(bootstrapField)
+                })
+            }
+        })
+
+    } else if (specification === "collection") {
+        const collection = await getSpecificationById(Collection, req.params.specification_id)
+        specificationForm.handle(req, {
+            success: async (form) => {
+                collection.set({collection: form.data.name})
+                await collection.save();
+                req.flash('success_messages', `${collection.get('collection')}" updated successfully.`)
+                res.redirect('/specifications/collection')
+            },
+            error: async (form) => {
+                res.render('specifications/update', {
+                    specification: collection.toJSON(),
+                    form: form.toHTML(bootstrapField)
+                })
+            }
+        })
+    } else if (specification === "material") {
+        const material = await getSpecificationById(Material, req.params.specification_id)
+        specificationForm.handle(req, {
+            success: async (form) => {
+                material.set({material: form.data.name})
+                await material.save();
+                req.flash('success_messages', `${material.get('material')}" updated successfully.`)
+                res.redirect('/specifications/material')
+            },
+            error: async (form) => {
+                res.render('specifications/update', {
+                    specification: material.toJSON(),
+                    form: form.toHTML(bootstrapField)
+                })
+            }
+        })
+    } else if (specification === "colour") {
+        const colour = await getSpecificationById(Colour, req.params.specification_id)
+        specificationForm.handle(req, {
+            success: async (form) => {
+                colour.set({colour: form.data.name})
+                await colour.save();
+                req.flash('success_messages', `${colour.get('colour')}" updated successfully.`)
+                res.redirect('/specifications/colour')
+            },
+            error: async (form) => {
+                res.render('specifications/update', {
+                    specification: colour.toJSON(),
+                    form: form.toHTML(bootstrapField)
+                })
+            }
+        })
+    } else if (specification === "surface") {
+        const surface = await getSpecificationById(Surface, req.params.specification_id)
+        surfaceForm.handle(req, {
+            success: async (form) => {
+                surface.set({
+                    surface: form.data.name,
+                    surface_abbreviation: form.data.surface_abbreviation
+                })
+                await surface.save();
+                req.flash('success_messages', `${surface.get('surface')}" updated successfully.`)
+                res.redirect('/specifications/surface')
+            },
+            error: async (form) => {
+                res.render('specifications/update', {
+                    specification: surface.toJSON(),
+                    form: form.toHTML(bootstrapField)
+                })
+            }
+        })
+    } else if (specification === "cutting") {
+        const cutting = await getSpecificationById(Cutting, req.params.specification_id)
+        specificationForm.handle(req, {
+            success: async (form) => {
+                cutting.set({cutting: form.data.name})
+                await cutting.save();
+                req.flash('success_messages', `${cutting.get('cutting')}" updated successfully.`)
+                res.redirect('/specifications/cutting')
+            },
+            error: async (form) => {
+                res.render('specifications/update', {
+                    specification: cutting.toJSON(),
+                    form: form.toHTML(bootstrapField)
+                })
+            }
+        })
+    } else if (specification === "position") {
+        const position = await getSpecificationById(Position, req.params.specification_id)
+        specificationForm.handle(req, {
+            success: async (form) => {
+                position.set({position: form.data.name})
+                await position.save();
+                req.flash('success_messages', `${position.get('position')}" updated successfully.`)
+                res.redirect('/specifications/position')
+            },
+            error: async (form) => {
+                res.render('specifications/update', {
+                    specification: position.toJSON(),
+                    form: form.toHTML(bootstrapField)
+                })
+            }
+        })
+    } else if (specification === "closure") {
+        const closure = await getSpecificationById(Closure, req.params.specification_id)
+        specificationForm.handle(req, {
+            success: async (form) => {
+                closure.set({closure: form.data.name})
+                await closure.save();
+                req.flash('success_messages', `${closure.get('closure')}" updated successfully.`)
+                res.redirect('/specifications/closure')
+            },
+            error: async (form) => {
+                res.render('specifications/update', {
+                    specification: closure.toJSON(),
+                    form: form.toHTML(bootstrapField)
+                })
+            }
+        })
+    }
+})
 
 
 

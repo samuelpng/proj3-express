@@ -49,7 +49,7 @@ router.post('/register', async (req, res) => {
     registrationForm.handle(req, {
         
         success: async (form) => {
-            const user = await createUser({
+            await createUser({
                 first_name: form.data.first_name,
                 last_name: form.data.last_name,
                 password: hashedPassword(form.data.password),
@@ -98,7 +98,7 @@ router.post('/:user_id/update', async (req, res) => {
         success: async (form) => {
             user.set(form.data)
             await user.save();
-            req.flash('success_messages', ` User details for "${user.get('email')}" updated succesffully.`)
+            req.flash('success_messages', ` User details for "${user.get('email')}" updated successfully.`)
             res.redirect('/users')
         },
         error: async (form) => {

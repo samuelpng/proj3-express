@@ -1,0 +1,97 @@
+<table class="table p-3">
+
+    <thead>
+        <tr>
+            <th># ID</th>
+            {{#eq specificationName "Brand"}}<th>Brand Logo</th>{{/eq}}
+            <th>{{specificationName}}</th>
+            {{#eq specificationName "Surface Type"}}<th>Abbreviation</th>{{/eq}}
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each specifications}}
+        <tr>
+            <td style="color:black">{{this.id}}</td>
+            {{#if this.brand_name}}
+            <td><img src="{{this.brand_thumbnail}}" /></td>
+            <td>{{this.brand_name}}</td>
+            <td><a href="/specifications/brand/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+            </td>
+            {{/if}}
+            {{#if this.collection}}
+            <td>{{this.collection}}</td>
+            <td><a href="/specifications/collection/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+            </td>
+            {{/if}}
+            {{#if this.material}}
+            <td>{{this.material}}</td>
+            <td><a href="/specifications/material/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+            </td>
+            {{/if}}
+            {{#if this.colour}}
+            <td>{{this.colour}}</td>
+            <td><a href="/specifications/colour/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+            </td>
+            {{/if}}
+            {{#if this.surface}}
+            <td>{{this.surface}}</td>
+            <td>{{this.surface_abbreviation}}</td>
+            <td><a href="/specifications/surface/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+            </td>
+            {{/if}}
+            {{#if this.cutting}}
+            <td>{{this.cutting}}</td>
+            <td><a href="/specifications/cutting/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+            </td>
+            {{/if}}
+            {{#if this.position}}
+            <td>{{this.position}}</td>
+            <td><a href="/specifications/position/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+            </td>
+            {{/if}}
+            {{#if this.closure}}
+            <td>{{this.closure}}</td>
+            <td><a href="/specifications/closure/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+            </td>
+            {{/if}}
+            {{!-- <td>
+                <a href="/specifications/brand/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Update">
+                    <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
+                </a>
+                <a href="#" class="btn btn-dark p-1 delete-alert" data-name="{{this.first_name}} {{this.last_name}}" data-id="{{this.id}}"
+                    data-type="user" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                    <i data-name="{{this.first_name}} {{this.last_name}}" data-id="{{this.id}}" data-type="user"
+                        class="fa-solid fa-trash-can p-1 delete-btn" style="color:white; font-size: 18px"></i>
+                </a> 
+            </td> --}}
+        </tr>
+        {{/each}}
+    </tbody>
+
+</table>
