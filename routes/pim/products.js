@@ -237,15 +237,6 @@ router.post('/:product_id/update', async function (req, res) {
     })
 })
 
-//Delete Product Routes
-// router.get('/:product_id/delete', async (req, res) => {
-
-//     const product = await getProductById(req.params.product_id)
-
-//     res.render('products/delete', {
-//         product: product.toJSON()
-//     })
-// });
 
 router.post('/:product_id/delete', async (req, res) => {
 

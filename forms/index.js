@@ -329,6 +329,52 @@ const createSearchForm = (brands, collections) => {
     })
 }
 
+const createOrderSearchForm = (orderStatuses) => {
+    return forms.create({
+        'order_id': fields.string({
+            required: false,
+            errorAfterField: true
+        }),
+        'customer_name': fields.string({
+            required: false,
+            errorAfterField: true
+        }),
+        'email': fields.string({
+            required: false,
+            errorAfterField: true
+        }),
+        'from_order_date': fields.string({
+            required: false,
+            errorAfterField: true,
+            widget: widgets.date()
+        }),
+        'to_order_date': fields.string({
+            required: false,
+            errorAfterField: true,
+            widget: widgets.date()
+        }),
+        'order_status_id': fields.string({
+            label: 'Order Status',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: orderStatuses
+        })
+    })
+}
+
+const createOrderStatusForm = (orderStatuses) => {
+    return forms.create({
+        'order_status_id': fields.string({
+            label: 'Order Status',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: orderStatuses
+        })
+    })
+}
+
 module.exports = {
     createProductForm,
     createSpecificationForm,
@@ -341,5 +387,7 @@ module.exports = {
     createVariantForm,
     createVariationStockForm,
     createSearchForm,
+    createOrderSearchForm,
+    createOrderStatusForm,
     bootstrapField
 };
