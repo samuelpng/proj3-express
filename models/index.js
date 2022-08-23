@@ -150,14 +150,14 @@ const BlacklistedToken = bookshelf.model('BlacklistedToken',{
 })
 
 const OrderStatus = bookshelf.model('OrderStatus', {
-    tablename: 'order_statuses',
+    tableName: 'order_statuses',
     orders: function () {
         return this.hasMany('Order');
       }
 })
 
 const Order = bookshelf.model('Order', {
-    tablename: 'orders',
+    tableName: 'orders',
     customer: function () {
         return this.belongsTo('Customer');
       },
@@ -165,7 +165,7 @@ const Order = bookshelf.model('Order', {
         return this.belongsTo('OrderStatus');
     },
     orderItems: function () {
-        this.hasMany('orderItem')
+        return this.hasMany('OrderItem')
     }
 })
 

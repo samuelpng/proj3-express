@@ -91,7 +91,7 @@ exports.up = function(db) {
       length: 15,
       notNull: true
     },
-    shipping_country: {
+    shipping_address_country: {
       type: 'string',
       length: 2,
       notNull: true

@@ -41,19 +41,20 @@ const updateQuantity = async (customerId, variantId, newQuantity) => {
 }
 
 
-const remove = (customerId, variantId) => {
+const remove = async (customerId, variantId) => {
     return cartDataLayer.removeCartItem(customerId, variantId)
 }
 
-const emptyCart = async (userId) => {
-    const cartItems = await getCart(userId)
+const emptyCart = async (customer) => {
+    const cartItems = await getCart(customer)
     for (let item of cartItems) {
         const variantId = item.get('variant_id')
-        await deleteCartItem(userId, variantId)
+        await remove(customer, variantId)
     }
 }
 
 module.exports = {
+    getStock,
     addToCart,
     getCart,
     updateQuantity,

@@ -5,6 +5,7 @@ const router = express.Router();
 const cartServices = require('../../services/cart_services');
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+
 //!!!!!!!  to change req.sessions.user.id to req.customer.customer_id !!!!!!!!!!!!
 
 router.get('/', async function (req, res) {
@@ -131,9 +132,6 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
             // console.log(eventData)
             const metadata = JSON.parse(event.data.object.metadata.orders);
             const customerId = metadata[0].customer_id; 
-            
-            console.log(customerId)
-            
 
             const paymentIntent = await Stripe.paymentIntents.retrieve(
                 eventData.payment_intent
@@ -143,8 +141,6 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
   
             const charge = await Stripe.charges.retrieve(chargeId);       
 
-            const paymentType = charge.payment_method_details.type;
-
             const shippingRate = await Stripe.shippingRates.retrieve(
                 eventData.shipping_rate
             );
@@ -153,8 +149,8 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
                 total_amount: eventData.amount_total,
                 customer_id: customerId,
                 order_status_id: 3, //set order status as paid
-                payment_type: paymentType,
-                receipt_url: eventData.receipt_url,
+                payment_type: charge.payment_method_details.type,
+                receipt_url: charge.receipt_url,
                 order_date: new Date(event.created * 1000),
                 payment_intent: eventData.payment_intent,
                 shipping_option: shippingRate.display_name,
@@ -167,6 +163,8 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
                 shipping_address_postal: eventData.shipping.address.postal_code,
                 shipping_address_country: eventData.shipping.address.country
             }
+
+            console.log(orderData)
     
             const order = await createOrder(orderData)
     
@@ -183,19 +181,16 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
 
             //update stock variant
             const stock = await cartServices.getStock(variantId)
+            
             const variant = await getVariantById(variantId)
 
             variant.set({stock: stock - quantity})
+
             await variant.save()
     
             //empty user cart
-            await cartServices.emptyCart(userId) //to change to customer Id
-            sendResponse(res, 201, {
-                message: 'Order successfully created'
-            })
+            await cartServices.emptyCart(customerId) //to change to customer Id
         }
-
-       
     } catch (error) {
         console.log(error);
     }
