@@ -39,4 +39,18 @@ router.get('/:variant_id/delete', async function (req,res) {
     res.redirect('/cart')
 })
 
+router.delete('/:variant/delete', async function (req, res) {
+    const userId = req.session.user_id;
+    const variantId = req.params.variant_id;
+
+    const result = await cartServices.remove(userId, variantId);
+    if (result) {
+        sendResponse(res, 200, {
+            message: 'Item successfully removed from cart'
+        })
+    } else {
+        sendDatabaseError(res)
+    }
+})
+
 module.exports = router

@@ -113,7 +113,7 @@ app.use('/users', userRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/orders', checkIfAuthenticated, orderRoutes)
 app.use('/cart', checkIfAuthenticated, cartRoutes)
-app.use('/checkout', checkIfAuthenticated, checkoutRoutes)
+app.use('/checkout', checkoutRoutes)
 
 //=== API Routes ===
 app.use('/api/products', express.json(), api.products)
