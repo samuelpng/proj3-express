@@ -335,20 +335,16 @@ const createOrderSearchForm = (orderStatuses) => {
             required: false,
             errorAfterField: true
         }),
-        'customer_name': fields.string({
-            required: false,
-            errorAfterField: true
-        }),
         'email': fields.string({
             required: false,
             errorAfterField: true
         }),
-        'from_order_date': fields.string({
+        'start_order_date': fields.string({
             required: false,
             errorAfterField: true,
             widget: widgets.date()
         }),
-        'to_order_date': fields.string({
+        'end_order_date': fields.string({
             required: false,
             errorAfterField: true,
             widget: widgets.date()

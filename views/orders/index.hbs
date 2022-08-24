@@ -1,0 +1,93 @@
+{{#extends 'base'}}
+
+{{#block 'css'}}
+<link rel="stylesheet" href="/style/products.css">
+{{/block}}
+
+{{#block 'content'}}
+{{#if searchResultsCount}}
+<div class="alert alert-dark mt-3">
+    <span>{{searchResultsCount}} Order(s) found</span>
+</div>
+{{/if}}
+{{#unless searchResultsCount}}
+<div class="alert alert-danger mt-3">
+    <span>No order found</span>
+</div>
+{{/unless}}
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                <strong><i class="fa-solid fa-magnifying-glass me-2"></i>Search</strong>
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <form method="GET">
+                    {{{form}}}
+                    <input type="submit" class="mb-3 mt-3 btn btn-black gray-btn" value="Search" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-3">Order List</h2>
+    {{!-- <a href="/products/create" class="btn btn-primary">New</a> --}}
+    <table class="table">
+        <thead>
+            <tr>
+                <th># ID</th>
+                <th>Customer Name</th>
+                <th>Email</th>
+                <th>Shipping Address</th>
+                <th>Total Amount</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orders}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td>{{this.customer.first_name}} {{this.customer.last_name}}</td>
+                <td>{{this.customer.email}}</td>
+                <td>{{this.shipping_address_line1}}
+                    {{#if this.shipping_address_line2}} <br /> {{this.shipping_address_line12}} {{/if}}
+                    <br /> {{this.shipping_address_postal}} </td>
+                <td>{{this.total_amount}}</td>
+                <td>{{moment this.order_date format="YYYY-MM-DD"}}</td>
+                <td>{{this.orderStatus.order_status}}</td>
+               
+                <td>
+                    <a href="products/{{this.id}}/variants" class="btn btn-dark p-1" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="View">
+                        <i class="fa-solid fa-arrow-up-right-from-square p-1" style="color:white; font-size: 18px"></i>
+                    </a>
+                    <a href="#" data-id="{{this.id}}" data-name="{{this.name}}" data-type="product"
+                        class="btn btn-dark p-1 delete-alert" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Delete">
+                        <i data-id="{{this.id}}" data-name="{{this.name}}" data-type="product"
+                            class="fa-solid fa-trash-can p-1 delete-btn" style="color:white; font-size: 18px"></i>
+                    </a>
+
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>
+<div style="height: 50px"></div>
+{{/block}}
+
+{{#block 'js'}}
+
+{{> sweetAlertJS deleteType="product"}}
+
+{{/block}}
+
+{{/extends}}

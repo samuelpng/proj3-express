@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { bootstrapField, createOrderSearchForm, createOrderStatusForm, orderStatusForm } = require('../../forms');
-// const {
+const { bootstrapField, createOrderSearchForm, createOrderStatusForm } = require('../../forms');
 
-// } = require('../../services/order_services');
-
-const { 
+const {
     createOrder,
     createOrderItem,
     getAllOrders,
@@ -15,13 +12,13 @@ const {
     getAllOrderStatuses,
     updateOrderStatus,
     deleteOrder
- } = require('../../dal/orders')
+} = require('../../dal/orders')
 const { Order, OrderItem } = require('../../models')
 
 router.get('/', async (req, res) => {
-    
+
     const orderSearchForm = createOrderSearchForm(
-        await getAllOrderStatuses
+        await getAllOrderStatuses()
     )
 
     let searchQuery = Order.collection()
@@ -31,7 +28,7 @@ router.get('/', async (req, res) => {
             const orders = await searchQuery.fetch({
                 withRelated: ['customer', 'orderStatus', 'orderItems']
             })
-            const searchResultsCount = products.toJSON().length
+            const searchResultsCount = orders.toJSON().length
             res.render('orders/index', {
                 orders: orders.toJSON(),
                 searchResultsCount,
@@ -51,26 +48,21 @@ router.get('/', async (req, res) => {
         },
         success: async (form) => {
             if (form.data.order_id && form.data.order_id != "0") {
-                searchQuery.where('order_id', '=', `${form.data.order_id}`)
-            }
-            if (form.data.customer_name) {
-                searchQuery.query('join', 'customers', 'customers.id', 'customer_id')
-                .where('first_name', 'last_name', 'like', `%${form.data.customer_name}%`)
+                searchQuery.where('id', '=', `${form.data.order_id}`)
             }
             if (form.data.customer_email) {
                 searchQuery.query('join', 'customers', 'customers.id', 'customer_id')
-                .where('email', 'like', `%${form.data.customer_email}%`)
+                    .where('email', 'like', `%${form.data.customer_email}%`)
             }
-            if (form.data.from_order_date) {
-                searchQuery.where('order_date', '>=', form.data.from_order_date)
+            if (form.data.start_order_date) {
+                searchQuery.where('order_date', '>=', form.data.start_order_date)
             }
-            if (form.data.to_order_date) {
-                searchQuery.where('order_date', '<=', form.data.to_order_date);
+            if (form.data.end_order_date) {
+                searchQuery.where('order_date', '<=', form.data.end_order_date);
             }
             if (form.data.order_status_id && form.data.order_status_id != 0) {
-                query.where('order_status_id', '=', form.data.order_status_id);
-              }
-
+                searchQuery.where('order_status_id', '=', form.data.order_status_id);
+            }
             const orders = await searchQuery.fetch({
                 withRelated: ['customer', 'orderStatus', 'orderItems']
             })
@@ -104,7 +96,7 @@ router.get('/:order_id/items', async (req, res) => {
 //update order status
 router.post('/:order_id/items'), async (req, res) => {
     const order = await updateOrderStatus(req.params.order_id, req.body.status_id)
-    
+
     req.flash('success_messages', 'Order status updated')
     res.redirect(`/${req.params.order_id}/items`)
 }
@@ -117,11 +109,11 @@ router.post('/:order_id/delete', async (req, res) => {
         req.flash('error_messages', 'Completed orders cannot be deleted.')
         res.redirect('/orders')
     } else {
-        await deleteOrder(req.params/order_id)
+        await deleteOrder(req.params / order_id)
         req.flash('success_messages', 'Order has been deleted.')
         res.redirect('/orders')
     }
-   
+
 })
 
 module.exports = router
