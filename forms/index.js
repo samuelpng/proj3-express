@@ -177,10 +177,6 @@ const createCollectionForm = (brands) => {
             required: true,
             errorAfterField: true
         }),
-        'surface_abbreviation': fields.string({
-            required: true,
-            errorAfterField: true
-        }),
         'brand_id': fields.string({
             label: 'Brand',
             required: true,
