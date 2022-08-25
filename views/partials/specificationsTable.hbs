@@ -5,6 +5,7 @@
             <th># ID</th>
             {{#eq specificationName "Brand"}}<th>Brand Logo</th>{{/eq}}
             <th>{{specificationName}}</th>
+            {{#eq specificationName "Collection"}}<th>Brand</th>{{/eq}}
             {{#eq specificationName "Surface Type"}}<th>Abbreviation</th>{{/eq}}
             <th>Actions</th>
         </tr>
@@ -24,6 +25,7 @@
             {{/if}}
             {{#if this.collection}}
             <td>{{this.collection}}</td>
+            <td>{{this.collection.brand_name}}</td>
             <td><a href="/specifications/collection/{{this.id}}/update" class="btn btn-dark p-1 pe-0" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Update">
                     <i class="me-2 fa-solid fa-pen-to-square p-1 pe-0" style="color:white; font-size: 18px"></i>
