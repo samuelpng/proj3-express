@@ -116,7 +116,7 @@ router.post('/:specification_name/create', async (req, res) => {
                     material: form.data.name
                 });
                 req.flash("success_messages", "Material added successfully");
-                res.redirect('/specifications')
+                res.redirect('back')
             },
             error: (form) => {
                 res.render('specifications/create', {
@@ -131,7 +131,7 @@ router.post('/:specification_name/create', async (req, res) => {
                     collection: form.data.name
                 });
                 req.flash("success_messages", "Collection added successfully");
-                res.redirect('/specifications')
+                res.redirect('back')
             },
             error: (form) => {
                 res.render('specifications/create', {
@@ -146,7 +146,7 @@ router.post('/:specification_name/create', async (req, res) => {
                     colour: form.data.name
                 });
                 req.flash("success_messages", "Colour added successfully");
-                res.redirect('/specifications')
+                res.redirect('back')
             },
             error: (form) => {
                 res.render('specifications/create', {
@@ -161,7 +161,7 @@ router.post('/:specification_name/create', async (req, res) => {
                     cutting: form.data.name
                 });
                 req.flash("success_messages", "Cutting added successfully");
-                res.redirect('/specifications')
+                res.redirect('back')
             },
             error: (form) => {
                 res.render('specifications/create', {
@@ -176,7 +176,7 @@ router.post('/:specification_name/create', async (req, res) => {
                     position: form.data.name
                 });
                 req.flash("success_messages", "Position added successfully");
-                res.redirect('/specifications')
+                res.redirect('back')
             },
             error: (form) => {
                 res.render('specifications/create', {
@@ -191,7 +191,7 @@ router.post('/:specification_name/create', async (req, res) => {
                     closure: form.data.name
                 });
                 req.flash("success_messages", "Closure added successfully");
-                res.redirect('/specifications')
+                res.redirect('back')
             },
             error: (form) => {
                 res.render('specifications/create', {
@@ -208,7 +208,7 @@ router.post('/:specification_name/create', async (req, res) => {
                     brand_thumbnail: form.data.thumbnail_url
                 });
                 req.flash("success_messages", "Brand added successfully");
-                res.redirect('/specifications')
+                res.redirect('back')
             },
             error: (form) => {
                 res.render('specifications/create', {
@@ -224,7 +224,7 @@ router.post('/:specification_name/create', async (req, res) => {
                     surface_abbreviation: form.data.surface_abbreviation
                 });
                 req.flash("success_messages", "Surface Type added successfully");
-                res.redirect('/specifications')
+                res.redirect('back')
             },
             error: (form) => {
                 res.render('specifications/create', {
