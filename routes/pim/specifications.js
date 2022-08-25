@@ -268,7 +268,7 @@ router.get('/:specification_name/:specification_id/update', async (req, res) => 
         })
     } else if (specification === "collection") {
         const collection = await getSpecificationById(Collection, specificationId)
-        collectionForm.fields.name.value = collection.get("surface")
+        collectionForm.fields.name.value = collection.get("collection")
         collectionForm.fields.brand_id.value = collection.get("brand_id")
         res.render('specifications/update', {
             form: collectionForm.toHTML(bootstrapField),

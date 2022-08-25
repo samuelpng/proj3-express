@@ -59,7 +59,7 @@ const Collection = bookshelf.model('Collection', {
         return this.hasMany('Product');
     },
     brand: function () {
-        this.belongsTo('Brand')
+        return this.belongsTo('Brand')
     }
 });
 

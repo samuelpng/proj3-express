@@ -3,7 +3,7 @@ const { Brand, Collection } = require('../models')
 const getSpecifications = async (specificationTable) => {  
     if (specificationTable == Collection) {
         return await specificationTable.collection().fetch({
-            withRelated: ['Brand']
+            withRelated: ['brand']
         })
     } else {
         return await specificationTable.collection().fetch()
