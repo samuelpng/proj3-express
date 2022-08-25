@@ -57,6 +57,14 @@ app.use(function (req, res, next) {
     next();
 });
 
+//custom handlebar helpers
+hbs.registerHelper('convertCentsToDollars', (cents) => {
+  return (parseInt(cents) / 100).toFixed(2)
+})
+hbs.registerHelper('total', (quantity, cost) => {
+  return (quantity * cost / 100).toFixed(2)
+})
+
 // enable CSRF
 // app.use(csrf());
 
@@ -126,6 +134,6 @@ async function main() {
 
 main();
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server has started");
 });

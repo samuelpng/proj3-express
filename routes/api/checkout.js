@@ -129,7 +129,7 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
         );
         if (event.type == "checkout.session.completed" || event.type == 'checkout.session.async_payment_succeeded') {
             let eventData = event.data.object
-            // console.log(eventData)
+
             const metadata = JSON.parse(event.data.object.metadata.orders);
             const customerId = metadata[0].customer_id; 
 
@@ -163,8 +163,6 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
                 shipping_address_postal: eventData.shipping.address.postal_code,
                 shipping_address_country: eventData.shipping.address.country
             }
-
-            console.log(orderData)
     
             const order = await createOrder(orderData)
     
@@ -190,6 +188,10 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
     
             //empty user cart
             await cartServices.emptyCart(customerId) //to change to customer Id
+            res.status(201)
+            res.json({
+                'success': "Order successfully made"
+            })
         }
     } catch (error) {
         console.log(error);

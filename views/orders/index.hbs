@@ -35,7 +35,7 @@
     </div>
 
     <h2 class="mt-3">Order List</h2>
-    {{!-- <a href="/products/create" class="btn btn-primary">New</a> --}}
+
     <table class="table">
         <thead>
             <tr>
@@ -58,21 +58,21 @@
                 <td>{{this.shipping_address_line1}}
                     {{#if this.shipping_address_line2}} <br /> {{this.shipping_address_line12}} {{/if}}
                     <br /> {{this.shipping_address_postal}} </td>
-                <td>{{this.total_amount}}</td>
+                <td>{{convertCentsToDollars this.total_amount}}</td>
                 <td>{{moment this.order_date format="YYYY-MM-DD"}}</td>
                 <td>{{this.orderStatus.order_status}}</td>
                
                 <td>
-                    <a href="products/{{this.id}}/variants" class="btn btn-dark p-1" data-bs-toggle="tooltip"
+                    <a href="orders/{{this.id}}/items" class="btn btn-dark p-1" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="View">
                         <i class="fa-solid fa-arrow-up-right-from-square p-1" style="color:white; font-size: 18px"></i>
                     </a>
-                    <a href="#" data-id="{{this.id}}" data-name="{{this.name}}" data-type="product"
+                    {{!-- <a href="#" data-id="{{this.id}}" data-name="{{this.name}}" data-type="product"
                         class="btn btn-dark p-1 delete-alert" data-bs-toggle="tooltip" data-bs-placement="top"
                         title="Delete">
                         <i data-id="{{this.id}}" data-name="{{this.name}}" data-type="product"
                             class="fa-solid fa-trash-can p-1 delete-btn" style="color:white; font-size: 18px"></i>
-                    </a>
+                    </a> --}}
 
                 </td>
             </tr>

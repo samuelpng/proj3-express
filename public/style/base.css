@@ -343,3 +343,6 @@
     font-weight: 600;
 }
 
+.hideLabel {
+    display: none
+}

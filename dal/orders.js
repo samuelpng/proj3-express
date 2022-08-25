@@ -35,18 +35,20 @@ const getOrderById = async (orderId) => {
         id: orderId
     }).fetch({
         require: false,
-        withRelated: ['customer', 'order_status']
+        withRelated: ['customer', 'orderStatus']
     })
 }
 
-const getOrderItemsByOrderId = async (orderitemId) => {
+const getOrderItemsByOrderId = async (orderId) => {
     return await OrderItem.where({
-        order_id: orderItemId 
-    }).fetch({
+        order_id: orderId 
+    }).fetchAll({
         require: false,
-        withRelated: ['variant', 'variant.product.name', 'varint.size']
+        withRelated: ['variant', 'variant.product', 'variant.product.brand', 'variant.size']
     })
 }
+
+
 
 // const getOrderItemsByCustomerId = async (customerId) => {
 //     return await Order.where({

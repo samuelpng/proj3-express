@@ -128,7 +128,7 @@ router.post('/create', async (req, res) => {
         success: async function (form) {
             const product = new Product();
             product.set('name', form.data.name);
-            product.set('cost', form.data.cost);
+            product.set('cost', parseInt(form.data.cost) * 100);
             product.set('brand_id', form.data.brand_id);
             product.set('collection_id', form.data.collection_id);
             product.set('material_id', form.data.material_id);

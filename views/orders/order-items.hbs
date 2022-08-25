@@ -1,0 +1,86 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+<div style="margin-left:5%">
+    <div style="display:flex; width: 90%; justify-content: space-between">
+        <h3 class="mt-3">Order Summary - Order ID: {{order.id}}</h3>
+    </div>
+    <div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12" style="width:90%">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th># ID</th>
+                    <th>Customer Name</th>
+                    <th>Email</th>
+                    <th>Shipping Address</th>
+                    <th>Total Amount</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{order.id}}</td>
+                    <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
+                    <td>{{order.customer.email}}</td>
+                    <td>{{order.shipping_address_line1}}
+                        {{#if order.shipping_address_line2}} <br /> {{order.shipping_address_line12}} {{/if}}
+                        <br /> {{order.shipping_address_postal}}
+                    </td>
+                    <td>{{convertCentsToDollars order.total_amount}}</td>
+                    <td>{{moment order.order_date format="YYYY-MM-DD"}}</td>
+                    <td>
+                        <form method="POST">
+                            {{> csrfToken}}
+                            {{{form}}}
+                            <input type="submit" value="Update" class="btn btn-dark p-1"/>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div style="height: 50px"></div>
+
+    <div class="overflow-auto mt-3 p-3 shadow-lg rounded-3 col-12" style="width:90%">
+        <h4>Products</h4>
+        <a href="{{order.receipt_url}}" class="btn btn-dark my-3" target="_blank">Get Receipt</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Product Name</th>
+                    <th>Brand</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
+                    <th>Sub-total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orderItems}}
+                <tr>
+                    <td>
+                        <img src="{{this.variant.product.thumbnail_url}}" />
+                    </td>
+                    <td>{{this.variant.product.name}}</td>
+                    <td>{{this.variant.product.brand.brand_name}}</td>
+                    <td>{{this.variant.size.size}}</td>
+                    <td>2</td>
+                    <td>{{convertCentsToDollars this.variant.product.cost}}</td>
+                    <td>{{total this.quantity this.variant.product.cost}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</div>
+
+{{/block}}
+
+{{/extends}}

@@ -80,40 +80,66 @@ router.get('/', async (req, res) => {
 
 router.get('/:order_id/items', async (req, res) => {
     const order = await getOrderById(req.params.order_id)
-    const orderItems = await getOrderItemsByOrderId(req.parama.order_id)
+    const orderItems = await getOrderItemsByOrderId(req.params.order_id)
 
-    const orderStatusForm = createOrderStatusForm(await getAllOrderStatuses)
+    const orderStatusForm = createOrderStatusForm( await getAllOrderStatuses() )
 
-    orderStatusForm.fields.order_status_id = order.get('status_id')
-
+    orderStatusForm.fields.order_status_id.value = order.get('order_status_id')
+    console.log(orderItems.toJSON())
     res.render('orders/order-items', {
         order: order.toJSON(),
         orderItems: orderItems.toJSON(),
-        statusForm: statusForm.toHTML(bootstrapField)
+        form: orderStatusForm.toHTML(bootstrapField)
     })
 })
 
 //update order status
-router.post('/:order_id/items'), async (req, res) => {
-    const order = await updateOrderStatus(req.params.order_id, req.body.status_id)
+router.post('/:order_id/items', async (req, res) => {
+    
+
+    await updateOrderStatus(req.params.order_id, req.body.order_status_id)
 
     req.flash('success_messages', 'Order status updated')
-    res.redirect(`/${req.params.order_id}/items`)
-}
-
-router.post('/:order_id/delete', async (req, res) => {
-    //tocheck: if order complete, do not let them delete
-    const order = await getOrderById(req.params.order_id)
-
-    if (order.toJSON().order_status.order_status === "Completed / Delivered") {
-        req.flash('error_messages', 'Completed orders cannot be deleted.')
-        res.redirect('/orders')
-    } else {
-        await deleteOrder(req.params / order_id)
-        req.flash('success_messages', 'Order has been deleted.')
-        res.redirect('/orders')
-    }
-
+    res.redirect(`/orders/${req.params.order_id}/items`)
 })
+
+// router.post('/:order_id/items', async (req, res) => {
+    
+//     const order = await getOrderById(req.params.order_id)
+//     const orderStatusForm = createOrderStatusForm( await getAllOrderStatuses() )
+    
+//     orderStatusForm.handle(req, {
+//         success: async (form) => {
+//             order.set(form.data)
+//             order.save()
+
+//             req.flash('success_messages', 'Order status updated')
+//             res.redirect(`/${req.params.order_id}/items`)
+//         },
+//         error: async (form) => {
+//             res.render('orders/order-items', {
+//                 form: form.toHTML(bootstrapField),
+//                 order: order.toJSON()
+//             })
+//         }
+//     })
+
+// })
+
+
+// router.post('/:order_id/delete', async (req, res) => {
+//     //tocheck: if order complete, do not let them delete
+//     const order = await getOrderById(req.params.order_id)
+
+//     if (order.toJSON().order_status.order_status === "Completed / Delivered") {
+//         req.flash('error_messages', 'Completed orders cannot be deleted.')
+//         res.redirect('/orders')
+//     } else {
+//         await deleteOrder(req.params / order_id)
+//         req.flash('success_messages', 'Order has been deleted.')
+//         res.redirect('/orders')
+//     }
+
+// })
 
 module.exports = router

@@ -6,7 +6,6 @@ const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position
 // import in the Forms
 const { bootstrapField, createSpecificationForm, createBrandForm, createSurfaceForm } = require('../../forms');
 // import in the DAL
-
 const {
     createSpecification,
     getSpecifications,

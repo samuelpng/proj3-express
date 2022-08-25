@@ -34,8 +34,8 @@ const createProductForm = (brands, collections, materials, surfaces, colours, cl
         }),
         'cost': fields.string({
             required: true,
-            errorAfterField: true,
-            validators: [validators.integer(), validators.min(1)]
+            errorAfterField: true
+            // validators: [validators.integer(), validators.min(1)]
         }),
         'brand_id': fields.string({
             label: 'Brand',
@@ -366,6 +366,7 @@ const createOrderStatusForm = (orderStatuses) => {
             required: false,
             errorAfterField: true,
             widget: widgets.select(),
+            cssClasses: {label: ["hideLabel"]},
             choices: orderStatuses
         })
     })
