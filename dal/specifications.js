@@ -1,4 +1,4 @@
-// const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../models')
+const { Brand } = require('../models')
 
 const getSpecifications = async (specificationTable) => {
     return await specificationTable.collection().fetch()
@@ -19,9 +19,18 @@ const getSpecificationById = async (specificationTable, specificationId) => {
     });
 }
 
+const getAllBrands = async () => {
+    const brands = await Brand.fetchAll().map((brand) => {
+        return [brand.get('id'), brand.get('brand_name')];
+    })
+    brands.unshift([0, '---- Select One ----'])
+    return brands
+}
+
 
 module.exports = {
     getSpecifications,
     createSpecification,
-    getSpecificationById
+    getSpecificationById,
+    getAllBrands
 }

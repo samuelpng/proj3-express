@@ -139,7 +139,7 @@ const createSpecificationForm = (specificationName) => {
     })
 }
 
-const createBrandForm = (brand) => {
+const createBrandForm = () => {
     return forms.create({
         'brand_name': fields.string({
             required: true,
@@ -156,7 +156,7 @@ const createBrandForm = (brand) => {
     )
 }
 
-const createSurfaceForm = (brand) => {
+const createSurfaceForm = () => {
     return forms.create({
         'name': fields.string({
             required: true,
@@ -170,6 +170,30 @@ const createSurfaceForm = (brand) => {
         { validatePastFirstError: true }
     )
 }
+
+const createCollectionForm = (brands) => {
+    return forms.create({
+        'name': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'surface_abbreviation': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'brand_id': fields.string({
+            label: 'Brand',
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: brands,
+            validators: [validators.integer(), validators.min(1)]
+        })
+    },
+        { validatePastFirstError: true }
+    )
+}
+
 
 const createRegistrationForm = (userTypes) => {
     return forms.create({
@@ -377,6 +401,7 @@ module.exports = {
     createSpecificationForm,
     createBrandForm,
     createSurfaceForm,
+    createCollectionForm,
     createRegistrationForm,
     updateUserForm,
     changePasswordForm,
