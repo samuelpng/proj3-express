@@ -1,7 +1,13 @@
-const { Brand } = require('../models')
+const { Brand, Collection } = require('../models')
 
-const getSpecifications = async (specificationTable) => {
-    return await specificationTable.collection().fetch()
+const getSpecifications = async (specificationTable) => {  
+    if (specificationTable == Collection) {
+        return await specificationTable.collection().fetch({
+            withRelated: ['Brand']
+        })
+    } else {
+        return await specificationTable.collection().fetch()
+    }
 }
 
 const createSpecification = async (specificationTable, data) => {

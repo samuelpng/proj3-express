@@ -57,6 +57,9 @@ const Collection = bookshelf.model('Collection', {
     tableName: 'collections',
     products: function () {
         return this.hasMany('Product');
+    },
+    brand: function () {
+        this.belongsTo('Brand')
     }
 });
 
@@ -78,6 +81,9 @@ const Brand = bookshelf.model('Brand', {
     tableName: 'brands',
     products: function () {
         return this.hasMany('Product');
+    },
+    collections: function () {
+        return this.hasMany('Collection')
     }
 });
 
