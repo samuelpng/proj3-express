@@ -34,6 +34,7 @@ const getAllBrands = async () => {
 }
 
 
+
 module.exports = {
     getSpecifications,
     createSpecification,

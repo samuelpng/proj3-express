@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 //import in models
-const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Variant } = require('../../models')
+const { Product, Brand, Collection, Material, Colour, Surface, Cutting, Position, Closure, Size, Variant } = require('../../models')
 // import in the Forms
 const { bootstrapField, createSpecificationForm, createBrandForm, createCollectionForm, createSurfaceForm } = require('../../forms');
 // import in the DAL
@@ -72,8 +72,14 @@ router.get('/:specification_name', async (req,res) => {
             specification,
             specifications: closures.toJSON()
         })
-    } 
-   
+    } else if (specification === "size") {
+        const sizes = await getSpecifications(Size)
+        res.render('specifications/index', {
+            specificationName: "Size",
+            specification,
+            specifications: sizes.toJSON()
+        })
+    }
 })
 
 router.get('/:specification_name/create', async (req, res) => {
