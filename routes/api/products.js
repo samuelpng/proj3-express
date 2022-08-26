@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
 
 })
 
-router.post("/", async (req, res) => {
+router.get("/search", async (req, res) => {
     const searchQuery = Product.collection()
 
     if (req.body.name) {
@@ -55,6 +55,15 @@ router.post("/", async (req, res) => {
         withRelated: ["brand", "collection", "material", "surface", "colour", "cutting", "closure", "positions"],
     });
     res.send(products);
+})
+
+router.get('/:product_id', async(req,res) => {
+    try {
+        const variants = await getVariantsByProductId(req.params.productId)
+        res.send(variants)
+    } catch(error) {
+        res.send(error)
+    }
 })
 
 module.exports = router;
