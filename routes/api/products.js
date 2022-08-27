@@ -59,7 +59,7 @@ router.get("/search", async (req, res) => {
 
 router.get('/:product_id', async(req,res) => {
     try {
-        const variants = await getVariantsByProductId(req.params.productId)
+        const variants = await getVariantsByProductId(req.params.product_id)
         res.send(variants)
     } catch(error) {
         res.send(error)
