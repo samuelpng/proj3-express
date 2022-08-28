@@ -98,11 +98,11 @@ router.post("/search", async (req, res) => {
 
 
     if (req.body.name) {
-        searchQuery.innerJoin('brands', 'brands.id', 'products.brand_id')
-            .where("name", "likeKey", "%" + req.body.name + "%")
-            .orWhere("brands.brand_name", "likeKey", "%" + req.body.name + "%")
-    }
-
+            searchQuery.query('join', 'brands', 'brands.id', 'products.brand_id')
+            .where("name", "ilike", "%" + req.body.name + "%")
+            .orWhere("brands.brand_name", "ilike", "%" + req.body.name + "%")
+        }
+    
 
     // if (req.body.searchBrand) {
     //     searchQuery.query('join', 'brands', 'brands.id', 'products.brand_id')
