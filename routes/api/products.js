@@ -53,7 +53,52 @@ router.get("/search", async (req, res) => {
 
     if (req.body.name) {
         if(process.env.DB_DRIVER == 'mysql'){
-            query.where('product', 'like', '%' + req.body.name + '%')
+            query.where('name', 'like', '%' + req.body.name + '%')
+        } else {
+            searchQuery.where("name", "ilike", "%" + req.body.name + "%");
+        }
+    }
+    if (req.body.brand_id) {
+        searchQuery.where('brand_id', '=', req.body.brand_id)
+    }
+    if (req.body.collection_id) {
+        searchQuery.where('collection_id', '=', req.body.collection_id)
+    }
+    if (req.body.material_id) {
+        searchQuery.where('material_id', '=', req.body.material_id)
+    }
+    if (req.body.surface_id) {
+        searchQuery.where('surface_id', '=', req.body.surface_id)
+    }
+    if (req.body.colour_id) {
+        searchQuery.where('colour_id', '=', req.body.colour_id)
+    }
+    if (req.body.cutting_id) {
+        searchQuery.where('cutting_id', '=', req.body.cutting_id)
+    }
+    if (req.body.closure_id) {
+        searchQuery.where('closure_id', '=', req.body.closure_id)
+    }
+    if (req.body.position_id) {
+        searchQuery.where('position_id', '=', req.body.position_id)
+    }
+
+    const products = await searchQuery.fetch({
+        withRelated: ["brand", "collection", "material", "surface", "colour", "cutting", "closure", "positions"],
+    });
+    res.send(products);
+})
+
+
+router.post("/search", async (req, res) => {
+    const searchQuery = Product.collection()
+
+    console.log(req.body.name)
+    console.log(req.query.name)
+
+    if (req.body.name) {
+        if(process.env.DB_DRIVER == 'mysql'){
+            query.where('name', 'like', '%' + req.body.name + '%')
         } else {
             searchQuery.where("name", "ilike", "%" + req.body.name + "%");
         }
