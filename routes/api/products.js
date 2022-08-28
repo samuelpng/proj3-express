@@ -93,8 +93,8 @@ router.get("/search", async (req, res) => {
 router.post("/search", async (req, res) => {
     const searchQuery = Product.collection()
 
-    console.log(req.body.name)
-    console.log(req.query.name)
+    console.log(req.body)
+    console.log(req.query)
 
     if (req.body.name) {
         if(process.env.DB_DRIVER == 'mysql'){
