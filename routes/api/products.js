@@ -96,11 +96,12 @@ router.post("/search", async (req, res) => {
     console.log(req.body)
     console.log(req.query)
 
-    if (req.body.searchParams.name) {
+
+    if (req.body.name) {
         if(process.env.DB_DRIVER == 'mysql'){
-            query.where('name', 'like', '%' + req.body.searchParams.name + '%')
+            query.where('name', 'like', '%' + req.body.name + '%')
         } else {
-            searchQuery.where("name", "ilike", "%" + req.body.searchParams.name + "%");
+            searchQuery.where("name", "ilike", "%" + req.body.name + "%");
         }
     }
     if (req.body.brand_id) {
