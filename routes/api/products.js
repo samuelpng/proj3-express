@@ -48,6 +48,9 @@ router.get('/', async (req, res) => {
 router.get("/search", async (req, res) => {
     const searchQuery = Product.collection()
 
+    console.log(req.body.name)
+    console.log(req.query.name)
+
     if (req.body.name) {
         if(process.env.DB_DRIVER == 'mysql'){
             query.where('product', 'like', '%' + req.body.name + '%')
