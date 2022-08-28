@@ -52,7 +52,7 @@ router.get("/search", async (req, res) => {
     console.log(req.query.name)
 
     if (req.body.name) {
-        if(process.env.DB_DRIVER == 'mysql'){
+        if (process.env.DB_DRIVER == 'mysql') {
             query.where('name', 'like', '%' + req.body.name + '%')
         } else {
             searchQuery.where("name", "ilike", "%" + req.body.name + "%");
@@ -98,12 +98,17 @@ router.post("/search", async (req, res) => {
 
 
     if (req.body.name) {
-        if(process.env.DB_DRIVER == 'mysql'){
+        if (process.env.DB_DRIVER == 'mysql') {
             query.where('name', 'like', '%' + req.body.name + '%')
         } else {
             searchQuery.where("name", "ilike", "%" + req.body.name + "%");
         }
     }
+
+    if (req.body.name) {
+        searchQuery.where("collection", "ilike", "%" + req.body.name + "%");
+    }
+
     if (req.body.brand_id) {
         searchQuery.where('brand_id', '=', req.body.brand_id)
     }
@@ -135,11 +140,11 @@ router.post("/search", async (req, res) => {
     res.send(products);
 })
 
-router.get('/:product_id', async(req,res) => {
+router.get('/:product_id', async (req, res) => {
     try {
         const variants = await getVariantsByProductId(req.params.product_id)
         res.send(variants)
-    } catch(error) {
+    } catch (error) {
         res.send(error)
     }
 })
