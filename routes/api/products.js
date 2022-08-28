@@ -98,14 +98,11 @@ router.post("/search", async (req, res) => {
 
 
     if (req.body.name) {
-        if (process.env.DB_DRIVER == 'mysql') {
-            query.where('name', 'like', '%' + req.body.name + '%')
-        } else {
-            searchQuery.query('join', 'brands', 'brands.id', 'products.brand_id')
+        searchQuery.query('join', 'brands', 'brands.id', 'products.brand_id')
             .where("name", "ilike", "%" + req.body.name + "%")
             .orWhere("brands.brand_name", "ilike", "%" + req.body.name + "%")
-        }
     }
+
 
     // if (req.body.searchBrand) {
     //     searchQuery.query('join', 'brands', 'brands.id', 'products.brand_id')
