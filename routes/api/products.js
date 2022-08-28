@@ -99,7 +99,7 @@ router.post("/search", async (req, res) => {
 
     if (req.body.name) {
             searchQuery.query('join', 'brands', 'brands.id', 'products.brand_id')
-            .where("name", "ilike", "%" + req.body.name + "%")
+            .where("products.name", "ilike", "%" + req.body.name + "%")
             .orWhere("brands.brand_name", "ilike", "%" + req.body.name + "%")
         }
     
