@@ -23,7 +23,7 @@ const {
 
 const generateAccessToken = function (id, username, first_name, last_name, email, tokenSecret, expiry) {
     return jwt.sign(
-        { id, username, first_name, last_name, email },
+        { id, username, email, first_name, last_name },
         tokenSecret,
         { expiresIn: expiry }
     );
@@ -72,15 +72,15 @@ router.post('/register', async (req, res) => {
 
     //if there is an error in user input, return error response
     if (Object.keys(errorMsg).length > 0) {
-        sendResponse(res, 400, error);
+        res.status(400);
+        res.json({ error: errorMsg });
         return;
     }
 
     // const customerData = {
-    //     username,
+    //     email,
     //     first_name,
     //     last_name,
-    //     email,
     //     password: getHashedPassword(password),
     //     contact_number,
     //     created_date: new Date()
@@ -93,12 +93,12 @@ router.post('/register', async (req, res) => {
     // customer.set(customerData)
     // await customer.save();
     const customer = await createCustomer({
-        username,
-        first_name,
-        last_name,
-        email,
+        email: email,
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
         password: getHashedPassword(password),
-        contact_number,
+        contact_number: contact_number,
         created_date: new Date()
     })
     res.status(201);
@@ -108,13 +108,17 @@ router.post('/register', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
+    console.log(req.body)
     let customer = await Customer.where({
-        username: req.body.username
+        email: req.body.email,
+        password: getHashedPassword(req.body.password)
     }).fetch({
         require: false
     });
 
-    if (customer && customer.get('password') == getHashedPassword(req.body.password)) {
+    console.log(customer)
+
+    if (customer) {
         // const customerObject = {
         //     first_name: customer.get('first_name'),
         //     last_name: customer.get('last_name'),
@@ -122,14 +126,14 @@ router.post('/login', async (req, res) => {
         //     email: customer.get('email')
         // }
         let accessToken = generateAccessToken(customer.get('id'), customer.get('username'), customer.get('first_name'), customer.get('last_name'), customer.get('email'),
-            process.env.TOKEN_SECRET, '15m');
+            process.env.TOKEN_SECRET, '1h');
         let refreshToken = generateAccessToken(customer.get('id'), customer.get('username'), customer.get('first_name'), customer.get('last_name'), customer.get('email'),
             process.env.REFRESH_TOKEN_SECRET, '7d');
-        res.send({
+        res.json({
             accessToken, refreshToken
         })
     } else {
-        res.send({
+        res.json({
             error: 'Invalid email or password'
         })
     }

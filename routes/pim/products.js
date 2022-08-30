@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
     )
 
     let searchQuery = Product.collection()
-    
+
     searchForm.handle(req, {
         empty: async (form) => {
             let products = await searchQuery.fetch({
@@ -84,7 +84,7 @@ router.get('/', async (req, res) => {
                 form: form.toHTML(bootstrapField)
             })
         }
-        
+
     })
 
 })
@@ -152,9 +152,12 @@ router.post('/create', async (req, res) => {
             req.flash("success_messages", `New Product ${product.get('name')} has been created`)
             res.redirect('/products')
         },
-        error: async function (form) {
+        error: async (form) => {
             res.render('products/create', {
-                'form': form.toHTML(bootstrapField)
+                form: form.toHTML(bootstrapField),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
             })
         }
     })
@@ -178,7 +181,7 @@ router.get('/:product_id/update', async function (req, res) {
 
     //fill in form with previous values of product
     productForm.fields.name.value = product.get('name');
-    productForm.fields.cost.value = product.get('cost');
+    productForm.fields.cost.value = product.get('cost')/100;
     productForm.fields.brand_id.value = product.get('brand_id')
     productForm.fields.collection_id.value = product.get('collection_id');
     productForm.fields.material_id.value = product.get('material_id');
@@ -222,9 +225,10 @@ router.post('/:product_id/update', async function (req, res) {
     );
 
     productForm.handle(req, {
-        success: async function (form) {
-            let { positions, ...productData } = form.data;
-            product.set(productData)
+        success: async (form) => {
+            let { positions, cost, ...productData } = form.data;
+            cost = cost * 100
+            product.set({cost, ...productData})
             await product.save();
 
             let positionIds = positions.split(',').map(id => parseInt(id));
@@ -233,6 +237,14 @@ router.post('/:product_id/update', async function (req, res) {
             await product.positions().detach(toRemove);
             await product.positions().attach(positionIds);
             res.redirect(`/products/${req.params.product_id}/variants`)
+        },
+        error: (form) => {
+            res.render('products/update', {
+                form: form.toHTML(bootstrapField),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+            })
         }
     })
 })
@@ -324,7 +336,7 @@ router.post('/:product_id/variants/:variant_id/update', async (req, res) => {
     })
 })
 
-router.post('/:product_id/variants/:variant_id/delete', async (req,res) => {
+router.post('/:product_id/variants/:variant_id/delete', async (req, res) => {
     const variant = await getVariantById(req.params.variant_id)
     await variant.destroy()
     req.flash('success_messages', `Size has been deleted`)

@@ -1,11 +1,4 @@
 const { Customer, User } = require('../models')
-// const crypto = require('crypto');
-
-// const getHashedPassword = (password) => {
-//     const sha256 = crypto.createHash('sha256');
-//     const hash = sha256.update(password).digest('base64');
-//     return hash;
-// }
 
 const createCustomer = async (customerData) => {
 	const customer = new Customer(customerData);
@@ -22,8 +15,13 @@ const getCustomerByEmail = async (email) => {
 	}))
 }
 
+const getCustomers = async () => {
+    return await Customer.collection().fetch()
+}
+
 
 module.exports = {
     createCustomer,
-	getCustomerByEmail
+	getCustomerByEmail,
+	getCustomers
 }
