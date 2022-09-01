@@ -108,15 +108,12 @@ router.post('/register', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    console.log(req.body)
     let customer = await Customer.where({
         email: req.body.email,
         password: getHashedPassword(req.body.password)
     }).fetch({
         require: false
     });
-
-    console.log(customer)
 
     if (customer) {
         // const customerObject = {
@@ -126,7 +123,7 @@ router.post('/login', async (req, res) => {
         //     email: customer.get('email')
         // }
         let accessToken = generateAccessToken(customer.get('id'), customer.get('username'), customer.get('first_name'), customer.get('last_name'), customer.get('email'),
-            process.env.TOKEN_SECRET, '1h');
+            process.env.TOKEN_SECRET, '3h');
         let refreshToken = generateAccessToken(customer.get('id'), customer.get('username'), customer.get('first_name'), customer.get('last_name'), customer.get('email'),
             process.env.REFRESH_TOKEN_SECRET, '7d');
         res.json({
@@ -208,6 +205,7 @@ router.post("/logout", async function (req, res) {
             }
         });
     } else {
+        console.log('hi3')
         res.status(400);
         res.json({
             error: "No refresh token found!",
@@ -216,7 +214,12 @@ router.post("/logout", async function (req, res) {
 });
 
 router.get('/profile', checkIfAuthenticatedJWT, async (req, res) => {
-    const customer = req.customer;
+    const customer = await Customer.where({
+        id: req.customer.id
+    }).fetch({
+        require: true
+    })
+    console.log(customer)
     res.send(customer);
 })
 

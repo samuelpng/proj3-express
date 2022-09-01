@@ -12,7 +12,7 @@ const FileStore = require('session-file-store')(session);
 const csrf = require('csurf')
 
 // import in the CheckIfAuthenticated middleware
-const { checkIfAuthenticated } = require('./middlewares');
+const { checkIfAuthenticated, checkIfAuthenticatedJWT } = require('./middlewares');
 
 // create an instance of express app
 let app = express();
@@ -107,12 +107,13 @@ const specificationsRoute = require('./routes/pim/specifications')
 const userRoutes = require('./routes/pim/users')
 const customerRoutes = require('./routes/pim/customers')
 const cloudinaryRoutes = require('./routes/pim/cloudinary')
-const cartRoutes = require('./routes/api/carts')
+// const cartRoutes = require('./routes/api/carts')
 const checkoutRoutes = require('./routes/api/checkout')
 const orderRoutes = require('./routes/pim/orders')
 const api = {
   products: require('./routes/api/products'),
-  customers: require('./routes/api/customers')
+  customers: require('./routes/api/customers'),
+  cartRoutes: require('./routes/api/carts')
 }
 
 //=== PIM Routes ===
@@ -122,12 +123,13 @@ app.use('/users', userRoutes)
 app.use('/customers', customerRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/orders', checkIfAuthenticated, orderRoutes)
-app.use('/cart', checkIfAuthenticated, cartRoutes)
+// app.use('/cart', checkIfAuthenticated, cartRoutes)
 app.use('/checkout', checkoutRoutes)
 
 //=== API Routes ===
 app.use('/api/products', express.json(), api.products)
 app.use('/api/customers', express.json(), api.customers)
+app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, api.cartRoutes)
 
 
 async function main() {

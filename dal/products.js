@@ -81,7 +81,7 @@ const getProductById = async (productId) => {
 const getVariantsByProductId = async (productId) => {
     return await Variant.where({
         'product_id': parseInt(productId)
-    }).fetchAll({
+    }).orderBy('size_id').fetchAll({
         require: false,
         withRelated: ['product', 'size']
     })

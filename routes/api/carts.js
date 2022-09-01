@@ -6,25 +6,28 @@ const { checkIfAuthenticated } = require('../../middlewares');
 const router = express.Router()
 
 router.get('/', async function(req,res) {
-    const cartItems = await cartServices.getCart(req.session.user.id)
-    res.render('cart/index', {
-        'cartItems': cartItems.toJSON()
-    })
+    console.log('customer Id =>', req.customer)
+    const cartItems = await cartServices.getCart(req.customer.id)
+    res.json(cartItems)
 })
 
-router.get('/:variant_id/add', async function(req,res) {
-    const userId = req.session.user.id;
-    const posterId = req.params.variant_id
-    await cartServices.addToCart(userId, posterId, 1)
-    req.flash('success_messages', 'Product added to cart successfully')
-    res.redirect('/cart/')
+router.post('/:variant_id/add', async function(req,res) {
+    console.log(req.body)
+    const customerId = req.body.customer_id;
+    const variantId = req.body.variant_id
+    const addToCart = await cartServices.addToCart(customerId, variantId, 1)
+    if (addToCart) {
+        res.sendStatus(200)
+    } else {
+        res.sendStatus(400)
+    }
 })
 
 router.post('/:variant_id/update', async function(req,res){
-    const userId = req.session.user.id;
-    const posterId = req.params.variant_id
+    const customerId = req.body.customer_id;
+    const variantId = req.body.variant_id
     if (req.body.newQuantity > 0){
-        await cartServices.updateQuantity(userId, posterId, req.body.newQuantity);
+        await cartServices.updateQuantity(customerId, variantId, req.body.newQuantity);
         req.flash('success_messages', 'Quantity has been updated')
         res.redirect('/cart')
     } else {

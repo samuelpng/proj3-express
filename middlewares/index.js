@@ -24,12 +24,12 @@ const checkIfAuthenticatedJWT = (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
-        jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+        jwt.verify(token, process.env.TOKEN_SECRET, (err, customer) => {
             if (err) {
                 return res.sendStatus(403);
             }
 
-            req.user = user;
+            req.customer = customer;
             next();
         });
     } else {
