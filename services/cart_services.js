@@ -12,6 +12,7 @@ const addToCart = async (customerId, variantId, quantity) => {
 
     const stock = await getStock(variantId);
 
+
     if (!cartItem) {
         //check that quantity does no exceed stock
         if (quantity > stock) {
@@ -22,7 +23,7 @@ const addToCart = async (customerId, variantId, quantity) => {
 
     } else {
         const cartQuantity = parseInt(cartItem.get('quantity'));
-        if (cartQuantity + quantity > stock) {
+        if (cartQuantity + quantity > stock || cartQuantity + quantity > 10) {
             return false;
           }
         //if yes, increase qty of variant

@@ -71,7 +71,7 @@ hbs.registerHelper('total', (quantity, cost) => {
 const csrfInstance = csrf();
 app.use(function (req, res, next) {
   // exclude /checkout/process_payment for CSRF
-  if (req.url === '/checkout/process_payment' || req.url.slice(0,5)=="/api/") {
+  if (req.url === '/api/checkout/process_payment' || req.url.slice(0,5)=="/api/") {
       return next()
   }
   csrfInstance(req, res, next)
@@ -113,7 +113,8 @@ const orderRoutes = require('./routes/pim/orders')
 const api = {
   products: require('./routes/api/products'),
   customers: require('./routes/api/customers'),
-  cartRoutes: require('./routes/api/carts')
+  cartRoutes: require('./routes/api/carts'),
+  checkoutRoutes: require('./routes/api/checkout')
 }
 
 //=== PIM Routes ===
@@ -124,12 +125,13 @@ app.use('/customers', customerRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/orders', checkIfAuthenticated, orderRoutes)
 // app.use('/cart', checkIfAuthenticated, cartRoutes)
-app.use('/checkout', checkoutRoutes)
+// app.use('/checkout', checkoutRoutes)
 
 //=== API Routes ===
 app.use('/api/products', express.json(), api.products)
 app.use('/api/customers', express.json(), api.customers)
 app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, api.cartRoutes)
+app.use('/api/checkout', api.checkoutRoutes)
 
 
 async function main() {

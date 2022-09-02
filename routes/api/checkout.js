@@ -1,16 +1,15 @@
 const express = require('express');
 const { createOrder, createOrderItem } = require('../../dal/orders');
 const { getVariantById } = require('../../dal/products');
+const { checkIfAuthenticatedJWT } = require('../../middlewares');
 const router = express.Router();
 const cartServices = require('../../services/cart_services');
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
-//!!!!!!!  to change req.sessions.user.id to req.customer.customer_id !!!!!!!!!!!!
-
-router.get('/', async function (req, res) {
+router.get('/', checkIfAuthenticatedJWT, async function (req, res) {
     //1. create the line items
-    const cartItems = await cartServices.getCart((req.session.user.id))
+    const cartItems = await cartServices.getCart(req.customer.id)
     let lineItems = [];
     let meta = [] //store variant id and how amny the user is buying
     for (let item of cartItems) {
@@ -100,7 +99,7 @@ router.get('/', async function (req, res) {
     let stripeSession = await Stripe.checkout.sessions.create(payment);
 
     //use stripe to pay
-    res.render('checkout/checkout', {
+    res.json({
         sessionId: stripeSession.id,
         publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
     })
@@ -116,11 +115,12 @@ router.get('/cancelled', function (req, res) {
 })
 
 router.post('/process_payment', express.raw({ type: 'application/json' }), async (req, res) => {
+    console.log('process started')
     let payload = req.body;
     let endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
+    console.log(endpointSecret)
     let sigHeader = req.headers['stripe-signature'];
     let event = null;
-
     try {
         event = Stripe.webhooks.constructEvent(
             payload,
@@ -167,15 +167,24 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
             const order = await createOrder(orderData)
     
             const orderId = order.get('id')
-            const variantId = metadata[0].variant_id;
-            const quantity =  metadata[0].quantity
-    
-            const orderItemData = {
-                order_id: orderId,
-                variant_id: variantId,
-                quantity: quantity
+
+            for (let lineItem of metadata) {
+                const variantId = lineItem.variant_id;
+				const quantity = lineItem.quantity;
+
+                const orderItemData = {
+                    order_id: orderId,
+                    variant_id: variantId,
+                    quantity: quantity
+                }
+
+                await createOrderItem(orderItemData)
             }
-            await createOrderItem(orderItemData)
+    
+            
+            
+
+            console.log('orderitemdata')
 
             //update stock variant
             const stock = await cartServices.getStock(variantId)
