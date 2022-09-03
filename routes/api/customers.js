@@ -136,9 +136,10 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.post('/refresh', async function (req, res) {
+router.post('/refresh', checkIfAuthenticatedJWT, async function (req, res) {
     // get the refreshtoken from the body
     const refreshToken = req.body.refreshToken;
+    console.log(refreshToken)
 
     if (refreshToken) {
 
@@ -173,8 +174,10 @@ router.post('/refresh', async function (req, res) {
                 res.json({
                     accessToken
                 })
+                return true
             } else {
                 res.status(400);
+                console.log('invalid refresh token')
                 res.json({
                     'error': 'Invalid refresh token'
                 })
@@ -205,7 +208,6 @@ router.post("/logout", async function (req, res) {
             }
         });
     } else {
-        console.log('hi3')
         res.status(400);
         res.json({
             error: "No refresh token found!",
@@ -219,7 +221,6 @@ router.get('/profile', checkIfAuthenticatedJWT, async (req, res) => {
     }).fetch({
         require: true
     })
-    console.log(customer)
     res.send(customer);
 })
 

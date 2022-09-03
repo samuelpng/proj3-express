@@ -49,15 +49,14 @@ const getOrderItemsByOrderId = async (orderId) => {
 }
 
 
-
-// const getOrderItemsByCustomerId = async (customerId) => {
-//     return await Order.where({
-//         customer_id: customerId
-//     }).fetch({
-//         require: false,
-//         withRelated: ['variant', 'order']
-//     })
-// }
+const getOrdersByCustomerId = async (customerId) => {
+    return await Order.where({
+        customer_id: customerId
+    }).fetchAll({
+        require: false,
+        withRelated: ['orderStatus']
+    })
+}
 
 const updateOrderStatus = async (orderId, newOrderStatusId) => {
     const order = await getOrderById(orderId)
@@ -78,6 +77,7 @@ module.exports = {
     getAllOrderStatuses,
     getOrderById,
     getOrderItemsByOrderId,
+    getOrdersByCustomerId,
     updateOrderStatus,
     deleteOrder
 }

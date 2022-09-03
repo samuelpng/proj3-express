@@ -37,7 +37,7 @@ const getCart = async (customerId) => {
 }
 
 const updateQuantity = async (customerId, variantId, newQuantity) => {
-    //todo: check if the qty matches the biz rules
+    //front end does not allow customer to add more than stock available
     return cartDataLayer.updateQuantity(customerId, variantId, newQuantity);
 }
 
@@ -46,11 +46,11 @@ const remove = async (customerId, variantId) => {
     return cartDataLayer.removeCartItem(customerId, variantId)
 }
 
-const emptyCart = async (customer) => {
-    const cartItems = await getCart(customer)
+const emptyCart = async (customerId) => {
+    const cartItems = await getCart(customerId)
     for (let item of cartItems) {
         const variantId = item.get('variant_id')
-        await remove(customer, variantId)
+        await remove(customerId, variantId)
     }
 }
 

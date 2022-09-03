@@ -113,8 +113,9 @@ const orderRoutes = require('./routes/pim/orders')
 const api = {
   products: require('./routes/api/products'),
   customers: require('./routes/api/customers'),
-  cartRoutes: require('./routes/api/carts'),
-  checkoutRoutes: require('./routes/api/checkout')
+  carts: require('./routes/api/carts'),
+  checkout: require('./routes/api/checkout'),
+  orders: require('./routes/api/orders')
 }
 
 //=== PIM Routes ===
@@ -124,14 +125,15 @@ app.use('/users', userRoutes)
 app.use('/customers', customerRoutes)
 app.use('/cloudinary', cloudinaryRoutes)
 app.use('/orders', checkIfAuthenticated, orderRoutes)
-// app.use('/cart', checkIfAuthenticated, cartRoutes)
-// app.use('/checkout', checkoutRoutes)
+// app.use('/cart', checkIfAuthenticated, carts)
+// app.use('/checkout', checkout)
 
 //=== API Routes ===
 app.use('/api/products', express.json(), api.products)
 app.use('/api/customers', express.json(), api.customers)
-app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, api.cartRoutes)
-app.use('/api/checkout', api.checkoutRoutes)
+app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, api.carts)
+app.use('/api/checkout', api.checkout)
+app.use('/api/orders', express.json(), checkIfAuthenticatedJWT, api.orders)
 
 
 async function main() {

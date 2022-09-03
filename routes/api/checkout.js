@@ -115,10 +115,10 @@ router.get('/cancelled', function (req, res) {
 })
 
 router.post('/process_payment', express.raw({ type: 'application/json' }), async (req, res) => {
-    console.log('process started')
+
     let payload = req.body;
     let endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
-    console.log(endpointSecret)
+
     let sigHeader = req.headers['stripe-signature'];
     let event = null;
     try {
@@ -179,6 +179,12 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
                 }
 
                 await createOrderItem(orderItemData)
+
+                const stock = await cartServices.getStock(variantId)
+                const variant = await getVariantById(variantId)
+
+                variant.set({stock: stock - quantity})
+                await variant.save()
             }
     
             
@@ -187,16 +193,17 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), async
             console.log('orderitemdata')
 
             //update stock variant
-            const stock = await cartServices.getStock(variantId)
+            // const stock = await cartServices.getStock(variantId)
             
-            const variant = await getVariantById(variantId)
+            // const variant = await getVariantById(variantId)
 
-            variant.set({stock: stock - quantity})
+            // variant.set({stock: stock - quantity})
 
-            await variant.save()
+            // await variant.save()
     
             //empty user cart
-            await cartServices.emptyCart(customerId) //to change to customer Id
+            console.log('customer Id', customerId)
+            await cartServices.emptyCart(customerId) 
             res.status(201)
             res.json({
                 'success': "Order successfully made"
