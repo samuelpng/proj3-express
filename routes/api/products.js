@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 const { Product } = require('../../models');
-const { createProductForm } = require('../../forms');
+
 
 const {
     getAllBrands,
@@ -16,10 +16,9 @@ const {
     getAllPositions,
     getProductById,
     getVariantsByProductId,
-    getAllSizes,
-    getVariantById,
     getAllProducts,
-    getProductsOrderByDate
+    getProductsOrderByDate,
+    getSimilarProducts
 } = require('../../dal/products');
 const { query } = require('express');
 
@@ -50,12 +49,20 @@ router.get('/', async (req, res) => {
 
 })
 
-
-
 router.get('/new', async (req, res) => {
-    console.log('process started alr')
+
     try {
         const products = await getProductsOrderByDate()
+        res.send(products)
+
+    } catch (error) {
+        res.send(error)
+    }
+})
+
+router.get('/similar/:brand_id', async (req, res) => {
+    try {
+        const products = await getSimilarProducts(req.params.brand_id)
         console.log(products)
         res.send(products)
 
@@ -63,6 +70,7 @@ router.get('/new', async (req, res) => {
         res.send(error)
     }
 })
+
 
 
 router.post("/search", async (req, res) => {
@@ -113,15 +121,6 @@ router.post("/search", async (req, res) => {
     res.send(products);
 })
 
-// router.get('/:product_id/product', async (req, res) => {
-//     const product = await getProductById(req.params.product_id)
-//     const variants = await getVariantsByProductId(req.params.product_id)
-
-//     res.render('products/variants', {
-//         product: product.toJSON(),
-//         variants: variants.toJSON()
-//     })
-// })
 
 router.get('/:product_id', async (req, res) => {
     try {

@@ -114,6 +114,17 @@ const getProductsOrderByDate = async () => {
     })
 }
 
+const getSimilarProducts = async(brandId) => {
+    return await Product.where({
+        'brand_id': parseInt(brandId)
+    }).query(function(qb){
+        qb.limit(4); 
+    }).fetchAll({
+        require: false,
+        withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand']
+    })
+}
+
 
 
 module.exports = {
@@ -130,5 +141,6 @@ module.exports = {
     getVariantsByProductId,
     getAllSizes,
     getVariantById,
-    getProductsOrderByDate
+    getProductsOrderByDate,
+    getSimilarProducts
 }

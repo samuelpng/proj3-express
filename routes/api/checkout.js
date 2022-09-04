@@ -22,10 +22,7 @@ router.get('/', checkIfAuthenticatedJWT, async function (req, res) {
             currency: 'SGD'
         }
 
-        // if (item.related('variant').related('product').get('image_url')) {
-
-        //     eachLineItem.images = [item.related('variant').get('image_url')]
-        // }
+ 
         lineItems.push(eachLineItem)
         meta.push({
             customer_id: item.get('customer_id'),
