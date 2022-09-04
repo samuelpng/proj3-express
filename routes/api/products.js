@@ -105,10 +105,6 @@ router.post("/search", async (req, res) => {
         if (req.body.closure_id) {
             qb.where('closure_id', 'in', req.body.closure_id)
         }
-        if (req.body.position_id) {
-            qb.query('join', 'positions_products', 'products.id', 'product_id')
-            qb.where('position_id', 'in', req.body.position_id.split(','))
-        }
     }
 
     const products = await searchQuery.query(builder).fetch({
