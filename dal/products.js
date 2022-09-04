@@ -104,6 +104,15 @@ const getVariantById = async (variantId) => {
     })
 }
 
+const getProductsOrderByDate = async () => {
+    console.log('im here')
+    return await Product.query(function(qb){
+        qb.orderBy('date_created','DESC').limit(6); 
+    }).fetchAll({
+        withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand']
+    })
+}
+
 
 
 module.exports = {
@@ -119,5 +128,6 @@ module.exports = {
     getProductById,
     getVariantsByProductId,
     getAllSizes,
-    getVariantById
+    getVariantById,
+    getProductsOrderByDate
 }

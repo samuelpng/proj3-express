@@ -18,7 +18,8 @@ const {
     getVariantsByProductId,
     getAllSizes,
     getVariantById,
-    getAllProducts
+    getAllProducts,
+    getProductsOrderByDate
 } = require('../../dal/products');
 const { query } = require('express');
 
@@ -47,6 +48,18 @@ router.get('/', async (req, res) => {
     }
 
 
+})
+
+router.get('/new', async (req, res) => {
+    console.log('process started alr')
+    try {
+        const products = await getProductsOrderByDate()
+        console.log(products)
+        res.send(products)
+
+    } catch (error) {
+        res.send(error)
+    }
 })
 
 
@@ -95,18 +108,6 @@ router.post("/search", async (req, res) => {
         }
     }
 
-
-    // if (req.body.name) {
-    //     let qb = searchQuery.query('join', 'brands', 'products.brand_id', 'brands.id')    
-    //     console.log(qb)    
-    //         qb.where("products.name", "like", "%" + req.body.name + "%").then()
-    //         .orWhere("brands.brand_name", "like", "%" + req.body.name + "%")
-    //     }
-
-
-
-
-
     const products = await searchQuery.query(builder).fetch({
         withRelated: ["brand", "collection", "material", "surface", "colour", "cutting", "closure", "positions"],
     });
@@ -129,7 +130,6 @@ router.get('/:product_id', async (req, res) => {
         const product = await getProductById(req.params.product_id)
         const productData = {product, variants}
         res.send(productData)
-        // res.send(variants)
     } catch (error) {
         res.send(error)
     }
