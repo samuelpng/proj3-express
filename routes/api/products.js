@@ -50,21 +50,7 @@ router.get('/', async (req, res) => {
 
 })
 
-// router.get('/brand/:brand_id', async (req, res) => {
-//     try {
-//         const products = await getProductsByBrandId()
-//         const collections = await getCollectionsByBrandId()
-//         productData = {
-//             products, collections
-//         }
-//         console.log(products)
-//         console.log(collections)
-//         res.send(productData)
 
-//     } catch (error) {
-//         res.send(error)
-//     }
-// })
 
 router.get('/new', async (req, res) => {
     console.log('process started alr')
@@ -82,7 +68,7 @@ router.get('/new', async (req, res) => {
 router.post("/search", async (req, res) => {
     const searchQuery = Product.collection()
 
-    // console.log(req.body)
+    console.log(req.body)
 
     const builder = (qb) => {
         if (req.body.name) {
@@ -120,7 +106,8 @@ router.post("/search", async (req, res) => {
             qb.where('closure_id', 'in', req.body.closure_id)
         }
         if (req.body.position_id) {
-            qb.where('position_id', 'in', req.body.position_id)
+            qb.query('join', 'positions_products', 'products.id', 'product_id')
+            qb.where('position_id', 'in', req.body.position_id.split(','))
         }
     }
 

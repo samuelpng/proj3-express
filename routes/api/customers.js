@@ -10,17 +10,6 @@ const {
 } = require('../../dal/customers')
 
 
-// const generateAccessToken = (customer, secret, expiry) => {
-//     return jwt.sign({
-//         first_name: customer.get('first_name'),
-//         last_name: customer.get('last_name'),
-//         id: customer.get('id'),
-//         email: customer.get('email')
-//     }, secret, {
-//         expiresIn: expiry
-//     });
-// }
-
 const generateAccessToken = function (id, username, first_name, last_name, email, tokenSecret, expiry) {
     return jwt.sign(
         { id, username, email, first_name, last_name },
@@ -77,21 +66,7 @@ router.post('/register', async (req, res) => {
         return;
     }
 
-    // const customerData = {
-    //     email,
-    //     first_name,
-    //     last_name,
-    //     password: getHashedPassword(password),
-    //     contact_number,
-    //     created_date: new Date()
-    // }
 
-    // const customer = new Customer(customerData);
-    // await customer.save();
-
-    // const customer = new Customer();
-    // customer.set(customerData)
-    // await customer.save();
     const customer = await createCustomer({
         email: email,
         username: username,
