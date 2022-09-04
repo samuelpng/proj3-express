@@ -78,6 +78,7 @@ const getProductById = async (productId) => {
     });
 }
 
+
 const getVariantsByProductId = async (productId) => {
     return await Variant.where({
         'product_id': parseInt(productId)
@@ -107,7 +108,7 @@ const getVariantById = async (variantId) => {
 const getProductsOrderByDate = async () => {
     console.log('im here')
     return await Product.query(function(qb){
-        qb.orderBy('date_created','DESC').limit(6); 
+        qb.orderBy('date_created','DESC').limit(8); 
     }).fetchAll({
         withRelated: ['colour', 'closure', 'cutting', 'collection', 'surface', 'material', 'brand']
     })

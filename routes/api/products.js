@@ -50,6 +50,22 @@ router.get('/', async (req, res) => {
 
 })
 
+// router.get('/brand/:brand_id', async (req, res) => {
+//     try {
+//         const products = await getProductsByBrandId()
+//         const collections = await getCollectionsByBrandId()
+//         productData = {
+//             products, collections
+//         }
+//         console.log(products)
+//         console.log(collections)
+//         res.send(productData)
+
+//     } catch (error) {
+//         res.send(error)
+//     }
+// })
+
 router.get('/new', async (req, res) => {
     console.log('process started alr')
     try {
