@@ -108,7 +108,7 @@ router.post("/search", async (req, res) => {
     }
 
     const products = await searchQuery.query(builder).fetch({
-        withRelated: ["brand", "collection", "material", "surface", "colour", "cutting", "closure", "positions"],
+        withRelated: ["brand", "collection", "material", "surface", "colour", "cutting", "closure"],
     });
     res.send(products);
 })
